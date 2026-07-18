@@ -1,0 +1,32 @@
+.section {
+  background: var(--color-bone);
+  padding-bottom: var(--space-7);
+}
+
+.list {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  display: inline-flex;
+  height: 40px;
+  align-items: center;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-control);
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-noir);
+  transition: background 180ms var(--ease-out-sharp), color 180ms var(--ease-out-sharp);
+}
+
+.tag:hover,
+.tag:focus-visible {
+  background: var(--color-noir);
+  color: var(--color-bone);
+}

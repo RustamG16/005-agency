@@ -1,0 +1,71 @@
+.section {
+  background: var(--color-bone);
+  padding-bottom: var(--space-7);
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.filterButton {
+  height: 36px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-hairline);
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink);
+  transition: color 180ms var(--ease-out-sharp), border-color 180ms var(--ease-out-sharp), background 180ms var(--ease-out-sharp);
+}
+
+.filterButton[data-active="true"] {
+  background: var(--color-noir);
+  border-color: var(--color-noir);
+  color: var(--color-bone);
+}
+
+.filterButton:hover {
+  border-color: var(--color-noir);
+  color: var(--color-noir);
+}
+
+.filterButton[data-active="true"]:hover {
+  color: var(--color-bone);
+}
+
+.mosaic {
+  column-count: 1;
+  column-gap: var(--space-3);
+}
+
+@media (min-width: 720px) {
+  .mosaic {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1200px) {
+  .mosaic {
+    column-count: 3;
+  }
+}
+
+.mosaicItem {
+  break-inside: avoid;
+  margin-bottom: var(--space-3);
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 1200px) {
+  .mosaicItem[data-offset="true"] {
+    margin-top: var(--space-6);
+  }
+}

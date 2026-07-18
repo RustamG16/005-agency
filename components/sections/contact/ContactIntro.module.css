@@ -1,0 +1,33 @@
+.section {
+  background: var(--color-bone);
+  padding-top: clamp(120px, 18vh, 200px);
+  padding-bottom: var(--space-5);
+}
+
+.availability {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-ink);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gold);
+}
+
+.heading {
+  margin-top: var(--space-3);
+  max-width: 18ch;
+  font-family: var(--font-family-display);
+  font-size: var(--font-hero);
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--color-noir);
+}

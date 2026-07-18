@@ -1,0 +1,60 @@
+:root {
+  /* Font families — CSS vars populated by next/font on <html> */
+  --font-family-display: var(--font-archivo-black), Arial Black, sans-serif;
+  --font-family-serif: var(--font-newsreader), Georgia, serif;
+  --font-family-ui: var(--font-inter), Inter, sans-serif;
+
+  /* Color */
+  --color-noir: #050505;
+  --color-bone: #eeede8;
+  --color-paper: #f8f7f2;
+  --color-ink: #171717;
+  --color-gray: #777771;
+  --color-hairline: #cac8c0;
+  --color-gold: #b18a46;
+
+  /* Fluid type scale — clamp(mobile-390, fluid, desktop-1440) */
+  --font-hero: clamp(3rem, 2.07rem + 3.81vw, 5.5rem); /* 48 -> 88 */
+  --font-display: clamp(2.25rem, 1.6rem + 2.67vw, 4rem); /* 36 -> 64 */
+  --font-manifesto: clamp(4rem, 1.77rem + 9.14vw, 10rem); /* 64 -> 160 */
+  --font-footer: clamp(3rem, 1.89rem + 4.57vw, 6rem); /* 48 -> 96 */
+  --font-card-title: clamp(1.5rem, 1.29rem + 0.86vw, 2.25rem); /* 24 -> 36 */
+  --font-subhead: clamp(1.375rem, 1.19rem + 0.76vw, 2rem); /* 22 -> 32 */
+  --font-body: clamp(1.125rem, 1.03rem + 0.38vw, 1.375rem); /* 18 -> 22 */
+  --font-eyebrow: clamp(0.75rem, 0.72rem + 0.15vw, 0.875rem); /* 12 -> 14 */
+  --font-label: clamp(0.6875rem, 0.664rem + 0.095vw, 0.75rem); /* 11 -> 12 */
+
+  /* Spacing scale — base 8 */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 48px;
+  --space-6: 80px;
+  --space-7: 120px;
+
+  /* Fluid container padding — 16 -> 40 */
+  --space-container: clamp(1rem, 0.443rem + 2.286vw, 2.5rem);
+
+  /* Radii */
+  --radius-control: 8px;
+  --radius-media: 8px;
+  --radius-card: 10px;
+
+  /* Component geometry */
+  --nav-track-w: 480px;
+  --nav-track-h: 40px;
+  --card-w: 448px;
+  --card-h: 580px;
+
+  /* Motion timings */
+  --ease-out-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-nav-hover: 180ms;
+  --duration-nav-active: 260ms;
+  --duration-reveal: 320ms;
+  --duration-manifesto: 420ms;
+  --duration-menu: 450ms;
+
+  /* Reading measure */
+  --measure: 600px;
+}

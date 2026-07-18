@@ -1,0 +1,89 @@
+.manifesto {
+  background: var(--color-noir);
+  color: var(--color-bone);
+}
+
+.pinContainer {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.stack {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wordRow {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-container);
+  text-align: center;
+}
+
+.word {
+  font-family: var(--font-family-display);
+  font-size: var(--font-manifesto);
+  line-height: 0.86;
+  text-transform: uppercase;
+  color: var(--color-bone);
+  white-space: nowrap;
+}
+
+.level {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-family-ui);
+  letter-spacing: 0.08em;
+}
+
+.levelIndex {
+  font-size: var(--font-eyebrow);
+  color: var(--color-gold);
+  font-weight: 600;
+}
+
+.levelMeta {
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.staticList {
+  padding-top: var(--space-7);
+  padding-bottom: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.staticKicker {
+  font-family: var(--font-family-display);
+  font-size: var(--font-display);
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.staticRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: var(--space-3);
+  border-top: 1px solid rgba(238, 237, 232, 0.15);
+}
+
+.staticWord {
+  font-family: var(--font-family-display);
+  font-size: clamp(2.5rem, 1.5rem + 6vw, 5rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+}

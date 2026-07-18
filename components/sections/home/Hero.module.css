@@ -1,0 +1,147 @@
+.hero {
+  position: relative;
+  height: 400vh;
+  background: var(--color-noir);
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.78) saturate(0.78) contrast(1.08);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.2);
+}
+
+.copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+  padding: 0 var(--space-container);
+  width: 100%;
+}
+
+.eyebrow {
+  color: var(--color-bone);
+  position: absolute;
+  top: clamp(90px, 12vh, 140px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.thesis {
+  position: absolute;
+  max-width: 720px;
+  font-family: var(--font-family-serif);
+  font-style: italic;
+  font-size: var(--font-subhead);
+  line-height: 1.3;
+  color: var(--color-bone);
+}
+
+.wordmark {
+  font-family: var(--font-family-display);
+  font-size: clamp(3.5rem, 2rem + 9vw, 9rem);
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  color: var(--color-bone);
+  text-transform: uppercase;
+}
+
+.reducedSupporting {
+  position: absolute;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  max-width: 480px;
+  text-align: center;
+  font-family: var(--font-family-serif);
+  font-size: var(--font-body);
+  color: var(--color-bone);
+  padding: 0 var(--space-container);
+}
+
+.scrollCue {
+  position: absolute;
+  bottom: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-bone);
+  transition: opacity 200ms linear;
+}
+
+.scrollCue span {
+  width: 1px;
+  height: 28px;
+  background: var(--color-bone);
+  opacity: 0.6;
+  animation: scrollPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% {
+    transform: scaleY(0.4);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 0.8;
+  }
+}
+
+.door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: var(--color-noir);
+  z-index: 3;
+  will-change: transform;
+}
+
+.doorLeft {
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.doorRight {
+  right: 0;
+  transform: translateX(100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollCue span {
+    animation: none;
+  }
+}

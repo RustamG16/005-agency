@@ -1,0 +1,110 @@
+.footer {
+  background: var(--color-noir);
+  color: var(--color-bone);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-4);
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.headlineLink {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+  width: fit-content;
+}
+
+.headline {
+  font-family: var(--font-family-display);
+  font-size: var(--font-footer);
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+
+.arrow {
+  color: var(--color-gold);
+  width: clamp(28px, 4vw, 44px);
+  height: auto;
+  transform: rotate(-45deg);
+  transition: transform 220ms var(--ease-out-sharp);
+  flex: 0 0 auto;
+  margin-bottom: clamp(6px, 1.5vw, 18px);
+}
+
+.headlineLink:hover .arrow,
+.headlineLink:focus-visible .arrow {
+  transform: rotate(-45deg) translateY(-6px);
+}
+
+.email {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-subhead);
+  color: var(--color-bone);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-color: var(--color-gray);
+  width: fit-content;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-7);
+  padding-top: var(--space-3);
+  border-top: 1px solid rgba(238, 237, 232, 0.2);
+}
+
+@media (min-width: 768px) {
+  .meta {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.links,
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.link {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-gray);
+  transition: color 180ms var(--ease-out-sharp);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--color-bone);
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-1);
+  margin-top: var(--space-4);
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  color: var(--color-gray);
+}
+
+@media (min-width: 768px) {
+  .bottom {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
