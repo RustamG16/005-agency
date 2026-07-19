@@ -43,39 +43,40 @@
   color: var(--color-ink);
 }
 
-.principles {
+.ledger {
   display: flex;
   flex-direction: column;
   margin-top: var(--space-1);
 }
 
 @media (min-width: 900px) {
-  .principles {
+  .ledger {
     margin-top: clamp(40px, 6vh, 72px);
   }
 }
 
-.principleRow {
+.ledgerRow {
   display: flex;
-  align-items: baseline;
-  gap: var(--space-3);
+  flex-direction: column;
+  gap: 6px;
   padding: var(--space-3) 0;
   border-top: 1px solid var(--color-hairline);
 }
 
-.principleRow:last-child {
+.ledgerRow:last-child {
   border-bottom: 1px solid var(--color-hairline);
 }
 
-.principleIndex {
+.ledgerLabel {
   font-family: var(--font-family-ui);
   font-size: var(--font-label);
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--color-gray);
-  flex: 0 0 auto;
 }
 
-.principleTitle {
+.ledgerValue {
   font-family: var(--font-family-display);
   font-size: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
   line-height: 1.1;

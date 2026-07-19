@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { WorksHero } from "@/components/sections/works/WorksHero";
-import { WorksGrid } from "@/components/sections/works/WorksGrid";
+import { WorksIndex } from "@/components/sections/works/WorksIndex";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -12,7 +12,7 @@ export default function WorksPage() {
   return (
     <>
       <WorksHero />
-      <WorksGrid />
+      <WorksIndex />
     </>
   );
 }

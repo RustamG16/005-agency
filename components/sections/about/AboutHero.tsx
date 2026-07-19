@@ -1,6 +1,13 @@
-import { principles } from "@/content/principles";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
+import { InteriorRevealBlock } from "@/components/motion/InteriorReveal";
 import styles from "./AboutHero.module.css";
+
+/** Facts only — derived from published content (project years, services, studio model). */
+const ledger = [
+  { label: "Active", value: "2024–" },
+  { label: "Disciplines", value: "Five connected capabilities" },
+  { label: "Engagement", value: "Direct collaboration" },
+];
 
 export function AboutHero() {
   return (
@@ -9,18 +16,20 @@ export function AboutHero() {
         <div className={styles.grid}>
           <div className={styles.left}>
             <p className="eyebrow">Studio</p>
-            <h1 className={styles.heading}>Built close to the work.</h1>
+            <InteriorRevealBlock as="h1" className={styles.heading}>
+              Built close to the work.
+            </InteriorRevealBlock>
             <p className={styles.supporting}>
               Convenium exists for companies that have outgrown generic design — brands that need a
               system precise enough to hold under scrutiny and loud enough to be remembered.
             </p>
           </div>
 
-          <ul className={styles.principles} aria-label="Working principles">
-            {principles.map((p) => (
-              <li key={p.index} className={styles.principleRow}>
-                <span className={styles.principleIndex}>{p.index}</span>
-                <span className={styles.principleTitle}>{p.title}</span>
+          <ul className={styles.ledger} aria-label="Studio floors">
+            {ledger.map((row) => (
+              <li key={row.label} className={styles.ledgerRow}>
+                <span className={styles.ledgerLabel}>{row.label}</span>
+                <span className={styles.ledgerValue}>{row.value}</span>
               </li>
             ))}
           </ul>

@@ -12,12 +12,15 @@
   --color-gray: #777771;
   --color-hairline: #cac8c0;
   --color-gold: #b18a46;
+  /* Interior dark-section eyebrow — lighter than --color-gray for contrast on noir */
+  --color-gray-on-noir: #a8a69e;
 
   /* Fluid type scale — clamp(mobile-390, fluid, desktop-1440) */
   --font-hero: clamp(3rem, 2.07rem + 3.81vw, 5.5rem); /* 48 -> 88 */
   --font-display: clamp(2.25rem, 1.6rem + 2.67vw, 4rem); /* 36 -> 64 */
   --font-manifesto: clamp(4rem, 1.77rem + 9.14vw, 10rem); /* 64 -> 160 */
   --font-footer: clamp(3rem, 1.89rem + 4.57vw, 6rem); /* 48 -> 96 */
+  --font-index: clamp(4.5rem, 1.6rem + 11.9vw, 11rem); /* 72 -> 176 — interior works index */
   --font-card-title: clamp(1.5rem, 1.29rem + 0.86vw, 2.25rem); /* 24 -> 36 */
   --font-subhead: clamp(1.375rem, 1.19rem + 0.76vw, 2rem); /* 22 -> 32 */
   --font-body: clamp(1.125rem, 1.03rem + 0.38vw, 1.375rem); /* 18 -> 22 */
@@ -49,11 +52,14 @@
 
   /* Motion timings */
   --ease-out-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout-soft: cubic-bezier(0.65, 0, 0.35, 1);
   --duration-nav-hover: 180ms;
   --duration-nav-active: 260ms;
   --duration-reveal: 320ms;
   --duration-manifesto: 420ms;
   --duration-menu: 450ms;
+  --duration-slow: 700ms;
+  --grain-opacity: 0.035;
 
   /* Reading measure */
   --measure: 600px;

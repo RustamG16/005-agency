@@ -68,11 +68,15 @@
   border-bottom: 1px solid var(--color-hairline);
 }
 
+.eyebrowAccent {
+  color: var(--color-gold);
+}
+
 .indexNum {
   font-family: var(--font-family-display);
   font-size: clamp(1.75rem, 1.5rem + 1vw, 2.75rem);
   line-height: 1;
-  color: var(--color-gray);
+  color: var(--color-noir);
   flex: 0 0 auto;
 }
 

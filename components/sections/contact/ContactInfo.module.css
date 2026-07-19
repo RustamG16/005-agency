@@ -14,26 +14,36 @@
 
 .email {
   width: fit-content;
-  font-family: var(--font-family-serif);
-  font-style: italic;
-  font-size: var(--font-subhead);
+  max-width: 100%;
+  font-family: var(--font-family-display);
+  font-size: clamp(1.25rem, 0.7rem + 2vw, 2.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   color: var(--color-noir);
   text-decoration: underline;
-  text-underline-offset: 6px;
+  text-underline-offset: 8px;
+  text-decoration-thickness: 1px;
   text-decoration-color: var(--color-hairline);
+  transition: text-decoration-color var(--duration-reveal) var(--ease-out-sharp);
+  overflow-wrap: anywhere;
+}
+
+.email:hover,
+.email:focus-visible {
+  text-decoration-color: var(--color-noir);
 }
 
 .media {
+  position: relative;
   margin-top: var(--space-3);
   aspect-ratio: 4 / 5;
   max-width: 380px;
   overflow: hidden;
   border-radius: var(--radius-media);
+  background: var(--color-ink);
 }
 
 .mediaImg {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
   filter: grayscale(0.15) contrast(1.05);
 }

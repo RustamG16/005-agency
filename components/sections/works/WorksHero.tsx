@@ -38,8 +38,8 @@ export function WorksHero() {
               We change the level at which they compete.
             </h1>
             <p className={styles.supporting}>
-              Four engagements, four industries, one method: strategy first, system second,
-              expression third.
+              Four engagements. Four industries. One method — strategy first, system second,
+              expression third. Scroll the floors below.
             </p>
           </div>
 

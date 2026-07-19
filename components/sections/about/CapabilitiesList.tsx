@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { services } from "@/content/services";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
+import { InteriorRevealBlock } from "@/components/motion/InteriorReveal";
 import styles from "./CapabilitiesList.module.css";
 
 export function CapabilitiesList() {
@@ -11,9 +12,14 @@ export function CapabilitiesList() {
         <ul className={styles.list}>
           {services.map((service) => (
             <li key={service.slug}>
-              <Link href={`/services#${service.slug}`} className={styles.tag}>
-                {service.name}
-              </Link>
+              <InteriorRevealBlock as="div">
+                <Link href={`/services#${service.slug}`} className={styles.link}>
+                  <span className={styles.name}>{service.name}</span>
+                  <span className={styles.arrow} aria-hidden="true">
+                    →
+                  </span>
+                </Link>
+              </InteriorRevealBlock>
             </li>
           ))}
         </ul>

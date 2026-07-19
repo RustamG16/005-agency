@@ -4,6 +4,10 @@
   padding-bottom: var(--space-7);
 }
 
+.eyebrow {
+  color: var(--color-gray-on-noir);
+}
+
 .statement {
   margin-top: var(--space-3);
   max-width: 26ch;

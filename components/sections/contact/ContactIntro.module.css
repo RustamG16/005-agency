@@ -5,21 +5,12 @@
 }
 
 .availability {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-family-ui);
-  font-size: var(--font-label);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-family: var(--font-family-serif);
+  font-style: italic;
+  font-size: var(--font-body);
+  line-height: 1.35;
   color: var(--color-ink);
-}
-
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-gold);
+  max-width: 36ch;
 }
 
 .heading {

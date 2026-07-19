@@ -1,0 +1,18 @@
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: multiply;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Texture is static — keep it; only motion systems opt out */
+}

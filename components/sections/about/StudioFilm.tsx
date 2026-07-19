@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
+import { InteriorRevealBlock } from "@/components/motion/InteriorReveal";
 import styles from "./StudioFilm.module.css";
 
 export function StudioFilm() {
@@ -30,20 +31,27 @@ export function StudioFilm() {
     <HeaderZone theme="dark">
       <section className={styles.section} aria-label="Inside the studio">
         <div className={styles.mediaWrap}>
-          <video ref={videoRef} className={styles.video} muted playsInline poster="/images/poster-team.jpg">
+          <video
+            ref={videoRef}
+            className={styles.video}
+            muted
+            playsInline
+            preload="metadata"
+            poster="/images/poster-team.jpg"
+          >
             <source src="/media/team.mp4" type="video/mp4" />
           </video>
         </div>
         <div className={styles.copy}>
-          <h2 className={styles.heading}>
+          <InteriorRevealBlock as="h2" className={styles.heading}>
             Small team.
             <br />
             Serious lift.
-          </h2>
-          <p className={styles.body}>
+          </InteriorRevealBlock>
+          <InteriorRevealBlock as="p" className={styles.body}>
             Strategists, designers and makers working close enough to keep an idea intact from the
             first question to the final frame.
-          </p>
+          </InteriorRevealBlock>
         </div>
       </section>
     </HeaderZone>

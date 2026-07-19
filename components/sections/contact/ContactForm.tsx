@@ -34,6 +34,7 @@ export function ContactForm() {
   const [values, setValues] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [pending, setPending] = useState(false);
   const idPrefix = useId();
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -56,7 +57,12 @@ export function ContactForm() {
     const next = validate();
     setErrors(next);
     if (Object.keys(next).length === 0) {
-      setSubmitted(true);
+      // Client-only for now — no backend this session. Pending state is honest UX.
+      setPending(true);
+      window.setTimeout(() => {
+        setPending(false);
+        setSubmitted(true);
+      }, 600);
     }
   }
 
@@ -223,8 +229,8 @@ export function ContactForm() {
         )}
       </div>
 
-      <button type="submit" className={styles.submit}>
-        Send Inquiry
+      <button type="submit" className={styles.submit} disabled={pending} aria-busy={pending}>
+        {pending ? "Sending…" : "Send Inquiry"}
       </button>
     </form>
   );

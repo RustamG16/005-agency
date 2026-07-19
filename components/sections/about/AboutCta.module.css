@@ -30,10 +30,11 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  transition: transform 180ms var(--ease-out-sharp);
+  will-change: transform;
+  transition: transform 120ms var(--ease-out-sharp);
 }
 
-.cta:hover,
 .cta:focus-visible {
-  transform: translateY(-2px);
+  outline: 2px solid var(--color-bone);
+  outline-offset: 3px;
 }

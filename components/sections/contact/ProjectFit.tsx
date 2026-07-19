@@ -1,5 +1,7 @@
+import Image from "next/image";
 import { responseStatement, fitStatement } from "@/content/contact";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
+import { InteriorRevealBlock } from "@/components/motion/InteriorReveal";
 import styles from "./ProjectFit.module.css";
 
 export function ProjectFit() {
@@ -7,21 +9,22 @@ export function ProjectFit() {
     <HeaderZone theme="dark">
       <section className={`wrap ${styles.section}`} aria-label="What to expect">
         <div className={styles.grid}>
-          <div className={styles.column}>
-            <p className="eyebrow" style={{ color: "var(--color-gray)" }}>
-              Response Time
-            </p>
+          <InteriorRevealBlock as="div" className={styles.column}>
+            <p className={`eyebrow ${styles.eyebrow}`}>Response Time</p>
             <p className={styles.text}>{responseStatement}</p>
-          </div>
-          <div className={styles.column}>
-            <p className="eyebrow" style={{ color: "var(--color-gray)" }}>
-              Project Fit
-            </p>
+          </InteriorRevealBlock>
+          <InteriorRevealBlock as="div" className={styles.column}>
+            <p className={`eyebrow ${styles.eyebrow}`}>Project Fit</p>
             <p className={styles.text}>{fitStatement}</p>
-          </div>
+          </InteriorRevealBlock>
           <div className={styles.media}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/still-team-55.jpg" alt="" className={styles.mediaImg} />
+            <Image
+              src="/images/still-team-55.jpg"
+              alt=""
+              fill
+              sizes="(max-width: 1099px) 100vw, 220px"
+              className={styles.mediaImg}
+            />
           </div>
         </div>
       </section>
