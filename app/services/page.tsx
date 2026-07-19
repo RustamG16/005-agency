@@ -7,7 +7,7 @@ import { HeaderZone } from "@/components/chrome/HeaderZone";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Strategy, brand identity, digital experiences, campaigns and motion — five connected Convenium Studio capabilities.",
+    "Branding, graphic design, web + app development, AI media creation and SMM — five connected Convenium Studio capabilities.",
 };
 
 export default function ServicesPage() {

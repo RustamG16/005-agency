@@ -19,10 +19,10 @@ export function ProjectFit() {
             </p>
             <p className={styles.text}>{fitStatement}</p>
           </div>
-        </div>
-        <div className={styles.media}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/still-team-55.jpg" alt="" className={styles.mediaImg} />
+          <div className={styles.media}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/images/still-team-55.jpg" alt="" className={styles.mediaImg} />
+          </div>
         </div>
       </section>
     </HeaderZone>

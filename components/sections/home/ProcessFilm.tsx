@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
+import { RevealMedia } from "@/components/motion/HomeReveal";
 import styles from "./ProcessFilm.module.css";
 
 export function ProcessFilm() {
@@ -29,13 +30,15 @@ export function ProcessFilm() {
   return (
     <HeaderZone theme="dark">
       <section className={styles.section} aria-label="Inside the process">
-        <div className={styles.mediaWrap}>
+        <RevealMedia className={styles.mediaWrap}>
           <video ref={videoRef} className={styles.video} muted playsInline poster="/images/poster-team.jpg">
             <source src="/media/team.mp4" type="video/mp4" />
           </video>
-        </div>
-        <div className={`wrap ${styles.copy}`}>
-          <h2 className={styles.heading}>The work stays close to the idea.</h2>
+        </RevealMedia>
+        <div className={styles.copy}>
+          <h2 className={styles.heading} data-home-reveal="block">
+            The work stays close to the idea.
+          </h2>
           <p className={styles.body}>
             Convenium runs small, direct teams around every brand. Strategists, designers and makers
             work in the same room, close enough to keep an idea intact from the first question to the

@@ -9,6 +9,7 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 const ROUTES = (process.env.SCREEN_ROUTES ?? "/,/works,/services,/about,/contact,/privacy").split(",");
 const VIEWPORTS = [
   { name: "desktop", width: 1440, height: 900 },
+  { name: "desktop-fhd", width: 1920, height: 1080 },
   { name: "mobile", width: 390, height: 844 },
 ];
 

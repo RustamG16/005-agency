@@ -1,4 +1,5 @@
 import { HeaderZone } from "@/components/chrome/HeaderZone";
+import { RevealMedia } from "@/components/motion/HomeReveal";
 import styles from "./Intro.module.css";
 
 export function Intro() {
@@ -9,7 +10,7 @@ export function Intro() {
         <div className={styles.grid}>
           <div className={styles.left}>
             <p className="eyebrow">Studio Note</p>
-            <h2 className={styles.heading}>
+            <h2 className={styles.heading} data-home-reveal="block">
               Most brands are not underperforming.
               <br />
               They are under-leveled.
@@ -22,8 +23,10 @@ export function Intro() {
               companies who are ready to leave the ground floor.
             </p>
             <div className={styles.media}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/still-team-25.jpg" alt="" className={styles.mediaImg} />
+              <RevealMedia className={styles.mediaMask}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/still-team-25.jpg" alt="" className={styles.mediaImg} />
+              </RevealMedia>
               <span className={styles.caption}>Fig. 01 — Process, observed.</span>
             </div>
           </div>

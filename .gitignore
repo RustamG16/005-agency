@@ -3,7 +3,12 @@ node_modules/
 
 # next.js
 .next/
+.next-dev/
+.next-verify/
 out/
+
+# local dev server watchdog (OneDrive/multi-session .next lock workaround)
+.dev-watchdog.sh
 
 # production
 build/

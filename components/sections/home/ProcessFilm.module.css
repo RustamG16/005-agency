@@ -1,15 +1,17 @@
+/* Overlay pattern (matches StudioFilm on /about — DESIGN-FIX-PLAN-3 FIX 6): copy sits on the
+   film's dark zone instead of stacking below it, so the section doesn't end in dead space. */
 .section {
+  position: relative;
   background: var(--color-noir);
-  padding-top: var(--space-6);
-  padding-bottom: var(--space-7);
+  height: 100svh;
+  max-height: 900px;
+  min-height: 520px;
+  overflow: hidden;
 }
 
 .mediaWrap {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 760px;
-  overflow: hidden;
-  background: var(--color-ink);
+  position: absolute;
+  inset: 0;
 }
 
 .video {
@@ -20,11 +22,15 @@
 }
 
 .copy {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  max-width: 760px;
-  margin-top: var(--space-6);
+  max-width: 620px;
+  padding: var(--space-5) var(--space-container);
+  background: rgba(5, 5, 5, 0.55);
 }
 
 .heading {
@@ -40,5 +46,6 @@
   font-family: var(--font-family-serif);
   font-size: var(--font-body);
   line-height: 1.35;
-  color: var(--color-gray);
+  color: var(--color-bone);
+  opacity: 0.82;
 }

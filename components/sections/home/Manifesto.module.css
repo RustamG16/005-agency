@@ -29,33 +29,15 @@
   text-align: center;
 }
 
+/* Full-sentence beats (up to ~30 characters) replace the old single-word slams, so this sizes
+   smaller than --font-manifesto (tuned for one word) and wraps instead of forcing one nowrap line. */
 .word {
   font-family: var(--font-family-display);
-  font-size: var(--font-manifesto);
-  line-height: 0.86;
+  font-size: clamp(2.25rem, 1.1rem + 4.3vw, 6rem);
+  line-height: 1.05;
   text-transform: uppercase;
   color: var(--color-bone);
-  white-space: nowrap;
-}
-
-.level {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  font-family: var(--font-family-ui);
-  letter-spacing: 0.08em;
-}
-
-.levelIndex {
-  font-size: var(--font-eyebrow);
-  color: var(--color-gold);
-  font-weight: 600;
-}
-
-.levelMeta {
-  font-size: var(--font-label);
-  text-transform: uppercase;
-  color: var(--color-gray);
+  overflow-wrap: break-word;
 }
 
 .staticList {
@@ -64,13 +46,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-}
-
-.staticKicker {
-  font-family: var(--font-family-display);
-  font-size: var(--font-display);
-  text-transform: uppercase;
-  color: var(--color-gray);
 }
 
 .staticRow {
@@ -86,4 +61,8 @@
   font-size: clamp(2.5rem, 1.5rem + 6vw, 5rem);
   line-height: 0.9;
   text-transform: uppercase;
+  /* Flex columns default children to min-width:auto, which lets long sentences
+     overflow the viewport instead of wrapping — override it. */
+  min-width: 0;
+  overflow-wrap: break-word;
 }

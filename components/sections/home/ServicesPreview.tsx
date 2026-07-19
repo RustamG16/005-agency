@@ -9,12 +9,18 @@ export function ServicesPreview() {
     <HeaderZone theme="light">
       <section className={`wrap ${styles.section}`} aria-label="Services overview">
         <div className={styles.head}>
-          <p className="eyebrow">Capabilities</p>
-          <h2 className={styles.heading}>
-            Five disciplines.
-            <br />
-            One connected system.
-          </h2>
+          <div>
+            <p className="eyebrow">Capabilities</p>
+            <h2 className={styles.heading} data-home-reveal="block">
+              Five disciplines.
+              <br />
+              One connected system.
+            </h2>
+          </div>
+          <Link href="/services" className={styles.cta}>
+            View all services
+            <ArrowRightIcon />
+          </Link>
         </div>
 
         <ul className={styles.list}>
@@ -26,11 +32,6 @@ export function ServicesPreview() {
             </li>
           ))}
         </ul>
-
-        <Link href="/services" className={styles.cta}>
-          View all services
-          <ArrowRightIcon />
-        </Link>
       </section>
     </HeaderZone>
   );

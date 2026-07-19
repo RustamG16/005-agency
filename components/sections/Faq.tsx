@@ -13,7 +13,9 @@ export function Faq() {
     <HeaderZone theme="light">
       <section className={`wrap ${styles.section}`} aria-label="Frequently asked questions">
         <p className="eyebrow">FAQ</p>
-        <h2 className={styles.heading}>Questions worth asking first.</h2>
+        <h2 className={styles.heading} data-home-reveal="block">
+          Questions worth asking first.
+        </h2>
 
         <div className={styles.list}>
           {faqItems.map((item, i) => {

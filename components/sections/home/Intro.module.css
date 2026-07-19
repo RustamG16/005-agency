@@ -27,6 +27,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  min-width: 0;
 }
 
 .heading {
@@ -35,12 +36,14 @@
   line-height: 0.92;
   text-transform: uppercase;
   color: var(--color-noir);
+  overflow-wrap: anywhere;
 }
 
 .right {
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
+  min-width: 0;
 }
 
 .body {
@@ -61,6 +64,10 @@
   object-fit: cover;
   border-radius: var(--radius-media);
   filter: grayscale(0.15) contrast(1.05);
+}
+
+.mediaMask {
+  border-radius: var(--radius-media);
 }
 
 .caption {

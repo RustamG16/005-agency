@@ -17,6 +17,15 @@
   }
 }
 
+/* The still joins the two text columns as a third element instead of floating alone below them
+   with a dead void beside it (DESIGN-FIX-PLAN-3 FIX 6). */
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr 1fr auto;
+    align-items: start;
+  }
+}
+
 .column {
   display: flex;
   flex-direction: column;
@@ -33,10 +42,18 @@
 
 .media {
   margin-top: var(--space-6);
+  width: 100%;
   max-width: 340px;
   aspect-ratio: 4 / 5;
   overflow: hidden;
   border-radius: var(--radius-media);
+}
+
+@media (min-width: 1100px) {
+  .media {
+    margin-top: 0;
+    width: 220px;
+  }
 }
 
 .mediaImg {

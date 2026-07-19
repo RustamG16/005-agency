@@ -1,18 +1,20 @@
 .hero {
   position: relative;
-  height: 400vh;
+  height: 100svh;
   background: var(--color-noir);
 }
 
-.sticky {
-  position: sticky;
-  top: 0;
-  height: 100svh;
+.frame {
+  position: relative;
+  height: 100%;
   width: 100%;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+/* Layer A media stack — OpeningSequence fades this behind shut doors before revealing Works. */
+.bgLayer {
+  position: absolute;
+  inset: 0;
 }
 
 .video {
@@ -21,66 +23,43 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Approved grade (DESIGN.md "Hero grade") — keeps the film's color but ties it toward the
+     system palette rather than reading as a fully separate, foreign world. */
   filter: brightness(0.78) saturate(0.78) contrast(1.08);
+}
+
+.fallbackPoster {
+  z-index: auto;
 }
 
 .scrim {
   position: absolute;
   inset: 0;
-  background: rgba(5, 5, 5, 0.2);
+  background: rgba(5, 5, 5, 0.19);
 }
 
-.copy {
-  position: relative;
+.overlayText {
+  position: absolute;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-3);
-  text-align: center;
-  padding: 0 var(--space-container);
-  width: 100%;
-}
-
-.eyebrow {
-  color: var(--color-bone);
-  position: absolute;
-  top: clamp(90px, 12vh, 140px);
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.thesis {
-  position: absolute;
-  max-width: 720px;
-  font-family: var(--font-family-serif);
-  font-style: italic;
-  font-size: var(--font-subhead);
-  line-height: 1.3;
-  color: var(--color-bone);
-}
-
-.wordmark {
+  left: var(--space-container);
+  right: var(--space-container);
+  bottom: 16%;
+  max-width: 34ch;
+  pointer-events: none;
   font-family: var(--font-family-display);
-  font-size: clamp(3.5rem, 2rem + 9vw, 9rem);
-  line-height: 0.88;
-  letter-spacing: -0.01em;
-  color: var(--color-bone);
+  font-size: clamp(1.25rem, 0.85rem + 1.9vw, 2.5rem);
+  line-height: 1.15;
   text-transform: uppercase;
+  color: var(--color-bone);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  animation: heroOverlayIn 900ms var(--ease-out-sharp) 300ms forwards;
 }
 
-.reducedSupporting {
-  position: absolute;
-  bottom: var(--space-6);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  max-width: 480px;
-  text-align: center;
-  font-family: var(--font-family-serif);
-  font-size: var(--font-body);
-  color: var(--color-bone);
-  padding: 0 var(--space-container);
+@keyframes heroOverlayIn {
+  to {
+    opacity: 1;
+  }
 }
 
 .scrollCue {
@@ -98,25 +77,23 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--color-bone);
-  transition: opacity 200ms linear;
+  transition: opacity 400ms var(--ease-out-sharp);
 }
 
-.scrollCue span {
+.scrollLine {
+  /* The hero's one gold moment (DESIGN-FIX-PLAN-3 FIX 3) — everything else in the overlay is bone. */
   width: 1px;
   height: 28px;
-  background: var(--color-bone);
-  opacity: 0.6;
-  animation: scrollPulse 1.8s ease-in-out infinite;
+  background: var(--color-gold);
+  animation: scrollPulse 2s ease-in-out infinite;
 }
 
 @keyframes scrollPulse {
   0%, 100% {
-    transform: scaleY(0.4);
-    opacity: 0.3;
+    opacity: 0.4;
   }
   50% {
-    transform: scaleY(1);
-    opacity: 0.8;
+    opacity: 1;
   }
 }
 
@@ -140,8 +117,75 @@
   transform: translateX(100%);
 }
 
+/* Beats — cross-fade on the closed doors, driven by the same scrub timeline as the doors
+   (see Hero.tsx "hero-sequence"). z-index above the doors (3) so they show once closed.
+   Hidden by default: on mobile the ScrollTrigger/timeline never runs, so this stays inert
+   and the separate .beatsStatic block below is what renders instead. */
+.beats {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.beatRow {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-container);
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.beatWord {
+  font-family: var(--font-family-display);
+  font-size: clamp(2.25rem, 1.1rem + 4.3vw, 6rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--color-bone);
+  overflow-wrap: break-word;
+}
+
+/* Static fallback (mobile / reduced motion) — plain stacked lines right after the hero, no pin. */
+.beatsStatic {
+  background: var(--color-noir);
+  color: var(--color-bone);
+  padding-top: var(--space-7);
+  padding-bottom: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.staticQuestion {
+  font-family: var(--font-family-display);
+  font-size: clamp(1.75rem, 1.1rem + 3.5vw, 3rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--color-bone);
+  max-width: 18ch;
+  margin-bottom: var(--space-4);
+}
+
+.staticBeat {
+  font-family: var(--font-family-display);
+  font-size: clamp(2.5rem, 1.5rem + 6vw, 5rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .scrollCue span {
+  .scrollLine {
     animation: none;
+  }
+
+  .overlayText {
+    animation: none;
+    opacity: 1;
   }
 }

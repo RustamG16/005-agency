@@ -34,7 +34,7 @@ export function StudioFilm() {
             <source src="/media/team.mp4" type="video/mp4" />
           </video>
         </div>
-        <div className={`wrap ${styles.copy}`}>
+        <div className={styles.copy}>
           <h2 className={styles.heading}>
             Small team.
             <br />

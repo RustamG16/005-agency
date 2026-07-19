@@ -1,0 +1,274 @@
+/* Unified curtain stage — hero → question → split → zoom → plate showcase. */
+
+.stage {
+  position: relative;
+  height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-noir);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.layerSplit {
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  background: var(--color-noir);
+}
+
+.splitLayout {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  align-items: center;
+  padding: 0 var(--space-container);
+  overflow: visible;
+}
+
+.manifestoCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 28ch;
+  z-index: 2;
+}
+
+.manifestoBeat {
+  font-family: var(--font-family-display);
+  font-size: clamp(1.5rem, 0.9rem + 2.2vw, 2.75rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--color-bone);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.manifestoExtra {
+  margin-top: var(--space-2);
+  font-family: var(--font-family-serif);
+  font-style: italic;
+  font-size: var(--font-body);
+  line-height: 1.3;
+  color: var(--color-gray);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.zoomAnchor {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  overflow: visible;
+}
+
+/* Framed media that zooms from half-width inset → fullscreen plate. */
+.zoomFrame {
+  position: relative;
+  width: min(100%, 42vw);
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-hairline);
+  overflow: hidden;
+  background: var(--color-noir);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.zoomFrame.isPlate {
+  border-radius: 0;
+  border-color: transparent;
+}
+
+.frameMedia {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.plateBox {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.frameSlot {
+  position: absolute;
+  left: 24.5%;
+  top: 18%;
+  width: 21%;
+  height: 47.5%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.caseLayer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loopFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+.navVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wallText {
+  position: absolute;
+  left: 54%;
+  top: 0;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.caseText {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.caseIndex {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-gold);
+}
+
+.caseName {
+  font-family: var(--font-family-display);
+  font-size: clamp(1.75rem, 1.3rem + 2vw, 3rem);
+  line-height: 0.96;
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+
+.caseMeta {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-gray);
+}
+
+.caseOutcome {
+  margin-top: 4px;
+  max-width: 32ch;
+  font-family: var(--font-family-serif);
+  font-style: italic;
+  font-size: var(--font-body);
+  color: var(--color-bone);
+}
+
+.wallCtaWrap {
+  position: absolute;
+  left: 54%;
+  bottom: 18%;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 5;
+}
+
+.wallCta {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 var(--space-2);
+  background: var(--color-gold);
+  color: var(--color-noir);
+  border-radius: var(--radius-control);
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  pointer-events: auto;
+}
+
+.wallCta:hover,
+.wallCta:focus-visible {
+  transform: translateY(-2px);
+}
+
+.door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: var(--color-noir);
+  z-index: 3;
+  will-change: transform;
+}
+
+.doorLeft {
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.doorRight {
+  right: 0;
+  transform: translateX(100%);
+}
+
+.question {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-container);
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.questionLine {
+  font-family: var(--font-family-display);
+  font-size: clamp(1.75rem, 1rem + 2.8vw, 3.5rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--color-bone);
+  max-width: 18ch;
+}

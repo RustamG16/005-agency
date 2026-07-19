@@ -1,7 +1,27 @@
 .section {
   background: var(--color-bone);
-  padding-top: clamp(120px, 18vh, 200px);
-  padding-bottom: var(--space-6);
+  padding-top: clamp(100px, 15vh, 170px);
+  padding-bottom: var(--space-5);
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+@media (min-width: 900px) {
+  .grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: start;
+    gap: var(--space-6);
+  }
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
 }
 
 .heading {
@@ -21,4 +41,44 @@
   font-size: var(--font-body);
   line-height: 1.35;
   color: var(--color-ink);
+}
+
+.principles {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-1);
+}
+
+@media (min-width: 900px) {
+  .principles {
+    margin-top: clamp(40px, 6vh, 72px);
+  }
+}
+
+.principleRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.principleRow:last-child {
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.principleIndex {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  font-weight: 600;
+  color: var(--color-gray);
+  flex: 0 0 auto;
+}
+
+.principleTitle {
+  font-family: var(--font-family-display);
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--color-noir);
 }
