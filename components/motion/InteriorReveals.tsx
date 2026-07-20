@@ -5,7 +5,7 @@ import { gsap, ScrollTrigger } from "@/components/motion/gsap";
 
 type RevealKind = "line" | "block" | "media";
 
-/** Interior-scoped scroll reveals. Mirrors HomepageReveals; different data-attr. */
+/** Shared scroll reveals for home + interior (`data-interior-reveal`). */
 export function InteriorReveals() {
   useGSAP(() => {
     const media = gsap.matchMedia();

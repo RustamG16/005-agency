@@ -4,6 +4,7 @@ import { useState } from "react";
 import { faqItems } from "@/content/faq";
 import { PlusIcon } from "@/components/ui/Icons";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
+import { InteriorRevealBlock } from "@/components/motion/InteriorReveal";
 import styles from "./Faq.module.css";
 
 export function Faq() {
@@ -13,11 +14,11 @@ export function Faq() {
     <HeaderZone theme="light">
       <section className={`wrap ${styles.section}`} aria-label="Frequently asked questions">
         <p className="eyebrow">FAQ</p>
-        <h2 className={styles.heading} data-home-reveal="block">
+        <InteriorRevealBlock as="h2" className={styles.heading}>
           Questions worth asking first.
-        </h2>
+        </InteriorRevealBlock>
 
-        <div className={styles.list}>
+        <div className={styles.list} data-interior-reveal="block">
           {faqItems.map((item, i) => {
             const open = openIndex === i;
             const panelId = `faq-panel-${i}`;

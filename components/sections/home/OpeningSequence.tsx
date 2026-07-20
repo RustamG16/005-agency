@@ -295,12 +295,25 @@ function OpeningSequencePinned() {
       gsap.set(layerB, { autoAlpha: 0 });
       gsap.set(galleryPlate, { autoAlpha: 0 });
       gsap.set(galleryVideo, { autoAlpha: 1 });
-      gsap.set(beats, { autoAlpha: 0, y: 20 });
-      if (extra) gsap.set(extra, { autoAlpha: 0, y: 12 });
+      gsap.set(beats, { autoAlpha: 1 });
+      const beatInners = beats
+        .map((beat) => beat.querySelector<HTMLElement>("[data-manifesto-inner]"))
+        .filter((el): el is HTMLElement => Boolean(el));
+      gsap.set(beatInners, { yPercent: 110, autoAlpha: 0 });
+      if (extra) gsap.set(extra, { autoAlpha: 0, y: 16 });
       if (manifestoCol) gsap.set(manifestoCol, { autoAlpha: 1 });
       gsap.set(zoomFrame, { scale: 1, x: 0, y: 0, borderRadius: 10, borderColor: "rgba(202,200,192,1)" });
       caseLayerRefs.current.forEach((el) => el && gsap.set(el, { autoAlpha: 0 }));
-      caseTextRefs.current.forEach((el) => el && gsap.set(el, { autoAlpha: 0 }));
+      caseTextRefs.current.forEach((el) => {
+        if (!el) return;
+        const inner = el.querySelector<HTMLElement>("[data-case-inner]");
+        if (inner) {
+          gsap.set(el, { autoAlpha: 1 });
+          gsap.set(inner, { yPercent: 110, autoAlpha: 0 });
+        } else {
+          gsap.set(el, { autoAlpha: 0 });
+        }
+      });
       if (wallCtaRef.current) gsap.set(wallCtaRef.current, { autoAlpha: 0 });
       projects.forEach((_, ci) => {
         loopFrameRefs.current[ci]?.forEach((img) => {
@@ -326,8 +339,10 @@ function OpeningSequencePinned() {
       const measureZoom = () => {
         const stageRect = stage.getBoundingClientRect();
         const frameRect = zoomFrame.getBoundingClientRect();
-        const targetW = Math.min(stageRect.width, stageRect.height * (16 / 9));
-        const scale = targetW / Math.max(frameRect.width, 1);
+        // Cover the stage fully (no letterbox gutters on wide viewports).
+        const scaleX = stageRect.width / Math.max(frameRect.width, 1);
+        const scaleY = stageRect.height / Math.max(frameRect.height, 1);
+        const scale = Math.max(scaleX, scaleY);
         const frameCenterX = frameRect.left + frameRect.width / 2;
         const frameCenterY = frameRect.top + frameRect.height / 2;
         const targetCenterX = stageRect.left + stageRect.width / 2;
@@ -407,11 +422,17 @@ function OpeningSequencePinned() {
         splitStart
       );
 
-      beats.forEach((beat, i) => {
-        const at = splitStart + (i / beats.length) * (SPLIT_UNITS * 0.75);
+      beatInners.forEach((inner, i) => {
+        const at = splitStart + (i / Math.max(beatInners.length, 1)) * (SPLIT_UNITS * 0.72);
         tl.to(
-          beat,
-          { autoAlpha: 1, y: 0, duration: 0.35, ease: "power2.out", immediateRender: false },
+          inner,
+          {
+            yPercent: 0,
+            autoAlpha: 1,
+            duration: 0.45,
+            ease: "power3.out",
+            immediateRender: false,
+          },
           at
         );
       });
@@ -421,11 +442,11 @@ function OpeningSequencePinned() {
           {
             autoAlpha: 1,
             y: 0,
-            duration: 0.3,
-            ease: "power2.out",
+            duration: 0.35,
+            ease: "power3.out",
             immediateRender: false,
           },
-          splitStart + SPLIT_UNITS * 0.8
+          splitStart + SPLIT_UNITS * 0.78
         );
       }
 
@@ -499,9 +520,39 @@ function OpeningSequencePinned() {
           }
         }
         if (text) {
-          tl.to(text, { autoAlpha: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, start + 0.05);
-          if (!isLast) {
-            tl.to(text, { autoAlpha: 0, duration: 0.2, ease: "power2.in", immediateRender: false }, end - 0.2);
+          const textInner = text.querySelector<HTMLElement>("[data-case-inner]");
+          if (textInner) {
+            gsap.set(text, { autoAlpha: 1 });
+            gsap.set(textInner, { yPercent: 110, autoAlpha: 0 });
+            tl.to(
+              textInner,
+              {
+                yPercent: 0,
+                autoAlpha: 1,
+                duration: 0.4,
+                ease: "power3.out",
+                immediateRender: false,
+              },
+              start + 0.05
+            );
+            if (!isLast) {
+              tl.to(
+                textInner,
+                {
+                  yPercent: -40,
+                  autoAlpha: 0,
+                  duration: 0.25,
+                  ease: "power2.in",
+                  immediateRender: false,
+                },
+                end - 0.2
+              );
+            }
+          } else {
+            tl.to(text, { autoAlpha: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, start + 0.05);
+            if (!isLast) {
+              tl.to(text, { autoAlpha: 0, duration: 0.2, ease: "power2.in", immediateRender: false }, end - 0.2);
+            }
           }
         }
         if (i === 0 && wallCtaRef.current) {
@@ -537,7 +588,12 @@ function OpeningSequencePinned() {
     if (!st) return;
     const progress = (PRE_WORKS + i * CASE_UNIT + 0.3) / TOTAL_UNITS;
     const y = st.start + (st.end - st.start) * progress;
-    window.scrollTo({ top: y, behavior: "smooth" });
+    // Assistive nav only — timeline/scrub untouched. Prefer Lenis when present.
+    if (typeof window !== "undefined" && window.__lenis) {
+      window.__lenis.scrollTo(y, { duration: 1.1 });
+    } else {
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
   };
 
   return (
@@ -602,7 +658,9 @@ function OpeningSequencePinned() {
                     }}
                     className={styles.manifestoBeat}
                   >
-                    {beat}
+                    <span className={styles.manifestoBeatInner} data-manifesto-inner>
+                      {beat}
+                    </span>
                   </p>
                 ))}
                 <p ref={manifestoExtraRef} className={styles.manifestoExtra}>
@@ -689,7 +747,9 @@ function OpeningSequencePinned() {
                         }}
                         className={styles.caseText}
                       >
-                        <CaseText project={project} index={i} />
+                        <div className={styles.caseTextInner} data-case-inner>
+                          <CaseText project={project} index={i} />
+                        </div>
                       </div>
                     ))}
                   </div>

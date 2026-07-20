@@ -31,56 +31,105 @@
 
 .list {
   border-top: 1px solid var(--color-hairline);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .row {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   row-gap: 6px;
+  column-gap: var(--space-2);
   align-items: baseline;
   padding: var(--space-3) 0;
   border-bottom: 1px solid var(--color-hairline);
+  color: inherit;
+  position: relative;
+  transition: background-color var(--duration-reveal) var(--ease-out-sharp);
 }
 
 @media (min-width: 768px) {
   .row {
-    grid-template-columns: 60px 1fr 1fr;
-    align-items: baseline;
+    grid-template-columns: 60px 1fr minmax(12ch, 1.1fr) auto;
+    align-items: center;
+    padding: clamp(20px, 2.4vh, 32px) 12px;
+    margin: 0 -12px;
   }
+}
+
+.row:hover,
+.row:focus-visible {
+  background: var(--color-paper);
 }
 
 .index {
   font-family: var(--font-family-ui);
   font-size: var(--font-label);
   font-weight: 600;
-  color: var(--color-noir);
+  letter-spacing: 0.06em;
+  color: var(--color-gray);
 }
 
 .name {
   font-family: var(--font-family-display);
-  font-size: clamp(1.5rem, 1.2rem + 1.3vw, 2.25rem);
+  font-size: clamp(2rem, 1.2rem + 3.2vw, 4.5rem);
+  line-height: 0.92;
   text-transform: uppercase;
+  letter-spacing: -0.02em;
   color: var(--color-noir);
   grid-column: 2 / 3;
+  transition: transform var(--duration-reveal) var(--ease-out-sharp);
 }
 
 @media (min-width: 768px) {
   .name {
     grid-column: auto;
   }
+
+  .row:hover .name,
+  .row:focus-visible .name {
+    transform: translateX(6px);
+  }
 }
 
 .role {
   grid-column: 1 / -1;
   font-family: var(--font-family-serif);
+  font-style: italic;
   font-size: var(--font-body);
   color: var(--color-ink);
+  max-width: 36ch;
 }
 
 @media (min-width: 768px) {
   .role {
     grid-column: auto;
     text-align: right;
+    justify-self: end;
+  }
+}
+
+.arrow {
+  display: none;
+  color: var(--color-noir);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-out-sharp),
+    transform var(--duration-reveal) var(--ease-out-sharp);
+}
+
+@media (min-width: 768px) {
+  .arrow {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .row:hover .arrow,
+  .row:focus-visible .arrow {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 

@@ -149,23 +149,32 @@
 .staticGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 @media (min-width: 620px) {
   .staticGrid {
     grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--space-4);
+    row-gap: var(--space-5);
   }
 }
 
 .staticStack {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 .staticCase {
   display: block;
+  color: inherit;
+  transition: opacity var(--duration-reveal) var(--ease-out-sharp);
+}
+
+.staticCase:hover,
+.staticCase:focus-visible {
+  opacity: 0.88;
 }
 
 .staticCaseImage {
@@ -176,12 +185,14 @@
 }
 
 .staticCaseText {
-  margin-top: var(--space-2);
+  margin-top: var(--space-3);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  padding-top: var(--space-2);
+  border-top: 1px solid rgba(238, 237, 232, 0.16);
 }
 
 .staticCaseText .caseOutcome {
-  color: var(--color-gray);
+  color: var(--color-gray-on-noir);
 }

@@ -52,11 +52,11 @@
   display: none;
   align-items: center;
   height: var(--nav-track-h);
-  min-width: var(--nav-track-w);
+  width: var(--nav-track-w);
   background: var(--color-noir);
   border-radius: var(--radius-control);
   padding: 4px;
-  gap: 4px;
+  gap: 2px;
   flex: 0 0 auto;
 }
 
@@ -83,8 +83,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1 1 0;
+  min-width: 0;
   height: calc(var(--nav-track-h) - 8px);
-  padding: 0 16px;
+  padding: 0 10px;
   font-family: var(--font-family-ui);
   font-size: 12px;
   font-weight: 500;

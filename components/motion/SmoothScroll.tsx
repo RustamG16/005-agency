@@ -4,10 +4,17 @@ import { useEffect, type ReactNode } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "@/components/motion/gsap";
 
+declare global {
+  interface Window {
+    __lenis?: Lenis;
+  }
+}
+
 /**
- * Interior-only smooth scroll. Synced to ScrollTrigger.
+ * Smooth scroll synced to ScrollTrigger.
  * Disabled for prefers-reduced-motion; touch keeps Lenis off via syncTouch: false
  * so native touch scrolling stays the default feel.
+ * Exposes `window.__lenis` for assistive jumpTo / screenshot tooling.
  */
 export function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -22,6 +29,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
       syncTouch: false,
     });
 
+    window.__lenis = lenis;
     lenis.on("scroll", ScrollTrigger.update);
 
     const tick = (time: number) => {
@@ -35,6 +43,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     return () => {
       document.documentElement.classList.remove("lenis");
       gsap.ticker.remove(tick);
+      if (window.__lenis === lenis) delete window.__lenis;
       lenis.destroy();
     };
   }, []);

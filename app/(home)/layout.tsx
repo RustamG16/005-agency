@@ -5,10 +5,10 @@ import { Cursor } from "@/components/motion/Cursor";
 import { InteriorReveals } from "@/components/motion/InteriorReveals";
 
 /**
- * Interior route-group layout. Homepage mounts the same primitives
- * via `app/(home)/layout.tsx` so both surfaces share one motion system.
+ * Homepage route-group layout. Same motion surface as interiors:
+ * Lenis + grain + cursor + unified reveals. Elevator journey stays untouched.
  */
-export default function InteriorLayout({ children }: { children: ReactNode }) {
+export default function HomeLayout({ children }: { children: ReactNode }) {
   return (
     <SmoothScroll>
       <Grain />

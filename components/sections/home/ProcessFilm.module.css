@@ -33,6 +33,10 @@
   background: rgba(5, 5, 5, 0.55);
 }
 
+.label {
+  color: var(--color-gray-on-noir);
+}
+
 .heading {
   font-family: var(--font-family-display);
   font-size: var(--font-display);
