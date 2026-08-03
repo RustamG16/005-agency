@@ -1,0 +1,17 @@
+.lineMask {
+  display: block;
+  overflow: hidden;
+}
+
+.lineInner {
+  display: block;
+  line-height: inherit;
+}
+
+.block {
+  /* reveal target itself */
+}
+
+.mediaMask {
+  overflow: hidden;
+}

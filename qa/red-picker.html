@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Convenium — accent red picker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ---- Tokens mirrored from styles/tokens.css ---- */
+  :root {
+    --font-family-display: "Archivo Black", Arial Black, sans-serif;
+    --font-family-ui: Inter, system-ui, sans-serif;
+    --color-noir: #050505;
+    --color-bone: #eeede8;
+    --color-paper: #f8f7f2;
+    --color-ink: #171717;
+    --color-gray: #777771;
+    --color-hairline: #cac8c0;
+    --color-gray-on-noir: #a8a69e;
+    --radius-control: 8px;
+    --nav-track-w: 480px;
+    --nav-track-h: 40px;
+    --ease-out-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Live-swapped by the picker */
+    --color-accent: #9e2b2b;
+    --color-accent-on-noir: #c1554d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-family-ui);
+    background: #14140f;
+    color: var(--color-bone);
+    padding: 40px clamp(16px, 4vw, 56px) 80px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gray-on-noir);
+  }
+
+  h1 {
+    font-family: var(--font-family-display);
+    font-size: clamp(28px, 4vw, 44px);
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin: 10px 0 6px;
+  }
+
+  .lede { color: var(--color-gray-on-noir); font-size: 14px; max-width: 62ch; line-height: 1.55; }
+
+  section { margin-top: 44px; }
+  .sectionLabel {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #6a6862; padding-bottom: 10px; margin-bottom: 18px;
+    border-bottom: 1px solid #26261f;
+  }
+
+  /* ---------- Swatches ---------- */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .sw {
+    position: relative; text-align: left; cursor: pointer;
+    background: #1c1c16; border: 1px solid #2c2c24; border-radius: 10px;
+    padding: 0; overflow: hidden; color: inherit; font: inherit;
+    transition: border-color 200ms var(--ease-out-sharp), transform 200ms var(--ease-out-sharp);
+  }
+  .sw:hover { transform: translateY(-2px); border-color: #45453a; }
+  .sw[aria-pressed="true"] { border-color: var(--color-bone); }
+  .sw .chip { height: 62px; display: flex; }
+  .sw .chip i { flex: 1; display: block; }
+  .sw .meta { padding: 10px 12px 12px; }
+  .sw .nm { font-size: 13px; font-weight: 600; letter-spacing: 0.01em; }
+  .sw .hx { font-size: 11px; color: var(--color-gray-on-noir); font-variant-numeric: tabular-nums; margin-top: 3px; }
+  .sw[aria-pressed="true"] .nm::after { content: " ●"; font-size: 9px; vertical-align: middle; }
+
+  /* ---------- Browser tab strip ---------- */
+  .browser { border-radius: 10px 10px 0 0; overflow: hidden; background: #2b2b30; max-width: 720px; }
+  .tabstrip { display: flex; align-items: flex-end; gap: 6px; padding: 8px 8px 0; }
+  .tab {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px; border-radius: 8px 8px 0 0;
+    font-size: 12px; color: #e7e7ea; background: #3a3a41; max-width: 220px;
+  }
+  .tab.active { background: #1e1e22; }
+  .tab.dim { background: transparent; color: #9a9aa2; }
+  .tab span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .urlbar {
+    background: #1e1e22; padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: #8d8d96;
+  }
+  .urlbar b { color: #d6d6dc; font-weight: 500; }
+  .favnote { font-size: 12px; color: var(--color-gray-on-noir); margin-top: 12px; line-height: 1.6; }
+  .favscale { display: flex; align-items: flex-end; gap: 26px; margin-top: 18px; }
+  .favscale figure { text-align: center; }
+  .favscale figcaption { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #6a6862; margin-top: 8px; }
+
+  /* ---------- Header chrome ---------- */
+  .stage { border-radius: 12px; overflow: hidden; position: relative; height: 260px; padding: 20px clamp(16px, 3vw, 40px); }
+  .stage + .stage { margin-top: 16px; }
+  .stage.dark { background: var(--color-noir); }
+  .stage.light { background: var(--color-paper); }
+
+  .hdr { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+
+  .lockup { display: inline-flex; align-items: center; gap: 11px; }
+  .wordmark {
+    font-family: var(--font-family-display); font-size: 13.6px; line-height: 1;
+    letter-spacing: 0.015em; text-transform: uppercase;
+    transform: scaleX(0.94); transform-origin: left center;
+  }
+  .stage.dark .lockup { color: var(--color-bone); }
+  .stage.light .lockup { color: var(--color-noir); }
+
+  .track {
+    position: relative; display: flex; align-items: center;
+    height: var(--nav-track-h); width: var(--nav-track-w);
+    background: var(--color-noir); border-radius: var(--radius-control);
+    padding: 4px; gap: 2px; flex: 0 0 auto;
+  }
+  .track .ind {
+    position: absolute; top: 4px; left: 4px; height: 32px; width: 84px;
+    background: var(--color-bone); border-radius: 6px;
+  }
+  .track a {
+    position: relative; z-index: 1; flex: 1 1 0;
+    display: flex; align-items: center; justify-content: center; height: 32px;
+    font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--color-bone); text-decoration: none; border-radius: 6px; white-space: nowrap;
+  }
+  .track a.on { color: var(--color-noir); }
+
+  .right { display: flex; align-items: center; gap: 16px; }
+  .up {
+    width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+    border: 1px solid currentColor; font-size: 14px;
+  }
+  .stage.dark .up { color: var(--color-bone); }
+  .stage.light .up { color: var(--color-noir); }
+  .cta {
+    display: inline-flex; align-items: center; height: 40px; padding: 0 16px;
+    background: var(--color-accent); color: var(--color-bone);
+    border-radius: var(--radius-control); font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none;
+    transition: background 260ms var(--ease-out-sharp);
+  }
+
+  .heroCopy { position: absolute; left: clamp(16px, 3vw, 40px); bottom: 30px; right: 40px; }
+  .heroCopy .kicker {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--color-accent-on-noir); transition: color 260ms var(--ease-out-sharp);
+  }
+  .stage.light .heroCopy .kicker { color: var(--color-accent); }
+  .heroCopy h2 {
+    font-family: var(--font-family-display); font-size: clamp(26px, 3.4vw, 40px);
+    text-transform: uppercase; letter-spacing: -0.015em; margin-top: 10px; line-height: 1;
+  }
+  .stage.dark .heroCopy h2 { color: var(--color-bone); }
+  .stage.light .heroCopy h2 { color: var(--color-noir); }
+  .rule { height: 2px; width: 96px; background: var(--color-accent-on-noir); margin-top: 16px; transition: background 260ms var(--ease-out-sharp); }
+  .stage.light .rule { background: var(--color-accent); }
+
+  /* ---------- Readout ---------- */
+  .readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+  .rcard { background: #1c1c16; border: 1px solid #2c2c24; border-radius: 10px; padding: 14px 16px; }
+  .rcard .k { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #6a6862; }
+  .rcard .v { font-size: 17px; font-weight: 600; margin-top: 7px; font-variant-numeric: tabular-nums; }
+  .rcard .n { font-size: 11px; color: var(--color-gray-on-noir); margin-top: 4px; }
+  .pass { color: #7bbf6a; } .fail { color: #d9534f; }
+
+  .hint { font-size: 12px; color: #6a6862; margin-top: 18px; }
+  kbd { background: #26261f; border: 1px solid #3a3a30; border-radius: 4px; padding: 1px 5px; font-size: 11px; font-family: inherit; }
+
+  @media (max-width: 880px) { .track { display: none; } .stage { height: 220px; } }
+</style>
+</head>
+<body>
+
+<p class="eyebrow">Convenium — Brand R6</p>
+<h1>Accent red picker</h1>
+<p class="lede">
+  The density-ramp mark is locked. Six reds are in play. Click a swatch to repaint every
+  accent surface at once — the CTA, the mark's accent bar, the favicon, section kickers and rules.
+  Every pair below passes WCAG AA in both roles.
+</p>
+
+<section>
+  <p class="sectionLabel">Candidates</p>
+  <div class="swatches" id="swatches"></div>
+  <p class="hint">Use <kbd>←</kbd> <kbd>→</kbd> to step through, or click a swatch. Click the hex to copy.</p>
+</section>
+
+<section>
+  <p class="sectionLabel">Favicon — the tab-strip mark, at true size</p>
+  <div class="browser">
+    <div class="tabstrip">
+      <div class="tab active"><span id="favTab"></span><span>Convenium Studio</span></div>
+      <div class="tab dim"><span>Figma</span></div>
+      <div class="tab dim"><span>Analytics</span></div>
+    </div>
+    <div class="urlbar"><span>&#8592;&nbsp; &#8594;&nbsp; &#8635;</span><b>convenium.studio</b></div>
+  </div>
+  <div class="favscale" id="favScale"></div>
+  <p class="favnote">
+    The tab mark is the 3-bar reduction, not the full 12-bar ramp — at 16&nbsp;px the full ramp's
+    hairlines fall under one device pixel and collapse into a grey block. The middle bar carries
+    the accent, which is what makes the tab findable at a glance.
+  </p>
+</section>
+
+<section>
+  <p class="sectionLabel">Header — dark section</p>
+  <div class="stage dark">
+    <div class="hdr">
+      <a class="lockup" href="#" style="text-decoration:none;color:inherit">
+        <span id="markDark"></span><span class="wordmark">Convenium</span>
+      </a>
+      <nav class="track">
+        <span class="ind"></span>
+        <a class="on" href="#">Index</a><a href="#">Work</a><a href="#">Services</a><a href="#">Studio</a><a href="#">Contact</a>
+      </nav>
+      <div class="right">
+        <span class="up">&#8593;</span>
+        <a class="cta" href="#">Start a Project</a>
+      </div>
+    </div>
+    <div class="heroCopy">
+      <p class="kicker">Strategy &nbsp;/&nbsp; Identity &nbsp;/&nbsp; Digital</p>
+      <h2>Take it higher.</h2>
+      <div class="rule"></div>
+    </div>
+  </div>
+
+  <p class="sectionLabel" style="margin-top:30px">Header — light section</p>
+  <div class="stage light">
+    <div class="hdr">
+      <a class="lockup" href="#" style="text-decoration:none;color:inherit">
+        <span id="markLight"></span><span class="wordmark">Convenium</span>
+      </a>
+      <nav class="track">
+        <span class="ind"></span>
+        <a class="on" href="#">Index</a><a href="#">Work</a><a href="#">Services</a><a href="#">Studio</a><a href="#">Contact</a>
+      </nav>
+      <div class="right">
+        <span class="up">&#8593;</span>
+        <a class="cta" href="#">Start a Project</a>
+      </div>
+    </div>
+    <div class="heroCopy">
+      <p class="kicker">Selected work &nbsp;/&nbsp; 2026</p>
+      <h2>The work in the frame.</h2>
+      <div class="rule"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="sectionLabel">Contrast</p>
+  <div class="readout" id="readout"></div>
+</section>
+
+<script>
+const REDS = [
+  { id:"oxblood",    name:"Oxblood",     solid:"#9e2b2b", onNoir:"#c1554d", note:"Current. Warm, gallery-restrained." },
+  { id:"bordeaux",   name:"Bordeaux",    solid:"#6e1b22", onNoir:"#d44450", note:"Deepest. Wine, almost brown." },
+  { id:"signal",     name:"Signal",      solid:"#d0231a", onNoir:"#e62c22", note:"Swiss. Loudest, matches the mark's lineage." },
+  { id:"cinnabar",   name:"Cinnabar",    solid:"#b33a1e", onNoir:"#d84421", note:"Warm lacquer, orange-leaning." },
+  { id:"carmine",    name:"Carmine",     solid:"#a8172f", onNoir:"#e52c4a", note:"Cool blue-red. Couture." },
+  { id:"ironoxide",  name:"Iron Oxide",  solid:"#8c4033", onNoir:"#bf5947", note:"Muted, earthy, architectural." },
+];
+const BONE = "#eeede8", NOIR = "#050505", PAPER = "#f8f7f2";
+let active = 0;
+
+/* ---- contrast maths ---- */
+const chan = c => { c/=255; return c<=0.04045 ? c/12.92 : Math.pow((c+0.055)/1.055, 2.4); };
+const lum = h => { h=h.replace('#',''); const [r,g,b]=[0,2,4].map(i=>parseInt(h.substr(i,2),16));
+  return 0.2126*chan(r)+0.7152*chan(g)+0.0722*chan(b); };
+const ratio = (a,b) => { const l=[lum(a),lum(b)].sort((x,y)=>y-x); return (l[0]+0.05)/(l[1]+0.05); };
+
+/* ---- mark SVGs ---- */
+const RAMP_COMPACT = [[0,6],[11.22,9],[25.44,13.5],[44.16,20.25],[69.63,30.37]];
+const ACCENT_BAR = 3;
+
+function markSVG(size, accent) {
+  const bars = RAMP_COMPACT.map((b,i) =>
+    `<rect x="0" y="${b[0]}" width="100" height="${b[1]}" fill="${i===ACCENT_BAR?accent:'currentColor'}"/>`).join('');
+  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" shape-rendering="crispEdges" aria-hidden="true">${bars}</svg>`;
+}
+
+function faviconSVG(px, accent) {
+  return `<svg width="${px}" height="${px}" viewBox="0 0 64 64" shape-rendering="crispEdges" aria-hidden="true">
+    <rect width="64" height="64" fill="${NOIR}"/>
+    <rect x="10" y="10" width="44" height="6"  fill="${BONE}"/>
+    <rect x="10" y="22" width="44" height="10" fill="${accent}"/>
+    <rect x="10" y="38" width="44" height="16" fill="${BONE}"/>
+  </svg>`;
+}
+
+/* ---- render ---- */
+function buildSwatches() {
+  document.getElementById('swatches').innerHTML = REDS.map((r,i) => `
+    <button class="sw" data-i="${i}" aria-pressed="${i===active}">
+      <span class="chip"><i style="background:${r.solid}"></i><i style="background:${r.onNoir}"></i></span>
+      <span class="meta">
+        <span class="nm">${r.name}</span>
+        <span class="hx" data-copy="${r.solid}">${r.solid} &nbsp;/&nbsp; ${r.onNoir}</span>
+      </span>
+    </button>`).join('');
+}
+
+function apply(i) {
+  active = i;
+  const r = REDS[i];
+  document.documentElement.style.setProperty('--color-accent', r.solid);
+  document.documentElement.style.setProperty('--color-accent-on-noir', r.onNoir);
+
+  document.querySelectorAll('.sw').forEach(el =>
+    el.setAttribute('aria-pressed', String(+el.dataset.i === i)));
+
+  document.getElementById('markDark').innerHTML  = markSVG(22, r.onNoir);
+  document.getElementById('markLight').innerHTML = markSVG(22, r.solid);
+  document.getElementById('favTab').innerHTML    = faviconSVG(16, r.onNoir);
+  document.getElementById('favScale').innerHTML  = [16,32,64,128]
+    .map(s => `<figure>${faviconSVG(s, r.onNoir)}<figcaption>${s} px</figcaption></figure>`).join('');
+
+  const rows = [
+    ["Bone on solid",   ratio(r.solid, BONE),   "CTA label — needs 4.5"],
+    ["Solid on paper",  ratio(r.solid, PAPER),  "Kickers, rules on light"],
+    ["On-noir on noir", ratio(r.onNoir, NOIR),  "Accent text on dark"],
+    ["Solid vs on-noir",ratio(r.solid, r.onNoir), "Pair separation, informational"],
+  ];
+  document.getElementById('readout').innerHTML = rows.map(([k,v,n],idx) => {
+    const ok = idx === 3 ? null : v >= 4.5;
+    return `<div class="rcard">
+      <div class="k">${k}</div>
+      <div class="v ${ok===null?'':(ok?'pass':'fail')}">${v.toFixed(2)}:1${ok===null?'':(ok?' &check;':' &times;')}</div>
+      <div class="n">${n}</div></div>`;
+  }).join('') + `<div class="rcard"><div class="k">Selected</div>
+      <div class="v">${r.name}</div><div class="n">${r.note}</div></div>`;
+}
+
+buildSwatches();
+apply(0);
+
+document.addEventListener('click', e => {
+  const hx = e.target.closest('[data-copy]');
+  if (hx) { navigator.clipboard?.writeText(hx.dataset.copy);
+    const t = hx.textContent; hx.textContent = 'copied ' + hx.dataset.copy;
+    setTimeout(() => hx.textContent = t, 900); return; }
+  const sw = e.target.closest('.sw');
+  if (sw) apply(+sw.dataset.i);
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') apply((active + 1) % REDS.length);
+  if (e.key === 'ArrowLeft')  apply((active - 1 + REDS.length) % REDS.length);
+});
+</script>
+</body>
+</html>

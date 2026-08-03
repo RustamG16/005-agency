@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { navItems, ctaLabel } from "@/content/navigation";
-import { site } from "@/content/site";
 import { CloseIcon } from "@/components/ui/Icons";
+import { Lockup } from "@/components/ui/Logo";
 import styles from "./MobileMenu.module.css";
 
 type MobileMenuProps = {
@@ -71,7 +71,9 @@ export function MobileMenu({ open, onClose, activeIndex }: MobileMenuProps) {
       ref={panelRef}
     >
       <div className={styles.topRow}>
-        <span className={styles.mark}>{site.monogram}</span>
+        <span className={styles.mark}>
+          <Lockup size={22} accentIndex={3} />
+        </span>
         <button
           type="button"
           ref={closeRef}

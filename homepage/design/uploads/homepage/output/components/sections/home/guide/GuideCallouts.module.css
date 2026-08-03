@@ -1,0 +1,85 @@
+/* Guide callouts — spec §4. Paper card, 1px hairline, radius-card, no shadow. */
+
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.card {
+  position: absolute;
+  width: min(320px, 44vw);
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  background: var(--color-paper);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card);
+  visibility: hidden;
+  will-change: clip-path;
+}
+
+/* Connector: 1px rule from the card corner to the robot's eye. Length and angle
+   come from the scene each frame; the reveal is the inner scaleX. */
+.conn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 1px;
+  width: var(--conn-len, 0px);
+  transform-origin: 0 50%;
+  transform: rotate(var(--conn-angle, 0deg));
+  overflow: hidden;
+}
+
+.connLine {
+  display: block;
+  width: 100%;
+  height: 1px;
+  transform-origin: 0 50%;
+  background: var(--color-hairline);
+}
+
+/* Chili is graphic-only on noir — accent use 3 of 4 (spec §6). */
+.card[data-surface="noir"] .connLine {
+  background: var(--red-chili);
+}
+
+.eyebrow {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-gray);
+}
+
+.line {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-body);
+  line-height: 1.25;
+  color: var(--color-ink);
+  max-width: 22ch;
+  text-wrap: pretty;
+}
+
+/* ≤768px: no canvas, so no connector — the card just reveals in view. */
+.layer[data-mode="inview"] .card {
+  width: min(280px, 62vw);
+}
+
+/* prefers-reduced-motion: the copy stays, in the flow, with nothing moving. */
+.layer[data-mode="flow"] {
+  position: static;
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-container);
+  background: var(--color-cotton);
+}
+
+.layer[data-mode="flow"] .card {
+  position: static;
+  visibility: visible;
+  width: min(420px, 100%);
+  clip-path: none;
+}

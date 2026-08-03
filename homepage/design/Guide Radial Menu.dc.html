@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Newsreader:ital,wght@0,400;0,500;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #1B1717; color: #EDEBDD; font-family: Inter, system-ui, sans-serif; }
+  h1, h2, h3, h4, p { margin: 0; }
+  a { color: #E5595C; text-decoration: none; border-bottom: 1px solid #630000; }
+  a:hover { color: #EDEBDD; border-bottom-color: #D73B3E; }
+  input { font: inherit; }
+  button { font: inherit; }
+</style>
+<script type="module" src="./guide-radial.js"></script>
+</helmet>
+
+<header style="padding:64px 40px 40px;display:grid;gap:22px;max-width:1180px">
+  <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#6E6963">Convenium — home page · the guide</span>
+  <h1 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:52px;line-height:0.98;letter-spacing:-0.02em;color:#EDEBDD;max-width:22ch">Corner guide — design lock</h1>
+  <p style="font-family:Newsreader,Georgia,serif;font-size:22px;line-height:1.4;color:#A8A29A;max-width:60ch">Composition, proportion, colour and states only. Variants side by side first, recommendation under each. Every render below is the real GLB in a live three.js pass under the shipped key light — nothing is a mock-up of a render.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:0.1em;color:#6E6963">
+    <span style="border:1px solid #241F1F;padding:7px 10px">KEY 0xFFF1E0 @ 4.0 · AMBIENT 0x8D867D @ 0.45</span>
+    <span style="border:1px solid #241F1F;padding:7px 10px">FOV 32 · CAM Z 6 · PIXELRATIO ≤ 2</span>
+    <span style="border:1px solid #241F1F;padding:7px 10px">READOUTS ARE MEASURED FROM THE RENDERED PIXELS</span>
+  </div>
+  <div style="border:1px solid #630000;padding:18px 20px;display:grid;gap:8px;max-width:74ch">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E5595C">Flag — files named in the brief did not exist</span>
+    <p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.6;color:#A8A29A">The project contained <em>Robot Recolor Lab.dc.html</em> + <em>robot-lab.js</em> and <em>The Guide - Home.dc.html</em> + <em>guide-scene.js</em> — no radial prototype. This board and <em>guide-radial.js</em> are therefore new files under the names the brief uses, built from the locked numbers in BUILD-NOTES.md. <em>askGuide()</em> was not touched; it lives in the Next port, not here.</p>
+  </div>
+</header>
+
+<section data-screen-label="01 Texture + red remap" style="padding:56px 40px;border-top:1px solid #241F1F;display:grid;gap:28px">
+  <div style="display:grid;gap:10px;max-width:88ch">
+    <span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:12px;letter-spacing:0.18em;color:#E5595C">01</span>
+    <h2 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:30px;letter-spacing:-0.01em;color:#EDEBDD">Texture + red remap</h2>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#A8A29A">The GLB's own base-colour map is kept. Pixels are walked, converted to HSL, and only the red hue band (h ≤ 26° or ≥ 332°, s ≥ 0.14) is rewritten — hue and saturation to the target, lightness re-centred on the target's own lightness. Everything outside the band passes through, so wear, panel lines and the belt survive.</p>
+  </div>
+
+  <div style="display:grid;gap:14px">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">On cotton #EDEBDD</span>
+    <div style="display:flex;flex-wrap:wrap;gap:18px">
+      <div id="1a" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">1A</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Cherry #810100 — flat field</span></div>
+        <div style="background:#EDEBDD;border:1px solid #D6D2C2;padding:16px"><guide-puck remap="cherry" parts="noir" eye="paper" frame="full" readout="1a" ground="#EDEBDD" style="width:236px;height:236px"></guide-puck></div>
+        <span data-readout-for="1a" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+      <div id="1b" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">1B</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Chili #D73B3E</span></div>
+        <div style="background:#EDEBDD;border:1px solid #D6D2C2;padding:16px"><guide-puck remap="chili" parts="noir" eye="paper" frame="full" readout="1b" ground="#EDEBDD" style="width:236px;height:236px"></guide-puck></div>
+        <span data-readout-for="1b" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+      <div id="1c" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">1C</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Cherry — lightness lifted (γ 0.68)</span></div>
+        <div style="background:#EDEBDD;border:1px solid #D6D2C2;padding:16px"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="full" readout="1c" ground="#EDEBDD" style="width:236px;height:236px"></guide-puck></div>
+        <span data-readout-for="1c" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+      <div id="1d" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#6E6963">1D</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#6E6963">Control — shipped red rust, untouched</span></div>
+        <div style="background:#EDEBDD;border:1px solid #D6D2C2;padding:16px"><guide-puck remap="none" parts="map" eye="chili" frame="full" readout="1d" ground="#EDEBDD" style="width:236px;height:236px"></guide-puck></div>
+        <span data-readout-for="1d" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;gap:14px">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">On noir #1B1717 — the harder half of the page</span>
+    <div style="display:flex;flex-wrap:wrap;gap:18px">
+      <div id="1e" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">1E</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Cherry — flat field</span></div>
+        <div style="background:#1B1717;border:1px solid #241F1F;padding:16px"><guide-puck remap="cherry" parts="noir" eye="paper" frame="full" readout="1e" ground="#1B1717" style="width:236px;height:236px"></guide-puck></div>
+        <span data-readout-for="1e" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+      <div id="1f" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">1F</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Chili</span></div>
+        <div style="background:#1B1717;border:1px solid #241F1F;padding:16px"><guide-puck remap="chili" parts="noir" eye="paper" frame="full" readout="1f" ground="#1B1717" style="width:236px;height:236px"></guide-puck></div>
+        <span data-readout-for="1f" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+      <div id="1g" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">1G</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Cherry — lightness lifted</span></div>
+        <div style="background:#1B1717;border:1px solid #241F1F;padding:16px"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="full" readout="1g" ground="#1B1717" style="width:236px;height:236px"></guide-puck></div>
+        <span data-readout-for="1g" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+      <div id="1h" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#6E6963">1H</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#6E6963">Control — shipped red rust</span></div>
+        <div style="background:#1B1717;border:1px solid #241F1F;padding:16px"><guide-puck remap="none" parts="map" eye="chili" frame="full" readout="1h" ground="#1B1717" style="width:236px;height:236px"></guide-puck></div>
+        <span data-readout-for="1h" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#241F1F;padding:26px;display:grid;gap:14px;max-width:104ch">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E5595C">Locked — <a href="#1c">1C</a> / <a href="#1g">1G</a> cherry with the lightness curve lifted</span>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#EDEBDD">You were right about the hue and wrong about where it hurts. Under the warm key at 4.0 flat cherry does not read near-black on cotton — measured off the rendered pixels it holds body Y 0.056 at 8.27:1, close to the token's 9.03:1 flat-field figure. It collapses on noir: 1.79:1, where he stops being a robot and becomes a silhouette on half the page. Chili holds noir at 2.81:1, but the hue reads pink-toy next to Archivo Black — compare 1B with the display line beside it.</p>
+    <p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.65;color:#A8A29A">Cherry hue and saturation, lightness re-centred on 0.25 with contrast × 1.18, then γ 0.68 across the curve: body Y 0.085 — 6.47:1 on cotton, 2.29:1 on noir. A 1.5× lift over flat cherry, which buys the noir half back without moving the hue; the shipped map's own Y is 0.135, so the robot sits one step under the original rather than five. Wear survives because contrast is boosted before the lift, not after. No new hex value enters the palette — the target is exactly <em>--red-cherry</em>, and only per-pixel lightness differs, which is what a texture is.</p>
+  </div>
+
+  <div style="display:grid;gap:14px">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">Follow-on A — joints / parts</span>
+    <div style="display:flex;flex-wrap:wrap;gap:18px">
+      <div id="1i" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">1I</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Parts keep their remapped map</span></div>
+        <div style="background:#EDEBDD;border:1px solid #D6D2C2;padding:16px;display:flex;gap:14px;align-items:flex-end"><guide-puck remap="cherry-lift" parts="map" eye="paper" frame="full" readout="1i" ground="#EDEBDD" style="width:196px;height:196px"></guide-puck><guide-puck remap="cherry-lift" parts="map" eye="paper" frame="waist" style="width:104px;height:104px"></guide-puck></div>
+        <span data-readout-for="1i" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+      <div id="1j" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">1J</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Parts held at noir #1B1717</span></div>
+        <div style="background:#EDEBDD;border:1px solid #D6D2C2;padding:16px;display:flex;gap:14px;align-items:flex-end"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="full" readout="1j" ground="#EDEBDD" style="width:196px;height:196px"></guide-puck><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="waist" style="width:104px;height:104px"></guide-puck></div>
+        <span data-readout-for="1j" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;gap:14px">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">Follow-on B — the eye, now that the body carries red</span>
+    <div style="display:flex;flex-wrap:wrap;gap:18px">
+      <div id="1k" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">1K</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Chili, intensity 1 — as shipped</span></div>
+        <div style="background:#1B1717;border:1px solid #241F1F;padding:16px;display:flex;gap:14px;align-items:flex-end"><guide-puck remap="cherry-lift" parts="noir" eye="chili" frame="head" readout="1k" ground="#1B1717" style="width:196px;height:196px"></guide-puck><guide-puck remap="cherry-lift" parts="noir" eye="chili" frame="waist" style="width:76px;height:76px"></guide-puck></div>
+        <span data-readout-for="1k" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+      <div id="1l" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">1L</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Chili pushed — intensity 2.6</span></div>
+        <div style="background:#1B1717;border:1px solid #241F1F;padding:16px;display:flex;gap:14px;align-items:flex-end"><guide-puck remap="cherry-lift" parts="noir" eye="hot" frame="head" readout="1l" ground="#1B1717" style="width:196px;height:196px"></guide-puck><guide-puck remap="cherry-lift" parts="noir" eye="hot" frame="waist" style="width:76px;height:76px"></guide-puck></div>
+        <span data-readout-for="1l" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+      <div id="1m" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">1M</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Paper #F5F3E8, intensity 1.35</span></div>
+        <div style="background:#1B1717;border:1px solid #241F1F;padding:16px;display:flex;gap:14px;align-items:flex-end"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="head" readout="1m" ground="#1B1717" style="width:196px;height:196px"></guide-puck><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="waist" style="width:76px;height:76px"></guide-puck></div>
+        <span data-readout-for="1m" style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#6E6963">measuring…</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#241F1F;padding:26px;display:grid;gap:14px;max-width:104ch">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E5595C">Locked — <a href="#1j">1J</a> noir parts · <a href="#1m">1M</a> paper eye</span>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#EDEBDD">Parts stay at noir. With the remapped parts map the eye domes lift to a mid grey and the whole robot becomes red — the accent stops being an accent. Noir domes also give the mark something to sit in: the eye is the only bright thing on the model.</p>
+    <p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.65;color:#A8A29A">The eye goes to paper, and the measurement is blunt. In <a href="#1k">1K</a> the chili mark never crosses Y 0.45 at all — 4px² of the whole frame — because chili's luminance now sits below the body it has to mark. Pushing to 2.6 (<a href="#1l">1L</a>) doubles that to 9px² by blooming, not by gaining edge. Paper at 1.35 measures 413px² at Y 0.98: one warm-white point in a dark dome on a red body, and the only version that still reads at 76px. Consequence, flagged: the eye is no longer a chili use, so the §6 accent budget changes (see the deviations list).</p>
+  </div>
+</section>
+
+<section data-screen-label="02 Robot framing in the puck" style="padding:56px 40px;border-top:1px solid #241F1F;display:grid;gap:28px">
+  <div style="display:grid;gap:10px;max-width:88ch">
+    <span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:12px;letter-spacing:0.18em;color:#E5595C">02</span>
+    <h2 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:30px;letter-spacing:-0.01em;color:#EDEBDD">Robot framing in the puck</h2>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#A8A29A">Framing is stated as the model-height span kept in the disc, not as a bare scalar, because this model is nearly all dome — the old <em>worldH × 0.74</em> is the full-figure case. Second row is the squint test: the same render at 76px, blurred, judged as a silhouette.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:18px">
+    <div id="2a" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">2A</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Full figure — span −0.16→1.16 (= 0.74)</span></div>
+      <div style="background:#EDEBDD;border:1px solid #D6D2C2;padding:20px;display:flex;gap:20px;align-items:flex-end">
+        <div style="width:104px;height:104px;border-radius:50%;overflow:hidden;background:#1B1717;position:relative"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="full" style="position:absolute;inset:0"></guide-puck></div>
+        <div style="width:76px;height:76px;border-radius:50%;overflow:hidden;background:#1B1717;position:relative"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="full" style="position:absolute;inset:0"></guide-puck></div>
+        <div style="width:76px;height:76px;border-radius:50%;overflow:hidden;background:#1B1717;position:relative;filter:blur(2.2px)"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="full" style="position:absolute;inset:0"></guide-puck></div>
+      </div>
+    </div>
+    <div id="2b" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">2B</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Waist-up — span 0.02→1.10</span></div>
+      <div style="background:#EDEBDD;border:1px solid #D6D2C2;padding:20px;display:flex;gap:20px;align-items:flex-end">
+        <div style="width:104px;height:104px;border-radius:50%;overflow:hidden;background:#1B1717;position:relative"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="waist" style="position:absolute;inset:0"></guide-puck></div>
+        <div style="width:76px;height:76px;border-radius:50%;overflow:hidden;background:#1B1717;position:relative"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="waist" style="position:absolute;inset:0"></guide-puck></div>
+        <div style="width:76px;height:76px;border-radius:50%;overflow:hidden;background:#1B1717;position:relative;filter:blur(2.2px)"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="waist" style="position:absolute;inset:0"></guide-puck></div>
+      </div>
+    </div>
+    <div id="2c" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">2C</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Head + shoulders — span 0.30→1.06</span></div>
+      <div style="background:#EDEBDD;border:1px solid #D6D2C2;padding:20px;display:flex;gap:20px;align-items:flex-end">
+        <div style="width:104px;height:104px;border-radius:50%;overflow:hidden;background:#1B1717;position:relative"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="head" style="position:absolute;inset:0"></guide-puck></div>
+        <div style="width:76px;height:76px;border-radius:50%;overflow:hidden;background:#1B1717;position:relative"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="head" style="position:absolute;inset:0"></guide-puck></div>
+        <div style="width:76px;height:76px;border-radius:50%;overflow:hidden;background:#1B1717;position:relative;filter:blur(2.2px)"><guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="head" style="position:absolute;inset:0"></guide-puck></div>
+      </div>
+    </div>
+  </div>
+  <div style="background:#241F1F;padding:26px;display:grid;gap:14px;max-width:104ch">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E5595C">Locked — <a href="#2b">2B</a> waist-up, span 0.02→1.10 (robot height = 1.02 × disc height)</span>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#EDEBDD">Full figure loses at 76px: the legs become two dark commas, the dome shrinks, and the squint test reads as a blob with no eye. Head-and-shoulders reads best as a silhouette but throws away the belt and the arms, so nothing in the disc changes when a clip plays — he stops looking alive.</p>
+    <p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.65;color:#A8A29A">Waist-up keeps the dome big enough that the paper mark is the first thing you read at 76px, keeps arm movement inside the frame, and puts the crown 16px below the disc's top edge at 104px — which is the headroom item 5 needs. Old constant retired: <em>robotHeight = worldH × 0.74</em> becomes a framing span, so the same numbers hold at 104 and at 76 without re-tuning.</p>
+  </div>
+</section>
+
+<section data-screen-label="03 Puck treatment" style="padding:56px 40px;border-top:1px solid #241F1F;display:grid;gap:28px">
+  <div style="display:grid;gap:10px;max-width:88ch">
+    <span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:12px;letter-spacing:0.18em;color:#E5595C">03</span>
+    <h2 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:30px;letter-spacing:-0.01em;color:#EDEBDD">Puck treatment</h2>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#A8A29A">Disc is noir on cotton and ink on noir, so the puck is always one step off its ground. Ring options below; the chili ring is not among them — with a red robot inside it is the fourth red in a 104px circle.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:18px">
+    <div id="3a" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">3A</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">No ring</span></div>
+      <div style="display:flex;gap:14px">
+        <div style="position:relative;width:210px;height:180px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" ring="none" bubble="none" dock-right="44" dock-bottom="34"></guide-corner></div>
+        <div style="position:relative;width:210px;height:180px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" ring="none" bubble="none" dock-right="44" dock-bottom="34"></guide-corner></div>
+      </div>
+    </div>
+    <div id="3b" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">3B</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Hairline ring at rest</span></div>
+      <div style="display:flex;gap:14px">
+        <div style="position:relative;width:210px;height:180px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" ring="hairline" bubble="none" dock-right="44" dock-bottom="34"></guide-corner></div>
+        <div style="position:relative;width:210px;height:180px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" ring="hairline" bubble="none" dock-right="44" dock-bottom="34"></guide-corner></div>
+      </div>
+    </div>
+    <div id="3c" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">3C</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Ring on hover / open only</span></div>
+      <div style="display:flex;gap:14px">
+        <div style="position:relative;width:210px;height:180px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" ring="none" state="hover" bubble="none" dock-right="44" dock-bottom="34"></guide-corner></div>
+        <div style="position:relative;width:210px;height:180px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" ring="hairline" state="hover" bubble="none" dock-right="44" dock-bottom="34"></guide-corner></div>
+      </div>
+    </div>
+  </div>
+  <div style="background:#241F1F;padding:26px;display:grid;gap:14px;max-width:104ch">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E5595C">Locked — ground-adaptive: <a href="#3a">3A</a> on cotton, <a href="#3b">3B</a> on noir, both step up on hover / open / drag</span>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#EDEBDD">On cotton the noir disc already has 13:1 against the ground — a ring there is decoration, and decoration is what makes a puck look like a support widget. On noir the ink disc is only one step off the ground, so it needs a 1px gray #6E6963 edge to exist at all. Hover takes cotton on noir, hairline on cotton; drag takes gray on cotton; armed is the only red state.</p>
+    <p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.65;color:#A8A29A">Retired: the 1px chili ring at 55%. It was carrying the "there is red here" job that the body now does, and an opacity value is not in the token set anyway.</p>
+  </div>
+</section>
+
+<section data-screen-label="04 Radial geometry" style="padding:56px 40px;border-top:1px solid #241F1F;display:grid;gap:28px">
+  <div style="display:grid;gap:10px;max-width:88ch">
+    <span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:12px;letter-spacing:0.18em;color:#E5595C">04</span>
+    <h2 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:30px;letter-spacing:-0.01em;color:#EDEBDD">Radial geometry</h2>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#A8A29A">Six petals over the arc means five gaps. Centre-to-centre spacing is the chord 2r·sin(step/2) — so crowding is arithmetic, not taste. At the shipped arc of 90° with 52px circles: r120 → 37px chord, r132 → 41px, r148 → 46px. All three overlap. The shipped geometry has never fit.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:18px">
+    <div id="4a" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">4A</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">r 120 · 44px petals · chord 41.6</span></div>
+      <div style="position:relative;width:430px;height:400px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" state="open" radius="120" bubble="none" labels="hover" dock-right="30" dock-bottom="30"></guide-corner></div>
+    </div>
+    <div id="4b" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">4B</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">r 132 · chord 45.8</span></div>
+      <div style="position:relative;width:430px;height:400px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" state="open" radius="132" bubble="none" labels="hover" dock-right="30" dock-bottom="30"></guide-corner></div>
+    </div>
+    <div id="4c" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">4C</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">r 148 · chord 51.4 · 7.4px air</span></div>
+      <div style="position:relative;width:430px;height:400px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" state="open" radius="148" bubble="none" labels="hover" dock-right="30" dock-bottom="30"></guide-corner></div>
+    </div>
+  </div>
+
+  <div style="display:grid;gap:14px">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">Petal content — the nav question</span>
+    <div style="display:flex;flex-wrap:wrap;gap:18px">
+      <div id="4d" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">4D</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Number only, label on hover (shipped)</span></div>
+        <div style="position:relative;width:430px;height:440px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" state="open" bubble="none" labels="hover" dock-right="30" dock-bottom="30"></guide-corner></div>
+      </div>
+      <div id="4e" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">4E</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Labels only — vertical stack, no ring</span></div>
+        <div style="position:relative;width:430px;height:440px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" state="open" bubble="none" labels="rows" dock-right="30" dock-bottom="30"></guide-corner></div>
+      </div>
+      <div id="4f" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">4F</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Number ring + always-visible label index</span></div>
+        <div style="position:relative;width:430px;height:440px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" state="open" bubble="none" labels="list" dock-right="30" dock-bottom="30"></guide-corner></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;gap:14px">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">The Ask petal</span>
+    <div style="display:flex;flex-wrap:wrap;gap:18px">
+      <div id="4g" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">4G</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Matches the five chapters</span></div>
+        <div style="position:relative;width:430px;height:400px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" state="open" ask-petal="match" bubble="none" dock-right="30" dock-bottom="30"></guide-corner></div>
+      </div>
+      <div id="4h" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">4H</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Paper fill, ink glyph — same geometry</span></div>
+        <div style="position:relative;width:430px;height:400px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" state="open" ask-petal="distinct" bubble="none" dock-right="30" dock-bottom="30"></guide-corner></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;gap:14px">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">Open state at 1440 / 1024 / 390 — real viewport widths, shown at ½ scale</span>
+    <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start">
+      <div id="4i" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">4I</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">1440 × 900</span></div>
+        <div style="width:720px;height:450px;overflow:hidden;border:1px solid #241F1F">
+          <div style="width:1440px;height:900px;transform:scale(0.5);transform-origin:top left;position:relative;background:#EDEBDD">
+            <div style="position:absolute;inset:0;padding:96px 72px;display:grid;align-content:start;gap:22px">
+              <span style="font-family:Inter,sans-serif;font-size:14px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">Services</span>
+              <h3 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:64px;line-height:0.98;letter-spacing:-0.02em;color:#241F1F;max-width:20ch">Five crafts. One system.</h3>
+              <p style="font-family:Newsreader,Georgia,serif;font-size:24px;line-height:1.4;color:#6E6963;max-width:42ch">Identity, editorial, product, film and social — held to one standard by the two people who make them.</p>
+            </div>
+            <guide-corner ground="cotton" state="open" bubble="none" labels="list"></guide-corner>
+          </div>
+        </div>
+      </div>
+      <div id="4j" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">4J</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">1024 × 768</span></div>
+        <div style="width:512px;height:384px;overflow:hidden;border:1px solid #241F1F">
+          <div style="width:1024px;height:768px;transform:scale(0.5);transform-origin:top left;position:relative;background:#1B1717">
+            <div style="position:absolute;inset:0;padding:80px 56px;display:grid;align-content:start;gap:20px">
+              <span style="font-family:Inter,sans-serif;font-size:14px;letter-spacing:0.14em;text-transform:uppercase;color:#A8A29A">Process</span>
+              <h3 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:52px;line-height:1;letter-spacing:-0.02em;color:#EDEBDD;max-width:18ch">How a project actually runs.</h3>
+            </div>
+            <guide-corner ground="noir" state="open" bubble="none" labels="list"></guide-corner>
+          </div>
+        </div>
+      </div>
+      <div id="4k" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">4K</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">390 × 844 — arc becomes a stack</span></div>
+        <div style="width:195px;height:422px;overflow:hidden;border:1px solid #241F1F">
+          <div style="width:390px;height:844px;transform:scale(0.5);transform-origin:top left;position:relative;background:#EDEBDD">
+            <div style="position:absolute;inset:0;padding:64px 20px;display:grid;align-content:start;gap:16px">
+              <span style="font-family:Inter,sans-serif;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">FAQ</span>
+              <h3 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:38px;line-height:1;letter-spacing:-0.02em;color:#241F1F">Ask anything.</h3>
+            </div>
+            <guide-corner ground="cotton" state="open" bubble="none" labels="rows" size="76" dock-right="16" dock-bottom="16"></guide-corner>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#241F1F;padding:26px;display:grid;gap:14px;max-width:104ch">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E5595C">Locked — r 148 · 44px petals · arc 176→276 · <a href="#4f">4F</a> number ring + label index · <a href="#4h">4H</a> distinct Ask</span>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#EDEBDD">Petals drop from 52px to 44px and the arc widens to 100°, which buys 7.4px of air at r 148 — the first geometry in this set where six circles actually fit. r 120 and r 132 collide at any petal size that still carries a two-digit Archivo mark.</p>
+    <p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.65;color:#A8A29A">You are right that hover-only labels are too hidden for nav. But six always-visible labels do not fit on the arc either — near the top the petals are 3px apart vertically, so per-petal captions collide. The answer is to split the two jobs: the ring carries the marks, and a right-aligned label index sits outside the fan at even 30px pitch, ordered so 01 pairs with the lowest petal. Hover either half and both light. At ≤520px the ring is dropped and the index alone becomes the stack — the mobile UI is a subtraction of the same system, not a second one. Ask keeps its position and radius and changes only its fill: paper with an ink glyph, which is the one inversion available that is not red.</p>
+  </div>
+</section>
+
+<section data-screen-label="05 Speech bubble" style="padding:56px 40px;border-top:1px solid #241F1F;display:grid;gap:28px">
+  <div style="display:grid;gap:10px;max-width:88ch">
+    <span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:12px;letter-spacing:0.18em;color:#E5595C">05</span>
+    <h2 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:30px;letter-spacing:-0.01em;color:#EDEBDD">Speech bubble — replaces the callout card</h2>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#A8A29A">Anchored to the head, not to the disc. The <em>Head_05</em> bone is projected with <em>camera.project</em> every frame and the crown offset (bone → top of model, measured once at load) is added, so the anchor tracks him as he turns and as clips play. Card ground stays paper on both grounds, per §4.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:18px">
+    <div id="5a" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">5A</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Literal rounded cloud</span></div>
+      <div style="position:relative;width:400px;height:300px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" bubble="cloud" chapter="1" dock-right="40" dock-bottom="28"></guide-corner></div>
+    </div>
+    <div id="5b" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">5B</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Rounded rect, radius 10, small tail</span></div>
+      <div style="position:relative;width:400px;height:300px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" bubble="rect" chapter="1" dock-right="40" dock-bottom="28"></guide-corner></div>
+    </div>
+    <div id="5c" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">5C</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Squared paper bubble, radius 2</span></div>
+      <div style="position:relative;width:400px;height:300px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" bubble="paper" chapter="1" dock-right="40" dock-bottom="28"></guide-corner></div>
+    </div>
+  </div>
+
+  <div style="display:grid;gap:14px">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">Collision — tail behaviour under pressure</span>
+    <div style="display:flex;flex-wrap:wrap;gap:18px">
+      <div id="5d" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">5D</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Far right — bubble shifts, tail clamps</span></div>
+        <div style="position:relative;width:340px;height:300px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" bubble="paper" chapter="3" dock-right="16" dock-bottom="24"></guide-corner></div>
+      </div>
+      <div id="5e" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">5E</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Top of viewport — flips below, tail up</span></div>
+        <div style="position:relative;width:340px;height:300px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" bubble="paper" chapter="4" dock-right="60" dock-top="14"></guide-corner></div>
+      </div>
+      <div id="5f" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">5F</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Mid-drag — live, drag the puck</span></div>
+        <div style="position:relative;width:340px;height:300px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" bubble="paper" chapter="5" dock-right="90" dock-bottom="60" live></guide-corner></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;gap:14px">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">Both grounds, at width — 176px floor, 264px ceiling</span>
+    <div style="display:flex;flex-wrap:wrap;gap:18px">
+      <div id="5g" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">5G</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Cotton section</span></div>
+        <div style="position:relative;width:560px;height:320px;background:#EDEBDD;border:1px solid #D6D2C2">
+          <div style="position:absolute;inset:0;padding:36px 32px;display:grid;align-content:start;gap:14px">
+            <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">Principles</span>
+            <h4 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:34px;line-height:1;letter-spacing:-0.02em;color:#241F1F;max-width:16ch">The rules we don't break.</h4>
+          </div>
+          <guide-corner ground="cotton" bubble="paper" chapter="4" dock-right="28" dock-bottom="24"></guide-corner>
+        </div>
+      </div>
+      <div id="5h" style="display:grid;gap:8px">
+        <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">5H</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Noir section — a lit slip of paper</span></div>
+        <div style="position:relative;width:560px;height:320px;background:#1B1717;border:1px solid #241F1F">
+          <div style="position:absolute;inset:0;padding:36px 32px;display:grid;align-content:start;gap:14px">
+            <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#A8A29A">Process</span>
+            <h4 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:34px;line-height:1;letter-spacing:-0.02em;color:#EDEBDD;max-width:16ch">This is how a project actually runs.</h4>
+          </div>
+          <guide-corner ground="noir" bubble="paper" chapter="3" dock-right="28" dock-bottom="24"></guide-corner>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#241F1F;padding:26px;display:grid;gap:14px;max-width:104ch">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E5595C">Locked — <a href="#5c">5C</a> squared paper bubble, radius 2, 11px tail</span>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#EDEBDD">Next to Archivo Black and Newsreader, radius 2 is the only shape that survives. The cloud reads as a comic panel the moment it sits beside a 64px display line, and radius 10 puts the bubble in the same family as the Ask card, which then has to carry two different roles at two different radii. A squared slip with a hairline edge is the same object as the retired callout card — it just moved.</p>
+    <p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.65;color:#A8A29A">Tail: an 11px square rotated 45°, paper fill, hairline on the two exposed sides only, straddling the edge so the bubble's own border closes behind it. It slides along the bottom edge to sit under the crown, clamped 18px from either end; past that the bubble shifts and the tail pins at the clamp — no rubber-banding, no rotation. When the crown is within one bubble-height of the top edge the bubble flips under the puck and the tail moves to the top edge, still pointing at the head <a href="#5e">5E</a>. Content: eyebrow + one Newsreader line, no brief — 264px will not carry a paragraph without dropping under 15px, so the brief moves into the Ask panel where it has room. Position is written directly, never transitioned, so it cannot lag the head mid-drag; only opacity, clip-path and a 4px rise animate — 320ms <em>--ease-out-sharp</em> in, 200ms out.</p>
+  </div>
+</section>
+
+<section data-screen-label="06 Ask panel" style="padding:56px 40px;border-top:1px solid #241F1F;display:grid;gap:28px">
+  <div style="display:grid;gap:10px;max-width:88ch">
+    <span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:12px;letter-spacing:0.18em;color:#E5595C">06</span>
+    <h2 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:30px;letter-spacing:-0.01em;color:#EDEBDD">Ask panel</h2>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#A8A29A">One overlay at a time. Opening Ask retires the bubble and closes the ring; closing Ask brings the bubble back on the current chapter. Log copy below is placeholder — real answers come from <em>site.ts</em>.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start">
+    <div id="6a" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">6A</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">One exchange · 360px</span></div>
+      <div style="position:relative;width:520px;height:420px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" state="ask" exchanges="1" bubble="paper" dock-right="24" dock-bottom="24"></guide-corner></div>
+    </div>
+    <div id="6b" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">6B</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">Five exchanges — log scrolls, input pinned</span></div>
+      <div style="position:relative;width:520px;height:560px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" state="ask" exchanges="5" bubble="paper" dock-right="24" dock-bottom="24"></guide-corner></div>
+    </div>
+    <div id="6c" style="display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:10px;letter-spacing:0.14em;color:#E5595C">6C</span><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">390 — sheet, full measure</span></div>
+      <div style="position:relative;width:390px;height:560px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" state="ask" exchanges="5" bubble="none" size="76" dock-right="16" dock-bottom="16"></guide-corner></div>
+    </div>
+  </div>
+  <div style="background:#241F1F;padding:26px;display:grid;gap:14px;max-width:104ch">
+    <span style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E5595C">Locked — 360px card, 300px log ceiling, question on cotton / answer in Newsreader</span>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#EDEBDD">Bubble and panel cannot co-exist: they occupy the same 240px of air above his head and they say the same kind of thing. Ask suppresses the bubble in 160ms, then the panel clips up over 320ms. The ring closes at the same time — three layers open at once is the support-widget failure mode item 3 is trying to avoid.</p>
+    <p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.65;color:#A8A29A">Contrast between turns is ground, not colour: the question sits in a cotton block at Inter 14, the answer is bare paper in Newsreader 17 — the same split the page uses for eyebrow versus body, so nothing new is invented. Five exchanges scroll inside the log; the input row keeps its hairline top rule and stays pinned. At ≤520px the card becomes a sheet inset 12px with a 44vh log, and the puck drops to 76px in the corner. Chips are hairline outlines at Inter 11 uppercase — gray at rest, ink on hover. The retired callout brief lands here, as the first answer.</p>
+  </div>
+</section>
+
+<section data-screen-label="07 State inventory" style="padding:56px 40px;border-top:1px solid #241F1F;display:grid;gap:28px">
+  <div style="display:grid;gap:10px;max-width:88ch">
+    <span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:12px;letter-spacing:0.18em;color:#E5595C">07</span>
+    <h2 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:30px;letter-spacing:-0.01em;color:#EDEBDD">State inventory</h2>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#A8A29A">Every state drawn once, at ship size. Focus rings are 2px ink on cotton, 2px cotton on noir, offset 4px on the puck and 3px on a petal — outline only, no shadow.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:16px">
+    <div id="7a" style="display:grid;gap:8px">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">7A · Idle</span>
+      <div style="position:relative;width:250px;height:210px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" bubble="none" dock-right="70" dock-bottom="50"></guide-corner></div>
+    </div>
+    <div id="7b" style="display:grid;gap:8px">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">7B · Hover</span>
+      <div style="position:relative;width:250px;height:210px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" state="hover" bubble="none" dock-right="70" dock-bottom="50"></guide-corner></div>
+    </div>
+    <div id="7c" style="display:grid;gap:8px">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">7C · Talking</span>
+      <div style="position:relative;width:250px;height:210px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" state="talk" bubble="paper" chapter="6" dock-right="70" dock-bottom="30"></guide-corner></div>
+    </div>
+    <div id="7d" style="display:grid;gap:8px">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">7D · Dragging</span>
+      <div style="position:relative;width:250px;height:210px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" state="drag" bubble="none" dock-right="70" dock-bottom="50"></guide-corner></div>
+    </div>
+    <div id="7e" style="display:grid;gap:8px">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">7E · Armed over a drop target</span>
+      <div style="position:relative;width:250px;height:210px;background:#EDEBDD;border:1px solid #D6D2C2">
+        <div data-guide-drop style="position:absolute;left:20px;top:24px;width:120px;height:64px;border:1px solid #D6D2C2;outline:1px solid #810100;outline-offset:6px;display:grid;place-items:center;font-family:ui-monospace,Menlo,monospace;font-size:9px;color:#6E6963">SERVICE ROW</div>
+        <guide-corner ground="cotton" state="armed" bubble="none" dock-right="40" dock-bottom="50"></guide-corner>
+      </div>
+    </div>
+    <div id="7f" style="display:grid;gap:8px">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">7F · Menu open (noir)</span>
+      <div style="position:relative;width:250px;height:210px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" state="open" bubble="none" dock-right="20" dock-bottom="20"></guide-corner></div>
+    </div>
+    <div id="7g" style="display:grid;gap:8px">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">7G · Ask open (noir)</span>
+      <div style="position:relative;width:250px;height:340px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" state="ask" exchanges="1" bubble="none" dock-right="20" dock-bottom="20"></guide-corner></div>
+    </div>
+    <div id="7h" style="display:grid;gap:8px">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">7H · Reduced motion — no sway, no clip, 0ms</span>
+      <div style="position:relative;width:250px;height:210px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" state="reduced" bubble="paper" chapter="1" dock-right="70" dock-bottom="30"></guide-corner></div>
+    </div>
+    <div id="7i" style="display:grid;gap:8px">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">7I · Focus — puck</span>
+      <div style="position:relative;width:250px;height:210px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" focus="puck" bubble="none" dock-right="70" dock-bottom="50"></guide-corner></div>
+    </div>
+    <div id="7j" style="display:grid;gap:8px">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">7J · Focus — petal</span>
+      <div style="position:relative;width:250px;height:210px;background:#1B1717;border:1px solid #241F1F"><guide-corner ground="noir" state="open" focus="petal" bubble="none" dock-right="20" dock-bottom="20"></guide-corner></div>
+    </div>
+    <div id="7k" style="display:grid;gap:8px">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#A8A29A">7K · Focus — input</span>
+      <div style="position:relative;width:250px;height:340px;background:#EDEBDD;border:1px solid #D6D2C2"><guide-corner ground="cotton" state="ask" exchanges="1" focus="input" bubble="none" dock-right="20" dock-bottom="20"></guide-corner></div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="08 Live rig" style="padding:56px 40px;border-top:1px solid #241F1F;display:grid;gap:22px">
+  <div style="display:grid;gap:10px;max-width:88ch">
+    <span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:12px;letter-spacing:0.18em;color:#E5595C">08</span>
+    <h2 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:30px;letter-spacing:-0.01em;color:#EDEBDD">The locked rig, live</h2>
+    <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.45;color:#A8A29A">All locked values, nothing forced. Click the puck to open the ring, hit the "?" to open Ask, drag him onto the service row.</p>
+  </div>
+  <div style="position:relative;width:1180px;height:620px;background:#EDEBDD;border:1px solid #D6D2C2">
+    <div style="position:absolute;inset:0;padding:64px 56px;display:grid;align-content:start;gap:24px">
+      <span style="font-family:Inter,sans-serif;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#6E6963">Services</span>
+      <h3 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:60px;line-height:0.98;letter-spacing:-0.02em;color:#241F1F;max-width:18ch">Five crafts. One system.</h3>
+      <div data-guide-drop style="margin-top:12px;max-width:620px;display:grid;grid-template-columns:56px 1fr;gap:20px;align-items:baseline;padding:26px 0;border-top:1px solid #D6D2C2;border-bottom:1px solid #D6D2C2">
+        <span style="font-family:Inter,sans-serif;font-size:12px;letter-spacing:0.08em;color:#6E6963">01</span>
+        <div style="display:grid;gap:8px">
+          <h4 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:26px;line-height:1;color:#241F1F">Branding</h4>
+          <p style="font-family:Newsreader,Georgia,serif;font-size:19px;line-height:1.35;color:#6E6963">Identity systems built to be recognized and remembered.</p>
+        </div>
+      </div>
+    </div>
+    <guide-corner ground="cotton" bubble="paper" chapter="2" labels="list" exchanges="2" live></guide-corner>
+  </div>
+</section>
+
+<section data-screen-label="09 Deviations" style="padding:56px 40px;border-top:1px solid #241F1F;display:grid;gap:22px">
+  <div style="display:grid;gap:10px;max-width:88ch">
+    <span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:12px;letter-spacing:0.18em;color:#E5595C">09</span>
+    <h2 style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:30px;letter-spacing:-0.01em;color:#EDEBDD">Deviations, flagged not folded in</h2>
+  </div>
+  <ol style="margin:0;padding:0;list-style:none;display:grid;gap:12px;max-width:100ch;counter-reset:d">
+    <li style="display:grid;grid-template-columns:32px 1fr;gap:14px;border-top:1px solid #241F1F;padding-top:12px"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:11px;color:#6E6963">01</span><p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.6;color:#A8A29A"><strong style="color:#EDEBDD;font-weight:500">Accent budget §6 changes.</strong> The eye is no longer chili, and the body now carries cherry. Rendered red is: robot body field (cherry, film + live, counts once), nav-active underline, CTA email hover. The callout connector is gone. That is three, not four — and the chili graphic use on noir disappears from this component entirely.</p></li>
+    <li style="display:grid;grid-template-columns:32px 1fr;gap:14px;border-top:1px solid #241F1F;padding-top:12px"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:11px;color:#6E6963">02</span><p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.6;color:#A8A29A"><strong style="color:#EDEBDD;font-weight:500">Petal size and arc changed without being asked.</strong> You specified 52px circles and a 90° arc; both had to move (44px, 100°) or six petals cannot fit at any of the three radii tested. Flagging rather than folding.</p></li>
+    <li style="display:grid;grid-template-columns:32px 1fr;gap:14px;border-top:1px solid #241F1F;padding-top:12px"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:11px;color:#6E6963">03</span><p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.6;color:#A8A29A"><strong style="color:#EDEBDD;font-weight:500">Label index is a fourth option.</strong> You asked for three petal-content options; none of them fit six always-visible labels, so <a href="#4f">4F</a> pairs the ring with a separate label column. It is the recommendation, and it is new.</p></li>
+    <li style="display:grid;grid-template-columns:32px 1fr;gap:14px;border-top:1px solid #241F1F;padding-top:12px"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:11px;color:#6E6963">04</span><p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.6;color:#A8A29A"><strong style="color:#EDEBDD;font-weight:500">Framing is a span, not a scalar.</strong> <em>robotHeight = worldH × 0.74</em> is replaced by a kept-model-height span, because a single scalar cannot hold the same read at 104px and 76px on a model that is 70% dome.</p></li>
+    <li style="display:grid;grid-template-columns:32px 1fr;gap:14px;border-top:1px solid #241F1F;padding-top:12px"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:11px;color:#6E6963">05</span><p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.6;color:#A8A29A"><strong style="color:#EDEBDD;font-weight:500">Bubble anchors to a measured crown offset.</strong> The <em>Head_05</em> bone sits low inside the dome; projecting it alone puts the tail on his face. The offset from bone to model top is measured once at load and added in world space, so it still tracks the bone every frame.</p></li>
+    <li style="display:grid;grid-template-columns:32px 1fr;gap:14px;border-top:1px solid #241F1F;padding-top:12px"><span style="font-family:'Archivo Black',Arial Black,sans-serif;font-size:11px;color:#6E6963">06</span><p style="font-family:Inter,sans-serif;font-size:14px;line-height:1.6;color:#A8A29A"><strong style="color:#EDEBDD;font-weight:500">Ask log copy is placeholder.</strong> Five exchanges were needed to decide scroll behaviour; the answers are written from existing site copy but are not approved. Do not ship them.</p></li>
+  </ol>
+</section>
+
+<footer style="padding:48px 40px 72px;border-top:1px solid #241F1F;display:grid;gap:10px">
+  <p style="font-family:Inter,sans-serif;font-size:12px;letter-spacing:0.06em;color:#6E6963">Robot: "REPO Robot" by OscarLomas3D (<a href="https://sketchfab.com/3d-models/repo-robot-d125b0dbd8854f75a7e1fb49cfd4ef14">CC BY 4.0</a>)</p>
+  <p style="font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:0.1em;color:#6E6963">DESIGN-LOCK.md carries these numbers in BUILD-NOTES format · HOME-GUIDE-SPEC §1 and §4 amended for the two reversals</p>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+/* Convenium density-ramp mark + wordmark lockup */
+
+.mark {
+  display: block;
+  flex: 0 0 auto;
+  color: inherit;
+}
+
+/* One bar carries the accent — marks the AI layer in the stack.
+   Surfaces override --logo-accent per theme (see Header.module.css). */
+.accentBar {
+  fill: var(--logo-accent, var(--color-accent));
+}
+
+/* Stagger-reveal: bars wipe in from the left, thinnest first.
+   Delay is set inline per bar in Logo.tsx. */
+.animate rect {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: barIn var(--duration-reveal, 320ms) var(--ease-out-sharp, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+
+@keyframes barIn {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate rect {
+    animation: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* ---- Lockup ---- */
+
+.lockup {
+  display: inline-flex;
+  align-items: center;
+  /* Clear space = half the mark's edge, per the brand spec */
+  gap: calc(var(--mark-size, 22px) * 0.5);
+  color: inherit;
+}
+
+.wordmark {
+  font-family: var(--font-family-display);
+  /* Optically matched to the mark rather than set to a round number */
+  font-size: calc(var(--mark-size, 22px) * 0.62);
+  line-height: 1;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* Archivo Black sits wide; a light horizontal compression pulls it toward
+     the vertical rhythm of the ramp without introducing a second typeface. */
+  transform: scaleX(0.94);
+  transform-origin: left center;
+}
+
+/* Mark alone on small viewports — the wordmark returns at 640px */
+.wordmarkResponsive {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .wordmarkResponsive {
+    display: inline-block;
+  }
+}

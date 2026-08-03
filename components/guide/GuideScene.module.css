@@ -1,0 +1,40 @@
+/* The guide stage.
+ *
+ * REVISED 2026-08-03 (Russ): the circular disc from DESIGN-LOCK §3 is retired.
+ * It clipped the robot into a flat badge. There is no disc, no clip and no
+ * background now — the robot stands on a real 3D pad on a transparent canvas,
+ * so he reads as an object in space. The §3 ring states go with it; hover and
+ * drag now show on the pad's own rim, inside the render. */
+
+.puck {
+  position: absolute;
+  inset: 0;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.puck:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 4px;
+}
+
+.puck[data-ground="noir"]:focus-visible {
+  outline-color: var(--color-cotton);
+}
+
+.puck[data-state="dragging"] {
+  cursor: grabbing;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}

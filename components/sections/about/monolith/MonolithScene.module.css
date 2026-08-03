@@ -1,0 +1,44 @@
+/* The scrubbed stage: a sticky full-viewport canvas bed with the chapter copy stacked
+   on top of it. Negative bottom margin keeps the sticky element out of the height
+   calculation, so the chapters' own min-heights alone set the scroll length. */
+
+.root {
+  position: relative;
+  background: var(--color-noir);
+  color: var(--color-bone);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  margin-bottom: -100svh;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--color-noir);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out-sharp);
+}
+
+.stage[data-ready="true"] .canvas {
+  opacity: 1;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    display: none;
+  }
+}

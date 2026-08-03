@@ -1,0 +1,280 @@
+/* Chapter type and the twelve-column bed the chapters are set on — .dc lines 30–111. */
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+}
+
+.grid {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--space-container);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 24px;
+  row-gap: 24px;
+}
+
+.tightGap {
+  row-gap: 16px;
+}
+
+/* ── Section spans — min-heights set scroll length per chapter (.dc lines 38–108) ── */
+
+.chArrival {
+  min-height: 120vh;
+}
+
+.chPosition {
+  min-height: 160vh;
+}
+
+.chIdentity {
+  min-height: 220vh;
+}
+
+.chWeb {
+  min-height: 220vh;
+}
+
+.chContent {
+  min-height: 180vh;
+}
+
+.chGoingUp {
+  min-height: 100vh;
+}
+
+/* ── Type ─────────────────────────────────────────────────────────────── */
+
+.hero {
+  font-family: var(--font-family-display);
+  font-size: var(--font-hero);
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+
+.display {
+  font-family: var(--font-family-display);
+  font-size: var(--font-display);
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+
+.footer {
+  font-family: var(--font-family-display);
+  font-size: var(--font-footer);
+  line-height: 0.92;
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+
+.manifesto {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-subhead);
+  line-height: 1.3;
+  color: var(--color-bone);
+  text-wrap: pretty;
+}
+
+.body {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-body);
+  line-height: 1.35;
+  color: var(--color-bone);
+  text-wrap: pretty;
+}
+
+.eyebrow {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-gray-on-noir);
+}
+
+/* ── Placements (.dc per-chapter grid-column values) ─────────────────────── */
+
+.heroPlacement {
+  grid-column: 1 / span 12;
+  justify-self: center;
+  text-align: center;
+  max-width: 20ch;
+}
+
+.manifestoPlacement {
+  grid-column: 1 / span 5;
+  max-width: 600px;
+}
+
+.leftCol {
+  grid-column: 1 / span 5;
+}
+
+.rightCol {
+  grid-column: 7 / span 6;
+}
+
+.bodyMeasure {
+  max-width: 600px;
+}
+
+.centerPlacement {
+  grid-column: 1 / span 12;
+  justify-self: center;
+  text-align: center;
+}
+
+/* ── Founder duo (.dc lines 79–92) ───────────────────────────────────────── */
+
+.duo {
+  grid-column: 7 / span 6;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.duo li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.duoFrame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  max-height: 260px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--color-ink);
+  border: 1px solid rgba(202, 200, 192, 0.22);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.duoImg {
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.06);
+}
+
+.duoFallback {
+  position: absolute;
+  font-family: var(--font-family-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: rgba(238, 237, 232, 0.1);
+  letter-spacing: -0.02em;
+}
+
+.duoName {
+  font-family: var(--font-family-display);
+  font-size: var(--font-card-title);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+
+.duoRole {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-gray-on-noir);
+}
+
+.duoRoles {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.7;
+  color: var(--color-gray-on-noir);
+}
+
+.kicker {
+  grid-column: 7 / span 6;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* ── Email — accent render #3, hover underline draws left→right (.dc lines 137–146) ── */
+
+.emailLink {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-family-serif);
+  font-size: var(--font-body);
+  color: var(--color-bone);
+}
+
+.emailLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: var(--color-accent-on-noir);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 260ms var(--ease-out-sharp);
+}
+
+.emailLink:hover::after,
+.emailLink:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .manifestoPlacement,
+  .leftCol,
+  .rightCol,
+  .duo,
+  .kicker {
+    grid-column: 1 / span 6;
+  }
+
+  .duo {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .duo {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reduced motion: sections render in normal flow — no pinning, no scroll-driven
+   pacing. MonolithScene skips the WebGL stage entirely in this mode. */
+@media (prefers-reduced-motion: reduce) {
+  .chArrival,
+  .chPosition,
+  .chIdentity,
+  .chWeb,
+  .chContent,
+  .chGoingUp {
+    min-height: auto;
+  }
+
+  .sticky {
+    position: static;
+    height: auto;
+    padding: var(--space-6) 0;
+  }
+}

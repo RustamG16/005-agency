@@ -32,3 +32,6 @@ next-env.d.ts
 
 # generated artifacts
 screenshots/
+
+# quarantined unused files
+_unused/generated/

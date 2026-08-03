@@ -33,16 +33,18 @@
 }
 
 .mark {
-  font-family: var(--font-family-display);
-  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
   color: var(--color-bone);
+  /* Menu panel is always noir — use the lightened accent */
+  --logo-accent: var(--color-accent-on-noir);
 }
 
 .closeButton {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-gold);
+  color: var(--color-accent-on-noir);
   font-family: var(--font-family-ui);
   font-size: 12px;
   text-transform: uppercase;
@@ -90,7 +92,7 @@
 .overlay[data-open="true"] .row:nth-child(5) { transition-delay: 290ms; }
 
 .row[data-active="true"] {
-  color: var(--color-gold);
+  color: var(--color-accent-on-noir);
 }
 
 .rowIndex {
@@ -106,8 +108,8 @@
   justify-content: center;
   height: 48px;
   margin-top: var(--space-3);
-  background: var(--color-gold);
-  color: var(--color-noir);
+  background: var(--color-accent);
+  color: var(--color-bone);
   border-radius: var(--radius-control);
   font-family: var(--font-family-ui);
   font-size: 13px;

@@ -1,0 +1,275 @@
+=== Sat Jul 18 19:32:33 WEST 2026: starting dev server ===
+
+> convenium-studio@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.20
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.108:3000
+
+ ✓ Starting...
+ ✓ Ready in 5.8s
+ ○ Compiling / ...
+ ✓ Compiled / in 10.9s (866 modules)
+ GET / 200 in 3655ms
+ GET / 200 in 408ms
+ GET / 200 in 14197ms
+ GET / 200 in 374ms
+ GET / 200 in 129ms
+ ✓ Compiled /icon in 483ms (744 modules)
+ GET /icon?4548595d3cad01b8 200 in 762ms
+ ✓ Compiled in 707ms (744 modules)
+ ✓ Compiled in 1181ms (744 modules)
+[?25h
+=== Sat Jul 18 19:34:46 WEST 2026: dev server exited, restarting in 2s ===
+=== Sat Jul 18 19:34:48 WEST 2026: starting dev server ===
+
+> convenium-studio@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.20
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.108:3000
+
+ ✓ Starting...
+ ✓ Ready in 4.5s
+[?25h
+=== Sat Jul 18 19:39:20 WEST 2026: dev server exited, restarting in 2s ===
+=== Sat Jul 18 19:39:22 WEST 2026: starting dev server ===
+
+> convenium-studio@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.20
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.108:3000
+
+ ✓ Starting...
+ ✓ Ready in 4.6s
+ ○ Compiling / ...
+ ✓ Compiled / in 1152ms (723 modules)
+ GET / 200 in 3066ms
+ ○ Compiling /icon ...
+ ✓ Compiled /icon in 1101ms (744 modules)
+ GET /icon?4548595d3cad01b8 200 in 1485ms
+ ○ Compiling /works ...
+ ✓ Compiled /works in 1337ms (794 modules)
+ GET /works 200 in 1514ms
+ ✓ Compiled /services in 481ms (798 modules)
+ GET /services 200 in 664ms
+ ○ Compiling /about ...
+ ✓ Compiled /about in 1545ms (866 modules)
+ GET /about 200 in 1734ms
+ GET / 200 in 208ms
+ GET / 200 in 334ms
+ GET /icon?4548595d3cad01b8 200 in 132ms
+ ✓ Compiled in 911ms (783 modules)
+ ✓ Compiled in 454ms (793 modules)
+ GET / 200 in 429ms
+ ✓ Compiled in 628ms (783 modules)
+ ✓ Compiled in 596ms (783 modules)
+ ✓ Compiled in 2.1s (786 modules)
+ GET / 200 in 371ms
+ ✓ Compiled in 1377ms (800 modules)
+ GET / 200 in 1313ms
+ ✓ Compiled in 1233ms (800 modules)
+ GET / 200 in 2084ms
+ ✓ Compiled /icon in 421ms (500 modules)
+ GET /icon?4548595d3cad01b8 200 in 686ms
+ ✓ Compiled in 244ms (500 modules)
+ GET / 200 in 359ms
+ GET /icon?4548595d3cad01b8 200 in 83ms
+ GET /icon?4548595d3cad01b8 200 in 84ms
+ GET / 200 in 616ms
+ GET /icon?4548595d3cad01b8 200 in 49ms
+ ✓ Compiled in 951ms (813 modules)
+ ✓ Compiled in 2s (813 modules)
+ ✓ Compiled in 811ms (813 modules)
+ ✓ Compiled in 1476ms (823 modules)
+ GET / 200 in 614ms
+ GET /icon?4548595d3cad01b8 200 in 54ms
+ GET /icon?4548595d3cad01b8 200 in 21ms
+ GET / 200 in 1463ms
+ GET /icon?4548595d3cad01b8 200 in 86ms
+ GET / 200 in 367ms
+ GET /icon?4548595d3cad01b8 200 in 58ms
+ GET /works 200 in 54ms
+ GET /icon?4548595d3cad01b8 200 in 53ms
+ ○ Compiling /services ...
+ ✓ Compiled /services in 1692ms (510 modules)
+ GET /services 200 in 2292ms
+ GET /services 200 in 170ms
+ GET /services 200 in 144ms
+ GET /icon?4548595d3cad01b8 200 in 217ms
+ ✓ Compiled in 745ms (801 modules)
+ GET / 200 in 2311ms
+ GET / 200 in 767ms
+ ○ Compiling /icon ...
+ ✓ Compiled /icon in 702ms (510 modules)
+ GET /icon?4548595d3cad01b8 200 in 1152ms
+ GET / 200 in 361ms
+ GET /icon?4548595d3cad01b8 200 in 16ms
+ GET / 200 in 164ms
+ GET /icon?4548595d3cad01b8 200 in 16ms
+ GET / 200 in 46ms
+ GET /icon?4548595d3cad01b8 200 in 23ms
+ ✓ Compiled in 587ms (490 modules)
+ GET / 200 in 405ms
+ GET / 200 in 409ms
+ GET / 200 in 409ms
+ ✓ Compiled /icon in 298ms (510 modules)
+ GET /icon?4548595d3cad01b8 200 in 497ms
+ GET /icon?4548595d3cad01b8 200 in 487ms
+ GET /icon?4548595d3cad01b8 200 in 523ms
+ GET /icon?4548595d3cad01b8 200 in 63ms
+ GET /icon?4548595d3cad01b8 200 in 62ms
+ GET /icon?4548595d3cad01b8 200 in 62ms
+ ✓ Compiled in 367ms (510 modules)
+ GET / 200 in 664ms
+ GET / 200 in 683ms
+ GET / 200 in 684ms
+ GET /icon?4548595d3cad01b8 200 in 72ms
+ GET /icon?4548595d3cad01b8 200 in 49ms
+ GET /icon?4548595d3cad01b8 200 in 48ms
+ GET /icon?4548595d3cad01b8 200 in 48ms
+ GET /icon?4548595d3cad01b8 200 in 35ms
+ GET /icon?4548595d3cad01b8 200 in 35ms
+ ✓ Compiled in 2.1s (821 modules)
+ GET / 200 in 1251ms
+ GET /icon?4548595d3cad01b8 200 in 25ms
+ GET /?verify=fix13 200 in 191ms
+ GET /?verify=desktop-final 200 in 201ms
+ GET /?verify=desktop-final 200 in 355ms
+ GET /icon?4548595d3cad01b8 200 in 32ms
+ GET /?verify=desktop-1440-top 200 in 207ms
+ GET /works 200 in 47ms
+ GET / 200 in 42ms
+ GET /?verify=fix13 200 in 176ms
+ GET /icon?4548595d3cad01b8 200 in 19ms
+ GET /?verify=mobile 200 in 180ms
+ GET / 200 in 177ms
+ ✓ Compiled in 670ms (811 modules)
+ GET /?verify=mobile 200 in 1713ms
+ GET / 200 in 1714ms
+ GET / 200 in 1717ms
+ GET / 200 in 1724ms
+ GET /?verify=mobile 200 in 1759ms
+ GET / 200 in 1777ms
+ GET / 200 in 1777ms
+ GET / 200 in 1780ms
+ ✓ Compiled /icon in 382ms (510 modules)
+ GET /icon?4548595d3cad01b8 200 in 682ms
+ GET /icon?4548595d3cad01b8 200 in 697ms
+ GET /icon?4548595d3cad01b8 200 in 59ms
+ GET /icon?4548595d3cad01b8 200 in 24ms
+ GET /?verify=mobile 200 in 601ms
+ GET /icon?4548595d3cad01b8 200 in 21ms
+ ✓ Compiled in 807ms (801 modules)
+ ✓ Compiled in 676ms (801 modules)
+ ✓ Compiled in 582ms (801 modules)
+ GET /?verify=annotation-race 200 in 547ms
+ GET / 200 in 43ms
+ GET / 200 in 127ms
+ ✓ Compiled /icon in 431ms (510 modules)
+ GET /icon?4548595d3cad01b8 200 in 546ms
+ ✓ Compiled in 650ms (801 modules)
+ GET / 500 in 1005ms
+ GET / 500 in 478ms
+ ○ Compiling /icon ...
+ ✓ Compiled /icon in 813ms (510 modules)
+ GET /icon?4548595d3cad01b8 200 in 1086ms
+ GET /icon?4548595d3cad01b8 200 in 39ms
+ ✓ Compiled in 1113ms (821 modules)
+ GET / 500 in 1041ms
+ GET / 500 in 318ms
+ GET /icon?4548595d3cad01b8 200 in 61ms
+ GET /icon?4548595d3cad01b8 200 in 131ms
+ ✓ Compiled in 1167ms (821 modules)
+ GET / 500 in 1860ms
+ GET / 500 in 338ms
+ ✓ Compiled in 2.9s (821 modules)
+ GET /icon?4548595d3cad01b8 200 in 2387ms
+ GET /icon?4548595d3cad01b8 200 in 979ms
+ GET / 200 in 3173ms
+ GET / 200 in 1214ms
+ GET /icon?4548595d3cad01b8 200 in 33ms
+ GET /icon?4548595d3cad01b8 200 in 29ms
+ ✓ Compiled in 2.1s (831 modules)
+ GET / 200 in 253ms
+ GET / 200 in 91ms
+ ✓ Compiled in 1601ms (831 modules)
+ GET / 200 in 229ms
+ GET / 200 in 67ms
+ ✓ Compiled in 2.3s (815 modules)
+ GET / 200 in 311ms
+ GET / 200 in 80ms
+ ✓ Compiled in 834ms (506 modules)
+ GET / 200 in 1628ms
+ GET / 200 in 369ms
+ GET /icon?4548595d3cad01b8 200 in 111ms
+ GET /icon?4548595d3cad01b8 200 in 32ms
+ ✓ Compiled in 1692ms (815 modules)
+ ✓ Compiled in 1096ms (815 modules)
+ ✓ Compiled in 1224ms (815 modules)
+ ✓ Compiled in 778ms (795 modules)
+ ✓ Compiled in 628ms (805 modules)
+ GET / 200 in 489ms
+ GET / 200 in 241ms
+ ✓ Compiled /icon in 249ms (506 modules)
+ GET /icon?4548595d3cad01b8 200 in 418ms
+ GET /icon?4548595d3cad01b8 200 in 19ms
+ GET /icon?4548595d3cad01b8 200 in 20ms
+ GET /icon?4548595d3cad01b8 200 in 22ms
+ ✓ Compiled in 1836ms (825 modules)
+ GET / 200 in 322ms
+ GET / 200 in 77ms
+ GET /icon?4548595d3cad01b8 200 in 42ms
+ GET /icon?4548595d3cad01b8 200 in 26ms
+ GET /icon?4548595d3cad01b8 200 in 23ms
+ GET /icon?4548595d3cad01b8 200 in 27ms
+ ✓ Compiled in 538ms (815 modules)
+ ✓ Compiled in 708ms (815 modules)
+ ✓ Compiled in 1016ms (815 modules)
+ ✓ Compiled in 1228ms (815 modules)
+ ✓ Compiled in 1211ms (815 modules)
+ ✓ Compiled in 1157ms (815 modules)
+ ✓ Compiled in 2.1s (805 modules)
+ GET / 200 in 438ms
+ GET / 200 in 90ms
+ ✓ Compiled /icon in 359ms (506 modules)
+ GET /icon?4548595d3cad01b8 200 in 721ms
+ GET /icon?4548595d3cad01b8 200 in 124ms
+ GET /icon?4548595d3cad01b8 200 in 63ms
+ GET /icon?4548595d3cad01b8 200 in 60ms
+ ✓ Compiled in 1316ms (825 modules)
+ GET / 200 in 402ms
+ GET / 200 in 82ms
+ GET /icon?4548595d3cad01b8 200 in 38ms
+ GET /icon?4548595d3cad01b8 200 in 22ms
+ GET /icon?4548595d3cad01b8 200 in 23ms
+ GET /icon?4548595d3cad01b8 200 in 30ms
+ ✓ Compiled in 1200ms (825 modules)
+ GET / 200 in 452ms
+ GET / 200 in 89ms
+ GET /icon?4548595d3cad01b8 200 in 30ms
+ GET /icon?4548595d3cad01b8 200 in 18ms
+ GET /icon?4548595d3cad01b8 200 in 19ms
+ GET /icon?4548595d3cad01b8 200 in 18ms
+[?25h
+=== Sat Jul 18 22:03:08 WEST 2026: dev server exited, restarting in 2s ===
+=== Sat Jul 18 22:03:10 WEST 2026: starting dev server ===
+
+> convenium-studio@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.20
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.108:3000
+
+ ✓ Starting...
+ ✓ Ready in 7.5s
+ ○ Compiling / ...
+ ✓ Compiled / in 8.5s (855 modules)
+ ○ Compiling /_error ...
+ GET / 500 in 11142ms
+ ✓ Compiled /_error in 4.4s (1068 modules)

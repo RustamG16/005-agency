@@ -1,0 +1,172 @@
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./components/sections/home/Hero.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\components\sections\home\Hero.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./components/sections/home/Hero.tsx
+./app/page.tsx
+ ⨯ ./components/sections/home/Manifesto.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\components\sections\home\Manifesto.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./components/sections/home/Manifesto.tsx
+./app/page.tsx
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⨯ ./components/motion/HomepageReveals.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\components\motion\HomepageReveals.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./components/motion/HomepageReveals.tsx
+./app/page.tsx
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ReferenceError: annotationsStarted is not defined
+    at Hero (components\sections\home\Hero.tsx:130:37)
+  128 |     {
+  129 |       scope: sectionRef,
+> 130 |       dependencies: [reducedMotion, annotationsStarted],
+      |                                     ^
+  131 |       revertOnUpdate: true,
+  132 |     }
+  133 |   ); {
+  digest: '628741896'
+}
+ ⨯ ReferenceError: annotationsStarted is not defined
+    at Hero (components\sections\home\Hero.tsx:130:37)
+  128 |     {
+  129 |       scope: sectionRef,
+> 130 |       dependencies: [reducedMotion, annotationsStarted],
+      |                                     ^
+  131 |       revertOnUpdate: true,
+  132 |     }
+  133 |   ); {
+  digest: '628741896'
+}
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ReferenceError: annotationsStarted is not defined
+    at Hero (components\sections\home\Hero.tsx:129:37)
+  127 |     {
+  128 |       scope: sectionRef,
+> 129 |       dependencies: [reducedMotion, annotationsStarted],
+      |                                     ^
+  130 |       revertOnUpdate: true,
+  131 |     }
+  132 |   ); {
+  digest: '628741896'
+}
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ReferenceError: annotationsStarted is not defined
+    at Hero (components\sections\home\Hero.tsx:129:37)
+  127 |     {
+  128 |       scope: sectionRef,
+> 129 |       dependencies: [reducedMotion, annotationsStarted],
+      |                                     ^
+  130 |       revertOnUpdate: true,
+  131 |     }
+  132 |   ); {
+  digest: '628741896'
+}
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ReferenceError: ANNOTATIONS is not defined
+    at Hero (components\sections\home\Hero.tsx:190:12)
+  188 |
+  189 |         <div className={styles.annotations} aria-hidden="true">
+> 190 |           {ANNOTATIONS.map((annotation, i) => (
+      |            ^
+  191 |             <div
+  192 |               key={annotation.label}
+  193 |               ref={(element) => { {
+  digest: '1423165961'
+}
+ ⨯ ReferenceError: ANNOTATIONS is not defined
+    at Hero (components\sections\home\Hero.tsx:190:12)
+  188 |
+  189 |         <div className={styles.annotations} aria-hidden="true">
+> 190 |           {ANNOTATIONS.map((annotation, i) => (
+      |            ^
+  191 |             <div
+  192 |               key={annotation.label}
+  193 |               ref={(element) => { {
+  digest: '1423165961'
+}
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ReferenceError: Intro is not defined
+    at HomePage (app\page.tsx:14:8)
+  12 |     <>
+  13 |       <Hero />
+> 14 |       <Intro />
+     |        ^
+  15 |       <Manifesto />
+  16 |       <ServicesPreview />
+  17 |       <WorksFrame /> {
+  digest: '876223324'
+}
+ ⨯ ReferenceError: Intro is not defined
+    at HomePage (app\page.tsx:14:8)
+  12 |     <>
+  13 |       <Hero />
+> 14 |       <Intro />
+     |        ^
+  15 |       <Manifesto />
+  16 |       <ServicesPreview />
+  17 |       <WorksFrame /> {
+  digest: '876223324'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\.next-dev\cache\webpack\server-development\0.pack.gz'
+ ⨯ [Error: Cannot find module 'C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\.next-dev\server\middleware-manifest.json'
+Require stack:
+- C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\node_modules\next\dist\server\next-server.js
+- C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\node_modules\next\dist\server\dev\next-dev-server.js
+- C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\node_modules\next\dist\server\next.js
+- C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\node_modules\next\dist\server\lib\start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\.next-dev\cache\webpack\client-development\1.pack.gz'
+ ⨯ [Error: require() of ES Module C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\.next-dev\server\pages\_document.js from C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\node_modules\next\dist\server\require.js not supported.
+_document.js is treated as an ES module file as it is a .js file whose nearest parent package.json contains "type": "module" which declares all .js files in that package scope as ES modules.
+Instead either rename _document.js to end in .cjs, change the requiring code to use dynamic import() which is available in all CommonJS modules, or change "type": "module" to "type": "commonjs" in C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\package.json to treat all .js files as CommonJS (using .mjs for all ES modules instead).
+] {
+  code: 'ERR_REQUIRE_ESM'
+}
+[Error: Cannot find module 'C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\.next-dev\server\middleware-manifest.json'
+Require stack:
+- C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\node_modules\next\dist\server\next-server.js
+- C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\node_modules\next\dist\server\dev\next-dev-server.js
+- C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\node_modules\next\dist\server\next.js
+- C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\node_modules\next\dist\server\lib\start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: require() of ES Module C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\.next-dev\server\pages\_document.js from C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\node_modules\next\dist\server\require.js not supported.
+_document.js is treated as an ES module file as it is a .js file whose nearest parent package.json contains "type": "module" which declares all .js files in that package scope as ES modules.
+Instead either rename _document.js to end in .cjs, change the requiring code to use dynamic import() which is available in all CommonJS modules, or change "type": "module" to "type": "commonjs" in C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\package.json to treat all .js files as CommonJS (using .mjs for all ES modules instead).
+] {
+  code: 'ERR_REQUIRE_ESM'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\Rustam Gurbanov\Desktop\DigitalAgency_Saas\lab\005-agency\.next-dev\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\Rustam Gurbanov\\Desktop\\DigitalAgency_Saas\\lab\\005-agency\\.next-dev\\routes-manifest.json'
+}
+      0 [main] bash 17287 dofork: child -1 - forked process 31468 died unexpectedly, retry 0, exit code 0xC000026B, errno 11
+.dev-watchdog.sh: fork: retry: Resource temporarily unavailable

@@ -140,8 +140,8 @@
   margin-top: var(--space-2);
   height: 48px;
   padding: 0 var(--space-4);
-  background: var(--color-gold);
-  color: var(--color-noir);
+  background: var(--color-accent);
+  color: var(--color-bone);
   border-radius: var(--radius-control);
   font-family: var(--font-family-ui);
   font-size: 13px;

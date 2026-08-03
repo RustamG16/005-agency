@@ -34,16 +34,18 @@
 }
 
 .mark {
-  font-family: var(--font-family-display);
-  font-size: 15px;
-  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
   color: var(--color-bone);
+  /* Accent bar of the ramp — lightened variant so it holds on noir */
+  --logo-accent: var(--color-accent-on-noir);
   border: 1px solid transparent;
   transition: color 180ms var(--ease-out-sharp);
 }
 
 .header[data-theme="light"] .mark {
   color: var(--color-noir);
+  --logo-accent: var(--color-accent);
 }
 
 /* Segmented track — always dark chrome regardless of section theme */
@@ -134,8 +136,8 @@
   align-items: center;
   height: 40px;
   padding: 0 16px;
-  background: var(--color-gold);
-  color: var(--color-noir);
+  background: var(--color-accent);
+  color: var(--color-bone);
   border-radius: var(--radius-control);
   font-family: var(--font-family-ui);
   font-size: 12px;

@@ -45,7 +45,7 @@
 }
 
 .arrow {
-  color: var(--color-gold);
+  color: var(--color-accent-on-noir);
   width: clamp(28px, 4vw, 44px);
   height: auto;
   transform: rotate(-45deg);
@@ -60,13 +60,20 @@
 }
 
 .email {
+  /* Symbol footer pattern: contact path is the accent moment on noir */
   font-family: var(--font-family-serif);
   font-size: var(--font-subhead);
-  color: var(--color-bone);
+  color: var(--color-accent-on-noir);
   text-decoration: underline;
   text-underline-offset: 6px;
-  text-decoration-color: var(--color-gray);
+  text-decoration-color: var(--color-accent-on-noir);
+  transition: color 180ms var(--ease-out-sharp);
   width: fit-content;
+}
+
+.email:hover,
+.email:focus-visible {
+  color: var(--color-bone);
 }
 
 .contactCol {
@@ -121,4 +128,27 @@
     flex-direction: row;
     justify-content: space-between;
   }
+}
+
+/* Giant dark-grey wordmark — Symbol footer pattern (own wording), cropped at the page edge */
+.wordmarkWrap {
+  overflow: hidden;
+  width: 100%;
+  margin-top: var(--space-6);
+  margin-bottom: calc(-1 * var(--space-4)); /* cancels footer padding so glyphs meet the edge */
+  text-align: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.wordmark {
+  display: block;
+  font-family: var(--font-family-display);
+  font-size: 15.5vw;
+  line-height: 0.75;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-wordmark);
+  transform: translateY(14%); /* bottom of glyphs clipped by the wrap */
 }

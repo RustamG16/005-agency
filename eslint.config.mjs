@@ -9,6 +9,12 @@ const eslintConfig = [
   {
     ignores: [
       "scripts/**",
+      "_unused/**",
+      "archive/**",
+      "about_us/**",
+      "design_claude/**",
+      "design_claude_homepage/**",
+      "design_logo/**",
       "audit-shots/**",
       ".next/**",
       ".next-dev/**",

@@ -1,0 +1,17 @@
+.credit {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  letter-spacing: 0.04em;
+  color: var(--color-gray-on-noir);
+}
+
+.link {
+  color: inherit;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--duration-nav-hover) var(--ease-out-sharp);
+}
+
+.link:hover,
+.link:focus-visible {
+  border-bottom-color: currentColor;
+}

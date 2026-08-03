@@ -1,28 +1,17 @@
 import type { Metadata } from "next";
-import { AboutHero } from "@/components/sections/about/AboutHero";
-import { StudioModel } from "@/components/sections/about/StudioModel";
-import { Principles } from "@/components/sections/home/Principles";
-import { ProcessSteps } from "@/components/sections/about/ProcessSteps";
-import { CapabilitiesList } from "@/components/sections/about/CapabilitiesList";
-import { StudioFilm } from "@/components/sections/about/StudioFilm";
-import { AboutCta } from "@/components/sections/about/AboutCta";
+import { MonolithScene } from "@/components/sections/about/monolith/MonolithScene";
 
 export const metadata: Metadata = {
   title: "Studio",
   description:
-    "Convenium is an independent creative studio built around direct collaboration — strategy, identity and digital expression in one connected process.",
+    "Convenium is two people. Strategy, identity, web, content and media — carried personally from first call to launch.",
 };
 
+/**
+ * The Monolith. One WebGL object carries all six chapters, so the page demonstrates the
+ * studio's core service instead of describing it. This is the one interior page that
+ * opens dark; that inversion is deliberate.
+ */
 export default function AboutPage() {
-  return (
-    <>
-      <AboutHero />
-      <StudioModel />
-      <Principles />
-      <ProcessSteps />
-      <CapabilitiesList />
-      <StudioFilm />
-      <AboutCta />
-    </>
-  );
+  return <MonolithScene />;
 }

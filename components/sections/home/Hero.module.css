@@ -81,10 +81,10 @@
 }
 
 .scrollLine {
-  /* The hero's one gold moment (DESIGN-FIX-PLAN-3 FIX 3) — everything else in the overlay is bone. */
+  /* The hero's one accent moment (DESIGN-FIX-PLAN-3 FIX 3) — everything else in the overlay is bone. */
   width: 1px;
   height: 28px;
-  background: var(--color-gold);
+  background: var(--color-accent-on-noir);
   animation: scrollPulse 2s ease-in-out infinite;
 }
 

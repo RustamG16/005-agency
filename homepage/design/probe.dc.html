@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Newsreader:ital,wght@0,400;0,500&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #1B1717; }
+</style>
+<script type="module" src="./guide-radial.js"></script>
+</helmet>
+<div style="min-height:100vh;padding:10px;display:grid;gap:10px;font-family:Inter,sans-serif;color:#A8A29A">
+  <div style="display:flex;gap:10px">
+    <div style="position:relative;width:520px;height:440px;background:#EDEBDD;border:1px solid #D6D2C2">
+      <guide-corner ground="cotton" state="open" bubble="paper" chapter="2"></guide-corner>
+    </div>
+    <div style="position:relative;width:340px;height:440px;background:#1B1717;border:1px solid #241F1F">
+      <guide-corner ground="noir" bubble="paper" chapter="3" live></guide-corner>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:flex-start">
+    <div style="background:#EDEBDD;padding:8px;display:flex;gap:8px;align-items:flex-end">
+      <guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="full" style="width:104px;height:104px"></guide-puck>
+      <guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="waist" style="width:104px;height:104px"></guide-puck>
+      <guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="head" style="width:104px;height:104px"></guide-puck>
+      <guide-puck remap="cherry-lift" parts="noir" eye="paper" frame="waist" style="width:76px;height:76px"></guide-puck>
+      <guide-puck remap="cherry" parts="noir" eye="chili" frame="waist" style="width:104px;height:104px"></guide-puck>
+      <guide-puck remap="cherry" parts="noir" eye="hot" frame="waist" style="width:104px;height:104px"></guide-puck>
+      <guide-puck remap="cherry" parts="map" eye="paper" frame="waist" style="width:104px;height:104px"></guide-puck>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>

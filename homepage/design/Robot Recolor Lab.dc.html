@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  body { margin: 0; background: #1b1717; }
+</style>
+<script type="module" src="./robot-lab.js"></script>
+</helmet>
+<div style="min-height:100vh;background:#1b1717;display:grid;grid-template-rows:auto 1fr;gap:24px;padding:24px;font-family:Inter,system-ui,sans-serif">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;color:#a8a29a;font-size:12px;letter-spacing:0.08em;text-transform:uppercase">
+    <span>Recolor lab — repo_robot.glb</span>
+    <span>ink shell / noir parts / chili eye</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr;place-items:center;min-height:70vh">
+    <robot-lab src="uploads/repo_robot.glb" style="width:min(900px,100%);aspect-ratio:16/10;display:block"></robot-lab>
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>

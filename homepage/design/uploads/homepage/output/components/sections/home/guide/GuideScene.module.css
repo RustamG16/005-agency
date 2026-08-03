@@ -1,0 +1,53 @@
+.root {
+  position: relative;
+}
+
+/* One scroll beat of absence between the film exit and the live entry (spec §2). */
+.beat {
+  height: 55vh;
+  background: var(--color-noir);
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.stage[data-pose="hero"] {
+  inset: auto auto auto 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 999;
+  background: var(--color-noir);
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ≤768px: no canvas. Static renders captured from this same scene. */
+.pose {
+  position: absolute;
+  width: 132px;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.pose[data-side="left"] {
+  left: var(--space-container);
+}
+
+.pose[data-side="right"] {
+  right: var(--space-container);
+}

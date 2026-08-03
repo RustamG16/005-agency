@@ -8,6 +8,7 @@ import { site } from "@/content/site";
 import { useHeaderTheme } from "./HeaderThemeContext";
 import { MobileMenu } from "./MobileMenu";
 import { ArrowUpIcon } from "@/components/ui/Icons";
+import { Lockup } from "@/components/ui/Logo";
 import styles from "./Header.module.css";
 
 export function Header() {
@@ -49,7 +50,7 @@ export function Header() {
       <header className={styles.header} data-theme={theme}>
         <div className={styles.side}>
           <Link href="/" className={styles.mark} aria-label={`${site.name} — home`}>
-            {site.monogram}
+            <Lockup size={22} accentIndex={3} animate />
           </Link>
         </div>
 

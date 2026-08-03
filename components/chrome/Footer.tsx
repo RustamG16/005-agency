@@ -56,6 +56,10 @@ export function Footer() {
             Privacy
           </Link>
         </div>
+
+        <div className={styles.wordmarkWrap} aria-hidden="true">
+          <span className={styles.wordmark}>Convenium</span>
+        </div>
       </footer>
     </HeaderZone>
   );

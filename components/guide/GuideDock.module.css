@@ -1,0 +1,64 @@
+/* The Guide — site-wide mount point.
+ *
+ * `.root` is the fixed, full-viewport, click-through layer.
+ *
+ * REVISED 2026-08-03 (Russ): the dock no longer travels the viewport edges.
+ * The robot and his pad are locked to a stage in the bottom-right corner; he is
+ * draggable WITHIN that stage and walks back to the pad on release. The stage
+ * grew from the locked 104/76px to 180/130px, because a full standing figure
+ * plus a platform loses the eye at 104px (DESIGN-LOCK §2's own squint test). */
+
+.root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  /* Above the header (100) and the grain overlay (90), below the mobile menu
+     and skip link (200) so an open menu covers the guide. The repo has no
+     z-index tokens; this is the first value at this layer. */
+  z-index: 150;
+}
+
+.dock {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  width: 180px;
+  height: 180px;
+  pointer-events: none;
+  /* He is absent over the hero and simply appears once you are past it — no
+     choreographed hand-off. */
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--duration-reveal) var(--ease-out-sharp),
+    visibility 0s linear var(--duration-reveal);
+}
+
+.dock[data-visible="true"] {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--duration-reveal) var(--ease-out-sharp),
+    visibility 0s linear 0s;
+}
+
+@media (max-width: 520px) {
+  .dock {
+    right: 12px;
+    bottom: 12px;
+    width: 130px;
+    height: 130px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock {
+    transition-duration: 0ms;
+  }
+}
+
+@media print {
+  .root {
+    display: none;
+  }
+}

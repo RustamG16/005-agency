@@ -1,0 +1,102 @@
+.root {
+  position: relative;
+  background: var(--color-noir);
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--color-noir);
+}
+
+.ink,
+.poster,
+.film {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ink {
+  background: var(--color-noir);
+}
+
+.poster,
+.film {
+  object-fit: cover;
+}
+
+/* The film sits over the poster once it can actually paint frames. */
+.stage[data-film="idle"] .film,
+.stage[data-film="stalled"] .film {
+  opacity: 0;
+}
+
+.copy {
+  position: absolute;
+  left: var(--space-container);
+  right: var(--space-container);
+  bottom: var(--space-6);
+  display: grid;
+  gap: var(--space-2);
+  max-width: 18ch;
+}
+
+.h1 {
+  font-family: var(--font-family-display);
+  font-size: var(--font-hero);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+  color: var(--color-cotton);
+  text-transform: none;
+}
+
+.support {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-body);
+  line-height: 1.4;
+  color: var(--color-gray-on-noir);
+  max-width: 34ch;
+}
+
+/* Preloader — noir to noir, no white flash anywhere in the sequence. */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: var(--color-noir);
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-3);
+}
+
+.wordmark {
+  font-family: var(--font-family-display);
+  font-size: var(--font-display);
+  letter-spacing: 0.02em;
+  color: var(--color-cotton);
+  line-height: 1;
+}
+
+.counter {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  letter-spacing: 0.18em;
+  color: var(--color-gray-on-noir);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 768px) {
+  .stage {
+    height: 78svh;
+  }
+
+  .copy {
+    bottom: var(--space-4);
+    max-width: none;
+  }
+}

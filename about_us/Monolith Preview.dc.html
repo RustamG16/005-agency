@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Newsreader:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #050505; }
+  body { overflow-x: hidden; }
+  h1, h2, p, ul, li { margin: 0; padding: 0; list-style: none; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: #eeede8; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script type="module">
+  import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js";
+  window.THREE = THREE;
+</script>
+</helmet>
+
+<div id="mono-root" style="position: relative; background: #050505; color: #eeede8; font-family: Inter, sans-serif;">
+
+  <div id="mono-stage" style="position: sticky; top: 0; height: 100vh; margin-bottom: -100vh; z-index: 0; overflow: hidden; background: #050505;">
+    <canvas id="mono-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;"></canvas>
+  </div>
+
+  <div style="position: relative; z-index: 1;">
+
+    <section data-screen-label="01 Arrival" style="min-height: 120vh;">
+      <div style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center;">
+        <div style="width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 clamp(1rem, 0.443rem + 2.286vw, 2.5rem); display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; row-gap: 24px;">
+          <h1 data-head style="grid-column: 1 / span 12; justify-self: center; text-align: center; max-width: 20ch; font-family: 'Archivo Black', Arial Black, sans-serif; font-size: clamp(3rem, 2.07rem + 3.81vw, 5.5rem); line-height: 0.9; text-transform: uppercase; color: #eeede8;">Convenium is two people.</h1>
+        </div>
+      </div>
+    </section>
+
+    <section data-screen-label="02 Position" style="min-height: 160vh;">
+      <div style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center;">
+        <div style="width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 clamp(1rem, 0.443rem + 2.286vw, 2.5rem); display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px;">
+          <p data-head style="grid-column: 1 / span 5; max-width: 600px; font-family: Newsreader, Georgia, serif; font-size: clamp(1.375rem, 1.19rem + 0.76vw, 2rem); line-height: 1.3; color: #eeede8; text-wrap: pretty;">Small by design. The people you meet are the people who make the work — strategy, identity, web, content and media, carried personally from first call to launch.</p>
+        </div>
+      </div>
+    </section>
+
+    <section data-screen-label="03 Identity" style="min-height: 220vh;">
+      <div style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center;">
+        <div style="width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 clamp(1rem, 0.443rem + 2.286vw, 2.5rem); display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; row-gap: 24px;">
+          <p style="grid-column: 1 / span 5; font-size: clamp(0.6875rem, 0.664rem + 0.095vw, 0.75rem); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #a8a69e;">Identity · Graphic design</p>
+          <h2 data-head style="grid-column: 1 / span 5; font-family: 'Archivo Black', Arial Black, sans-serif; font-size: clamp(2.25rem, 1.6rem + 2.67vw, 4rem); line-height: 0.95; text-transform: uppercase; color: #eeede8;">Systems, not one-offs.</h2>
+          <p data-body style="grid-column: 1 / span 5; max-width: 600px; font-family: Newsreader, Georgia, serif; font-size: clamp(1.125rem, 1.03rem + 0.38vw, 1.375rem); line-height: 1.35; color: #eeede8; text-wrap: pretty;">Identity and graphic design built to extend — a brand should get stronger with use, not need a redesign in a year.</p>
+        </div>
+      </div>
+    </section>
+
+    <section data-screen-label="04 Web and 3D" style="min-height: 220vh;">
+      <div style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center;">
+        <div style="width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 clamp(1rem, 0.443rem + 2.286vw, 2.5rem); display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; row-gap: 24px;">
+          <p style="grid-column: 1 / span 5; font-size: clamp(0.6875rem, 0.664rem + 0.095vw, 0.75rem); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #a8a69e;">Web · 3D · Motion</p>
+          <h2 data-head style="grid-column: 1 / span 5; font-family: 'Archivo Black', Arial Black, sans-serif; font-size: clamp(2.25rem, 1.6rem + 2.67vw, 4rem); line-height: 0.95; text-transform: uppercase; color: #eeede8;">This page is the portfolio.</h2>
+          <p data-body style="grid-column: 1 / span 5; max-width: 600px; font-family: Newsreader, Georgia, serif; font-size: clamp(1.125rem, 1.03rem + 0.38vw, 1.375rem); line-height: 1.35; color: #eeede8; text-wrap: pretty;">Scroll-driven, real-time 3D, built in-house. What you are watching is what we ship.</p>
+        </div>
+      </div>
+    </section>
+
+    <section data-screen-label="05 Content and the two of us" style="min-height: 180vh;">
+      <div style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center;">
+        <div style="width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 clamp(1rem, 0.443rem + 2.286vw, 2.5rem); display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; row-gap: 16px;">
+          <h2 data-head style="grid-column: 7 / span 6; font-family: 'Archivo Black', Arial Black, sans-serif; font-size: clamp(2.25rem, 1.6rem + 2.67vw, 4rem); line-height: 0.95; text-transform: uppercase; color: #eeede8;">Made, not sourced.</h2>
+          <p data-body style="grid-column: 7 / span 6; max-width: 600px; font-family: Newsreader, Georgia, serif; font-size: clamp(1.125rem, 1.03rem + 0.38vw, 1.375rem); line-height: 1.35; color: #eeede8;">Content, campaigns and social — produced in the studio, tuned per platform.</p>
+          <ul data-body style="grid-column: 7 / span 6; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 8px;">
+            <li style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="aspect-ratio: 3 / 4; max-height: 260px; border-radius: 10px; overflow: hidden; background: #171717; border: 1px solid rgba(202, 200, 192, 0.22); margin-bottom: 12px;"></div>
+              <p style="font-family: 'Archivo Black', Arial Black, sans-serif; font-size: clamp(1.5rem, 1.29rem + 0.86vw, 2.25rem); line-height: 1; text-transform: uppercase; color: #eeede8;">Marija</p>
+              <p style="font-size: clamp(0.6875rem, 0.664rem + 0.095vw, 0.75rem); text-transform: uppercase; letter-spacing: 0.08em; color: #a8a69e;">Co-founder</p>
+              <p style="font-size: clamp(0.6875rem, 0.664rem + 0.095vw, 0.75rem); text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.7; color: #a8a69e;">Graphic design · Brand applications · Content · Social</p>
+            </li>
+            <li style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="aspect-ratio: 3 / 4; max-height: 260px; border-radius: 10px; overflow: hidden; background: #171717; border: 1px solid rgba(202, 200, 192, 0.22); margin-bottom: 12px;"></div>
+              <p style="font-family: 'Archivo Black', Arial Black, sans-serif; font-size: clamp(1.5rem, 1.29rem + 0.86vw, 2.25rem); line-height: 1; text-transform: uppercase; color: #eeede8;">Rustam</p>
+              <p style="font-size: clamp(0.6875rem, 0.664rem + 0.095vw, 0.75rem); text-transform: uppercase; letter-spacing: 0.08em; color: #a8a69e;">Co-founder</p>
+              <p style="font-size: clamp(0.6875rem, 0.664rem + 0.095vw, 0.75rem); text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.7; color: #a8a69e;">Direction &amp; strategy · Web &amp; 3D · Motion · Marketing &amp; ads</p>
+            </li>
+          </ul>
+          <p data-body style="grid-column: 7 / span 6; margin-top: 8px; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: clamp(1.125rem, 1.03rem + 0.38vw, 1.375rem); color: #eeede8;">Everything above was made by the two of us.</p>
+        </div>
+      </div>
+    </section>
+
+    <section data-screen-label="06 Going up" style="min-height: 100vh;">
+      <div style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center;">
+        <div style="width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 clamp(1rem, 0.443rem + 2.286vw, 2.5rem); display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; row-gap: 16px;">
+          <h2 data-head style="grid-column: 1 / span 12; justify-self: center; text-align: center; font-family: 'Archivo Black', Arial Black, sans-serif; font-size: clamp(3rem, 1.89rem + 4.57vw, 6rem); line-height: 0.92; text-transform: uppercase; color: #eeede8;">Going up?</h2>
+          <p data-body style="grid-column: 1 / span 12; justify-self: center; text-align: center; font-family: Newsreader, Georgia, serif; font-size: clamp(1.125rem, 1.03rem + 0.38vw, 1.375rem); color: #eeede8;">One conversation. Both founders.</p>
+          <p data-body style="grid-column: 1 / span 12; justify-self: center; text-align: center;">
+            <a id="mono-email" href="mailto:hello@convenium.studio" style="position: relative; display: inline-block; font-size: clamp(1.125rem, 1.03rem + 0.38vw, 1.375rem); color: #eeede8;">hello@convenium.studio</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    this._boot();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this._retry);
+    this._cleanup && this._cleanup();
+  }
+
+  _boot() {
+    const THREE = window.THREE, gsap = window.gsap, ScrollTrigger = window.ScrollTrigger;
+    if (!THREE || !gsap || !ScrollTrigger) {
+      this._retry = setTimeout(() => this._boot(), 60);
+      return;
+    }
+    gsap.registerPlugin(ScrollTrigger);
+    this._scene(THREE, gsap, ScrollTrigger);
+    this._copy(gsap);
+    this._hover();
+  }
+
+  /* ---- underline: accent render #3 ---- */
+  _hover() {
+    const a = document.getElementById("mono-email");
+    if (!a) return;
+    const rule = document.createElement("style");
+    rule.textContent =
+      "#mono-email::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:1px;background:#c1554d;transform:scaleX(0);transform-origin:left center;transition:transform 260ms cubic-bezier(.16,1,.3,1)}" +
+      "#mono-email:hover::after{transform:scaleX(1)}";
+    document.head.appendChild(rule);
+  }
+
+  /* ---- chapter copy reveals ---- */
+  _copy(gsap) {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.querySelectorAll("[data-head]").forEach((el) => {
+      const trigger = { trigger: el, start: "top 82%", once: true };
+      if (reduced || !window.SplitText) {
+        gsap.from(el, { autoAlpha: 0, duration: 0.32, scrollTrigger: trigger });
+        return;
+      }
+      window.SplitText.create(el, {
+        type: "lines",
+        mask: "lines",
+        autoSplit: true,
+        onSplit(self) {
+          return gsap.from(self.lines, {
+            yPercent: 100,
+            duration: 0.42,
+            ease: "expo.out",
+            stagger: 0.06,
+            scrollTrigger: trigger,
+          });
+        },
+      });
+    });
+    document.querySelectorAll("[data-body]").forEach((el) => {
+      gsap.from(el, {
+        autoAlpha: 0,
+        y: reduced ? 0 : 24,
+        duration: 0.42,
+        ease: "expo.out",
+        scrollTrigger: { trigger: el, start: "top 85%", once: true },
+      });
+    });
+  }
+
+  /* ---- artifact textures (CanvasTexture, drawn in code) ---- */
+  _artifact(THREE, kind) {
+    const s = 512, c = document.createElement("canvas");
+    c.width = c.height = s;
+    const g = c.getContext("2d");
+    g.fillStyle = "#eeede8"; g.fillRect(0, 0, s, s);
+    g.strokeStyle = "#171717"; g.fillStyle = "#171717"; g.lineWidth = 2;
+    if (kind === 0) {
+      g.globalAlpha = 0.32;
+      for (let y = 48; y < s; y += 32) { g.beginPath(); g.moveTo(40, y); g.lineTo(s - 40, y); g.stroke(); }
+      g.globalAlpha = 1;
+      g.fillRect(40, 48, 168, 96); g.fillRect(40, 176, 300, 8); g.fillRect(40, 208, 232, 8);
+    } else if (kind === 1) {
+      g.strokeRect(96, 72, 232, 300);
+      g.globalAlpha = 0.5;
+      g.beginPath(); g.moveTo(96, 404); g.lineTo(328, 404);
+      g.moveTo(96, 396); g.lineTo(96, 412); g.moveTo(328, 396); g.lineTo(328, 412); g.stroke();
+      g.globalAlpha = 1;
+      g.font = "600 26px ui-sans-serif, system-ui, sans-serif";
+      g.fillText("448 × 580", 96, 452);
+    } else if (kind === 2) {
+      g.font = "900 520px ui-sans-serif, system-ui, sans-serif";
+      g.fillText("C", -30, 452);
+    } else if (kind === 3) {
+      [392, 296, 344, 208, 264].forEach((w, i) => g.fillRect(56, 88 + i * 76, w, 30));
+    } else if (kind === 4) {
+      g.globalAlpha = 0.6;
+      for (let y = 64; y <= s - 64; y += 48)
+        for (let x = 64; x <= s - 64; x += 48) { g.beginPath(); g.arc(x, y, 4, 0, Math.PI * 2); g.fill(); }
+      g.globalAlpha = 1;
+    } else if (kind === 5) {
+      g.globalAlpha = 0.35;
+      for (let i = 0; i <= 12; i++) {
+        const x = 56 + (i * (s - 112)) / 12;
+        g.beginPath(); g.moveTo(x, 56); g.lineTo(x, s - 96); g.stroke();
+      }
+      g.globalAlpha = 1;
+      g.font = "600 24px ui-sans-serif, system-ui, sans-serif";
+      g.fillText("GRID / 12", 56, s - 48);
+    } else {
+      g.lineWidth = 3;
+      g.strokeRect(112, 112, 288, 288);
+      g.beginPath(); g.moveTo(112, 112); g.lineTo(400, 400); g.moveTo(400, 112); g.lineTo(112, 400); g.stroke();
+      g.globalAlpha = 0.4; g.beginPath(); g.arc(256, 256, 144, 0, Math.PI * 2); g.stroke(); g.globalAlpha = 1;
+    }
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }
+
+  _screenTexture(THREE) {
+    const s = 512, c = document.createElement("canvas");
+    c.width = c.height = s;
+    const g = c.getContext("2d");
+    g.fillStyle = "#171717"; g.fillRect(0, 0, s, s);
+    g.strokeStyle = "#777771"; g.lineWidth = 1; g.globalAlpha = 0.18;
+    for (let y = 0; y < s; y += 6) { g.beginPath(); g.moveTo(0, y + 0.5); g.lineTo(s, y + 0.5); g.stroke(); }
+    g.globalAlpha = 0.45; g.strokeRect(96.5, 96.5, 319, 319); g.globalAlpha = 1;
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }
+
+  _scene(THREE, gsap, ScrollTrigger) {
+    const root = document.getElementById("mono-root");
+    const stage = document.getElementById("mono-stage");
+    const canvas = document.getElementById("mono-canvas");
+    if (!root || !stage || !canvas) return;
+
+    const FACE_W = 1.4, FACE_H = FACE_W * (580 / 448), DEPTH = FACE_W * 0.25;
+    const COLS = 3, ROWS = 4, LAYERS = 2;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.shadowMap.enabled = false;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x050505);
+    const key = new THREE.DirectionalLight(0xfff1e2, 2.5); key.position.set(2.6, 3.2, 3.4); scene.add(key);
+    const fill = new THREE.DirectionalLight(0xdfe4ea, 0.5); fill.position.set(-3.2, -1.2, 1.8); scene.add(fill);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.22));
+
+    const rig = new THREE.Object3D();
+    const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+    camera.position.set(0, 0, 4.2);
+    rig.add(camera); scene.add(rig);
+
+    const group = new THREE.Group(); scene.add(group);
+    const sw = FACE_W / COLS, sh = FACE_H / ROWS, sd = DEPTH / LAYERS;
+    const body = new THREE.MeshStandardMaterial({ color: 0x171717, roughness: 0.86, metalness: 0.02, transparent: true, opacity: 1 });
+    const shardGeo = new THREE.BoxGeometry(sw, sh, sd);
+    const artGeo = new THREE.PlaneGeometry(sw * 0.82, sh * 0.82);
+    const shards = [], rest = [], exploded = [], artifacts = [];
+    const EX = 2.05, EY = 1.5, EZ = 5.2;
+    let artCount = 0;
+
+    for (let k = 0; k < LAYERS; k++)
+      for (let j = 0; j < ROWS; j++)
+        for (let i = 0; i < COLS; i++) {
+          const x = (i - (COLS - 1) / 2) * sw, y = (j - (ROWS - 1) / 2) * sh, z = (k - (LAYERS - 1) / 2) * sd;
+          const mesh = new THREE.Mesh(shardGeo, body);
+          mesh.position.set(x, y, z);
+          group.add(mesh);
+          shards.push(mesh);
+          rest.push({ x, y, z });
+          exploded.push({ x: x * EX, y: y * EY, z: z * EZ });
+          if (k === LAYERS - 1 && artCount < 7 && (i + j) % 2 === 0) {
+            const mat = new THREE.MeshBasicMaterial({ map: this._artifact(THREE, artCount), transparent: true, opacity: 0, toneMapped: false });
+            const plane = new THREE.Mesh(artGeo, mat);
+            plane.position.z = sd / 2 + 0.003;
+            plane.renderOrder = 1;
+            mesh.add(plane);
+            artifacts.push(mat);
+            artCount++;
+          }
+        }
+
+    const wireSrc = new THREE.BoxGeometry(FACE_W, FACE_H, DEPTH, COLS, ROWS, LAYERS);
+    const wireGeo = new THREE.WireframeGeometry(wireSrc); wireSrc.dispose();
+    const wireMat = new THREE.LineBasicMaterial({ color: 0xcac8c0, transparent: true, opacity: 0 });
+    group.add(new THREE.LineSegments(wireGeo, wireMat));
+
+    const screenMat = new THREE.MeshBasicMaterial({ map: this._screenTexture(THREE), transparent: true, opacity: 0, toneMapped: false });
+    const screen = new THREE.Mesh(new THREE.PlaneGeometry(FACE_W * 0.86, FACE_H * 0.86), screenMat);
+    screen.position.z = DEPTH / 2 + 0.004; screen.renderOrder = 2; group.add(screen);
+
+    const seamGeo = new THREE.PlaneGeometry(0.006, FACE_H);
+    seamGeo.translate(0, -FACE_H / 2, 0);
+    const seamMat = new THREE.MeshBasicMaterial({ color: 0xc1554d, transparent: true, opacity: 0, toneMapped: false, side: THREE.DoubleSide });
+    const seam = new THREE.Mesh(seamGeo, seamMat);
+    seam.position.set(FACE_W / 2 - 0.005, FACE_H / 2, DEPTH / 2 + 0.003);
+    seam.renderOrder = 3; group.add(seam);
+
+    const resize = () => {
+      const w = stage.clientWidth, h = stage.clientHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / Math.max(1, h);
+      camera.updateProjectionMatrix();
+    };
+    resize();
+
+    const tl = gsap.timeline({ paused: true });
+    tl.to(rig.rotation, { y: 0.06, duration: 0.12, ease: "none" }, 0);
+    tl.to(group.rotation, { y: 0.035, duration: 0.12, ease: "none" }, 0);
+
+    tl.to(rig.rotation, { y: 0.61, duration: 0.16, ease: "power1.inOut" }, 0.12);
+    tl.to(camera.position, { x: -0.72, z: 4.6, duration: 0.16, ease: "power1.inOut" }, 0.12);
+    tl.to(group.rotation, { y: 0.055, duration: 0.16, ease: "none" }, 0.12);
+
+    tl.to(camera.position, { x: -0.5, z: 6.4, duration: 0.12, ease: "power2.inOut" }, 0.28);
+    tl.to(rig.rotation, { y: 0.42, duration: 0.22, ease: "power1.inOut" }, 0.28);
+    shards.forEach((m, i) => {
+      tl.to(m.position, { x: exploded[i].x, y: exploded[i].y, z: exploded[i].z, duration: 0.1, ease: "power3.out" }, 0.28 + i * 0.0022);
+    });
+    tl.to(artifacts, { opacity: 1, duration: 0.05, stagger: 0.004, ease: "none" }, 0.35);
+    tl.to(group.rotation, { y: 0.1, duration: 0.1, ease: "sine.inOut" }, 0.4);
+
+    shards.forEach((m, i) => {
+      tl.to(m.position, { x: rest[i].x, y: rest[i].y, z: rest[i].z, duration: 0.08, ease: "power2.inOut" }, 0.5 + i * 0.0015);
+    });
+    tl.to(artifacts, { opacity: 0, duration: 0.04, ease: "none" }, 0.5);
+    tl.to(camera.position, { x: -0.7, z: 4.8, duration: 0.1, ease: "power2.inOut" }, 0.5);
+    tl.to(rig.rotation, { y: 0.3, duration: 0.22, ease: "power1.inOut" }, 0.5);
+    tl.to(group.rotation, { y: 0.02, duration: 0.22, ease: "power1.inOut" }, 0.5);
+    tl.to(wireMat, { opacity: 0.85, duration: 0.04, ease: "none" }, 0.6);
+    tl.to(body, { opacity: 0.05, duration: 0.04, ease: "none" }, 0.6);
+    tl.to(body, { opacity: 1, duration: 0.05, ease: "power2.out" }, 0.66);
+    tl.to(wireMat, { opacity: 0, duration: 0.05, ease: "none" }, 0.665);
+
+    tl.to(rig.rotation, { y: 0, duration: 0.08, ease: "power2.inOut" }, 0.72);
+    tl.to(group.rotation, { y: 0, duration: 0.08, ease: "power2.inOut" }, 0.72);
+    tl.to(camera.position, { x: 0.82, z: 3.4, duration: 0.08, ease: "power2.inOut" }, 0.72);
+    tl.to(screenMat, { opacity: 1, duration: 0.045, ease: "none" }, 0.755);
+
+    tl.to(screenMat, { opacity: 0, duration: 0.035, ease: "none" }, 0.9);
+    tl.to(camera.position, { x: 0, z: 4.2, duration: 0.1, ease: "power2.inOut" }, 0.9);
+    tl.to(rig.rotation, { y: 0.06, duration: 0.1, ease: "power2.inOut" }, 0.9);
+    tl.fromTo(seam.scale, { y: 0.02 }, { y: 1, duration: 0.08, ease: "power3.out" }, 0.92);
+    tl.to(seamMat, { opacity: 1, duration: 0.015, ease: "power2.out" }, 0.92);
+    tl.to({}, { duration: 0 }, 1);
+
+    const st = ScrollTrigger.create({
+      trigger: root, start: "top top", end: "bottom bottom", scrub: 0.3, animation: tl,
+    });
+
+    const float = gsap.to(group.position, { y: 0.045, duration: 6.5, ease: "sine.inOut", repeat: -1, yoyo: true });
+
+    /* Review hook: lets the design review step a chapter state without scrolling. */
+    window.__mono = {
+      tl, st, renderer, scene, camera,
+      probe(p) {
+        float.pause();
+        tl.progress(p);
+        renderer.render(scene, camera);
+        const gl = renderer.getContext();
+        const w = gl.drawingBufferWidth, h = gl.drawingBufferHeight;
+        const px = new Uint8Array(w * h * 4);
+        gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, px);
+        let lit = 0, bone = 0, accent = 0, minX = w, maxX = 0, minY = h, maxY = 0;
+        for (let y = 0; y < h; y += 2)
+          for (let x = 0; x < w; x += 2) {
+            const i = (y * w + x) * 4, r = px[i], g2 = px[i + 1], b = px[i + 2];
+            if (r > 14 || g2 > 14 || b > 14) {
+              lit++;
+              if (x < minX) minX = x; if (x > maxX) maxX = x;
+              if (y < minY) minY = y; if (y > maxY) maxY = y;
+              if (r > 120 && g2 > 120 && b > 110) bone++;
+              if (r > 110 && g2 < 110 && b < 110 && r - b > 40) accent++;
+            }
+          }
+        return {
+          p, lit, bone, accent,
+          box: [minX, minY, maxX, maxY],
+          cx: +(((minX + maxX) / 2 / w) * 100).toFixed(1),
+        };
+      },
+    };
+
+    let onScreen = true, hidden = document.hidden;
+    const render = () => { if (onScreen && !hidden) renderer.render(scene, camera); };
+    gsap.ticker.add(render);
+    const io = new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }, { threshold: 0 });
+    io.observe(stage);
+    const onVis = () => { hidden = document.hidden; };
+    document.addEventListener("visibilitychange", onVis);
+    window.addEventListener("resize", resize);
+
+    this._cleanup = () => {
+      gsap.ticker.remove(render);
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVis);
+      window.removeEventListener("resize", resize);
+      st.kill(); tl.kill(); float.kill();
+      shardGeo.dispose(); artGeo.dispose(); wireGeo.dispose(); seamGeo.dispose();
+      artifacts.forEach((m) => { m.map && m.map.dispose(); m.dispose(); });
+      body.dispose(); wireMat.dispose(); screenMat.dispose(); seamMat.dispose();
+      renderer.dispose();
+    };
+  }
+
+  renderVals() {
+    return {};
+  }
+}
+
+</script>
+</body>
+</html>

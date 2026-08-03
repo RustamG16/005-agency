@@ -192,25 +192,40 @@ Use thin editorial rules to group related content. Proximity should communicate 
 
 ## Color system
 
-| Token | Value | Use |
-| --- | --- | --- |
-| Noir | `#050505` | Primary background and chrome |
-| Bone | `#EEEDE8` | Page field and primary inverse text |
-| Paper | `#F8F7F2` | Project surfaces |
-| Ink | `#171717` | Secondary dark surface |
-| Gray | `#777771` | Metadata and secondary copy |
-| Hairline | `#CAC8C0` | Dividers and grid rules |
-| Old gold | `#B18A46` | Three controlled UI treatments only |
+| Token | Value | Use | Measured |
+| --- | --- | --- | --- |
+| Noir | `#1B1717` | Primary background and chrome | — |
+| Cotton | `#EDEBDD` | Page field and primary inverse text | 14.85:1 on noir |
+| Paper | `#F5F3E8` | Project surfaces | — |
+| Ink | `#241F1F` | Body text on cotton | 13.5:1 on cotton |
+| Gray | `#6E6963` | Metadata and secondary copy | 4.53:1 on cotton |
+| Gray on noir | `#A8A29A` | Eyebrows inside dark sections | 7.02:1 on noir |
+| Hairline | `#D6D2C2` | Dividers and grid rules | — |
+| Cherry | `#810100` | Solid red field; accent text on cotton | 9.03:1 with cotton |
+| Maroon | `#630000` | Depth step only — hover, borders, darker band | 11.67:1 with cotton |
+| Chili | `#D73B3E` | Graphic accent on noir; display type ≥24px | 3.88:1 on noir |
+| Chili 300 | `#E5595C` | Accent text at body size on noir | 4.97:1 on noir |
 
-### Gold rule
+Gold `#B18A46` is retired. The three former gold treatments now carry cherry on
+cotton and Chili 300 on noir.
 
-Gold is used in exactly three interface treatments:
+### Red rule
 
-1. `START A PROJECT` control and its mobile equivalent.
-2. Manifesto level indicator.
-3. Final footer arrow or full stop.
+The three reds are roles, not interchangeable swatches.
 
-The warm light and gold material already present inside the film are photographic content and are not counted as interface accents.
+1. **Cherry** is the only red that may be a solid field carrying cotton text, and
+   the only red used as text on cotton.
+2. **Maroon** never appears as text and never sits beside cherry as an equal —
+   the two are 1.29:1 apart and read as a printing fault. It exists to give red
+   surfaces depth: hover fills, card borders, the darker half of a two-tone band.
+3. **Chili** is the bright accent. Below 24px on noir it fails AA, so body-size
+   accent text uses Chili 300 instead. Chili itself stays on rules, marks,
+   underlines, dots and large display type.
+
+Cotton is the text colour on every red field. Never noir on cherry or maroon.
+
+The warm light and metal already present inside the film are photographic content
+and are not counted as interface accents.
 
 ### Hero grade
 

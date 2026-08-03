@@ -1,0 +1,98 @@
+/* Speech bubble — DESIGN-LOCK §5.
+ *
+ * Two nested elements on purpose: `.anchor` carries the position (written
+ * directly every frame, never transitioned, so it cannot lag the head
+ * mid-drag), `.bubble` carries the enter/exit motion. Splitting them keeps the
+ * 4px rise off the same transform as the tracking. */
+
+.anchor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.bubble {
+  position: relative;
+  box-sizing: border-box;
+  width: max-content;
+  min-width: 176px;
+  max-width: 264px;
+  padding: 12px 14px;
+  display: grid;
+  gap: 6px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-hairline);
+  /* 2px, not --radius-card. The Ask panel owns 10px and the two must not read
+     as the same object (lock §5). No token exists at this value. */
+  border-radius: 2px;
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(4px);
+  transition:
+    opacity 200ms var(--ease-out-sharp),
+    clip-path 200ms var(--ease-out-sharp),
+    transform 200ms var(--ease-out-sharp);
+}
+
+.bubble[data-open="true"] {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  transform: translateY(0);
+  transition-duration: var(--duration-reveal);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.line {
+  margin: 0;
+  font-family: var(--font-family-serif);
+  font-size: 17px;
+  line-height: 1.32;
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+
+/* 11px square rotated 45°, hairline on the two exposed sides. Slides along the
+   bottom edge to sit under the crown, clamped 18px from either end. */
+.tail {
+  position: absolute;
+  left: var(--tail-x, 50%);
+  width: 11px;
+  height: 11px;
+  margin-left: -5.5px;
+  background: var(--color-paper);
+  transform: rotate(45deg);
+  border-radius: 1px;
+  border: 0;
+}
+
+.bubble[data-flip="above"] .tail {
+  bottom: -6px;
+  border-bottom: 1px solid var(--color-hairline);
+  border-right: 1px solid var(--color-hairline);
+}
+
+.bubble[data-flip="below"] .tail {
+  top: -6px;
+  border-top: 1px solid var(--color-hairline);
+  border-left: 1px solid var(--color-hairline);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble {
+    transition-duration: 0ms;
+  }
+
+  .bubble[data-open="true"] {
+    transition-duration: 0ms;
+  }
+}

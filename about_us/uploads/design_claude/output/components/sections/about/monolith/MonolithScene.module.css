@@ -1,0 +1,62 @@
+.root {
+  position: relative;
+  background: var(--color-noir);
+}
+
+/* Sticky stage: full-viewport, scoped to the page, chapters flow over it. */
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  margin-bottom: -100svh;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--color-noir);
+}
+
+.canvas,
+.video,
+.poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.canvas {
+  display: block;
+}
+
+.video,
+.poster {
+  object-fit: cover;
+}
+
+.stage[data-mode="webgl"] .video,
+.stage[data-mode="webgl"] .poster {
+  display: none;
+}
+
+.stage[data-mode="video"] .canvas,
+.stage[data-mode="video"] .poster {
+  display: none;
+}
+
+.stage[data-mode="video"] .video {
+  display: block;
+}
+
+.stage[data-mode="still"] .canvas,
+.stage[data-mode="still"] .video {
+  display: none;
+}
+
+.stage[data-mode="still"] .poster {
+  display: block;
+}
+
+.chapters {
+  position: relative;
+  z-index: 1;
+}
