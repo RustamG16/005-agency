@@ -1,0 +1,138 @@
+/* Harness chrome only. None of this ships anywhere near a page — but it still
+   draws from tokens, because a dev panel in off-brand colours makes the thing it
+   is measuring harder to read. */
+
+/* The stand-in for the Capabilities section. Anchored to the BOTTOM: the pinned
+   hero is fixed and the section below scrolls up over it, so the cotton edge
+   rises. Above the statement, because in production the section covers type and
+   film alike. */
+.cover {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  background: var(--color-bone);
+}
+
+.panel {
+  position: fixed;
+  right: var(--space-2);
+  bottom: var(--space-2);
+  z-index: 90;
+  width: 320px;
+  max-height: 82vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-control);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-family-ui);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field input[type="range"] {
+  width: 100%;
+  accent-color: var(--color-accent);
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.step,
+.ghost {
+  padding: 3px 7px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-gray);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.step[data-on] {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toggles label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.readout > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.readout dt {
+  color: var(--color-gray);
+}
+
+.readout dd {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--color-hairline);
+}
+
+.note {
+  margin: 0;
+  color: var(--color-gray);
+}
