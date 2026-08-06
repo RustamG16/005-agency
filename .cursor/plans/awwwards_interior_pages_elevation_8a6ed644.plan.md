@@ -1,0 +1,97 @@
+---
+name: Awwwards Interior Pages Elevation
+overview: Audit-driven redesign of /works, /services, /about, /contact, /privacy plus an additive global motion system (Lenis, grain, custom cursor, page transitions) that leaves the homepage and elevator journey pixel-identical.
+todos:
+  - id: docs
+    content: Write docs/awwwards/AUDIT.md, PLAN.md, HOMEPAGE-PROPOSAL.md
+    status: pending
+  - id: baseline
+    content: Capture homepage baseline screenshots (1440×900, 390×844)
+    status: pending
+  - id: global
+    content: "Interior route group: Lenis, grain, custom cursor, page transitions, reveal utility, additive tokens"
+    status: pending
+  - id: works
+    content: Rebuild /works as oversized editorial index with floor numbering, outcomes, hover film panel; remove filters
+    status: pending
+  - id: services
+    content: Rebuild /services as pinned capability stack; replace chip clouds; fix gold overuse
+    status: pending
+  - id: about
+    content: "/about: de-duplicate principles, scroll-progress process, editorial capability links, fix StudioFilm overlay, magnetic CTA"
+    status: pending
+  - id: contact
+    content: "/contact: restore focus states, display-scale email, submit pending state, entrance choreography"
+    status: pending
+  - id: privacy
+    content: "/privacy: proper designed page with CSS module and HeaderZone fix"
+    status: pending
+  - id: verify
+    content: Build clean, screenshot all pages both sizes, diff homepage vs baseline, console/a11y/grep checks
+    status: pending
+isProject: false
+---
+
+# Convenium Studio — Awwwards-Ready Interior Pages
+
+## Phase A — Audit findings (summary; full version goes to `docs/awwwards/AUDIT.md`)
+
+**The core problem: a two-tier site.** The homepage has GSAP choreography (elevator journey, reveals); the interior pages have *zero* GSAP — their only motion is video autoplay and 180ms hover transitions. The moment a juror leaves `/`, the site goes static. Layout and copy are strong; motion, interaction and art direction on interior pages are not.
+
+Rubric scores, current → target (Design 40 / Usability 30 / Creativity 20 / Content 10):
+
+- `/works` — D 6.5, U 7, Cr 4.5, Co 7 (≈6.2 weighted) → 8.3. Four projects in a masonry grid that renders 3+1; filter pills each isolate a single card (pointless); the best copy in the data model (`outcome` lines like "From local signal to cultural frequency") is never rendered; cards link to their own hash.
+- `/services` — D 6, U 7, Cr 4 (≈5.8) → 8.1. Five identical row modules (number / title / blurb / chip cloud / 21:9 strip) with no motion at all — the most template-coded page. Gold used 5× (violates even the house rule of ≤3). Scope chips read as SaaS tags, thin 170px-tall banners at 390px.
+- `/about` — D 6.5, U 7, Cr 5 (≈6.3) → 8.2. Good sequence and the site's best copy, but the three principles are rendered twice (hero rail + Principles grid), the process list is the classic numbered-table template, and the StudioFilm overlay is a semi-transparent `rgba(5,5,5,0.55)` panel (reads as glassmorphism-lite).
+- `/contact` — D 6.5, U 6.5, Cr 4.5 (≈6.0) → 8.0. Solid form UX, but `outline: none` on inputs kills keyboard focus (a11y regression, `ContactForm.module.css:71`), the status-dot availability line is a SaaS cliché, and submit is instant fake-success with no state.
+- `/privacy` — D 3.5, U 6, Cr 2 (≈4.2) → 7.0. Inline-styled placeholder that literally says "This page is a placeholder."
+- **Global**: no smooth scroll, no page transitions, no cursor, no texture, no `next/image` anywhere; `columns.mp4` is 7MB and shared across hero + all cards; gray-on-noir eyebrows (`#777771` on `#050505`) are a contrast risk; multiple project videos can play simultaneously on mobile; `/privacy` never sets a HeaderZone so header glyphs render bone-on-bone.
+
+## Phase B — Implementation plan (full version goes to `docs/awwwards/PLAN.md`)
+
+### B1. Global system (additive, homepage-safe)
+
+Structural move: relocate the five interior routes into a route group `app/(interior)/…` (URLs unchanged) with its own `layout.tsx`/`template.tsx`. This gives interior pages their own mount point for Lenis, grain, cursor and enter transitions **without touching anything the homepage renders**. [app/works/page.tsx](app/works/page.tsx) etc. move; `app/page.tsx` and `app/layout.tsx` internals stay put (root layout untouched except nothing — chrome edits avoided entirely).
+
+1. **Lenis smooth scroll** (new dep, `lenis`, ~4KB gzip) — mounted in the interior layout only; synced to ScrollTrigger via `lenis.on('scroll', ScrollTrigger.update)` + GSAP ticker; disabled for `prefers-reduced-motion` and touch-default behavior kept native.
+2. **Grain** — pure CSS/SVG `feTurbulence` fixed overlay at ~3.5% opacity, one shared `<Grain />` component in the interior layout. No canvas, no cost.
+3. **Custom cursor** — small in-house component (~2KB, no dep): dot that scales over links, grows to a labeled disc ("View") over work rows, `mix-blend-mode: difference`; hidden on touch + reduced-motion; native cursor never removed for a11y fallback.
+4. **Page transitions** — interior `template.tsx` with a short (450ms) clip/fade enter choreography using existing motion tokens. No exit transitions (App Router constraint), so no nav jank.
+5. **Shared reveal utility** — a new `Reveal`/`useReveals` client wrapper (masked line + block reveals, mirrors the `HomepageReveals` contract but interior-scoped via a different data-attribute) so every interior section gets directed entrance motion.
+6. **New tokens (additive only)** in [styles/tokens.css](styles/tokens.css): `--font-index` (~clamp 72→176px) for the works index, `--duration-slow: 700ms`, `--ease-inout-soft`, `--grain-opacity`. No existing token changes.
+7. **A11y/perf fixes**: restore `:focus-visible` on form fields; lighten gray-on-noir eyebrows to a new `--color-gray-on-noir` used only on interior pages; `preload="metadata"` + single-active-video lock on interior media; `next/image` for interior stills.
+
+### B2. Per page, highest impact first
+
+**`/works` — the flagship rebuild.** Replace `WorksGrid` + `ProjectCard` usage with a new `WorksIndex`: four full-bleed editorial rows, floor-style numbering descending `04 → 01` (extends the elevator metaphor), project name at the new `--font-index` scale, sector/scope/year as a quiet metadata line, and the previously-unused `outcome` line as a serif italic payoff. Desktop hover: a fixed media panel reveals the project film (clip-path wipe, cursor shows "View"); mobile: inline 16:9 media per row driven by IntersectionObserver with a single-active lock. Filters removed. `WorksHero` kept but tightened (it becomes the intro to the index). Files: [components/sections/works/](components/sections/works), [app/works/page.tsx](app/works/page.tsx).
+
+**`/services` — kill the monotony.** Convert the five identical rows into a pinned capability stack: on desktop a sticky left rail holds a giant numeral + service name that crossfades as each service scrolls through the right column; scope chips become a two-column hairline serif list (editorial, not SaaS tags); media strips go 16:10 with parallax drift; gold indices reduced from 5 to 0 (numerals go noir; gold reserved for the hero eyebrow accent — back within the ≤3 rule). Hero jump-list stays, gains stagger-in. Files: [components/sections/services/](components/sections/services).
+
+**`/about` — de-duplicate and choreograph.** AboutHero right rail: replace duplicated principle titles with a "floors" ledger (founding year, disciplines, engagement model — real facts only). StudioModel statement gets a line-mask reveal. ProcessSteps becomes a scroll-progressed list: hairline draws + active step emphasis as you pass each. CapabilitiesList chips → an editorial index of oversized links with arrow hover. StudioFilm: replace the translucent panel with a solid noir copy band below/beside the film (removes the glass read) + copy reveal. AboutCta gets a magnetic hover button. Files: [components/sections/about/](components/sections/about).
+
+**`/contact` — precision pass.** Fix input focus states (visible custom focus, not `outline:none`); replace the status-dot line with a set-in-type availability line; make `hello@convenium.studio` a display-scale link moment in ContactInfo; add submit pending state (600ms considered delay) before success (form stays client-only — no backend this session, noted honestly in the plan doc); entrance choreography on intro + form; ProjectFit gets reveals and the mobile image gap fixed. Files: [components/sections/contact/](components/sections/contact).
+
+**`/privacy` — from stub to designed page.** New CSS module, proper editorial layout (eyebrow, display headline, structured sections: data collected / use / retention / contact), `HeaderZone theme="light"` fix for header contrast. Keeps the honest "will be completed before client work" note but designed. File: [app/privacy/page.tsx](app/privacy/page.tsx).
+
+### B3. Dependencies (1 total)
+
+- `lenis` — smooth scroll; ~4KB gzip; industry standard on Awwwards winners; the INP/scroll-feel gain outweighs the script cost. Everything else (cursor, grain, transitions, reveals) is hand-rolled on the existing GSAP 3.15 install.
+
+### B4. CLAUDE.md rule overrides (explicit)
+
+- "No blanket scroll-fade animations" → we add *directed* per-section reveals and scroll-progress interactions; staying within the spirit, but noting it since motion volume increases substantially.
+- "No decorative shadows/gradients/glassmorphism" → grain texture added at ~3.5% opacity: justification — a flat bone/noir site reads as digital-default; grain is the one tactile signal, applied once, globally uniform.
+- Implicit "CSS transitions only on interior pages" status quo → GSAP now ships on all routes (it's already in the bundle; no size change).
+- Everything else (palette, three fonts, no Symbol Studio content, no fabricated clients) stays fully enforced — the services page actually comes back *into* compliance on the gold rule.
+
+## Phase C — Homepage proposal (doc only, no edits: `docs/awwwards/HOMEPAGE-PROPOSAL.md`)
+
+Spec for a later session: extend Lenis + grain + cursor to `/` with a scrub-compatibility test protocol for the elevator journey (pin/scrub sections need `ScrollTrigger.normalizeScroll` review); adopt the interior reveal language for post-journey sections (ServicesPreview, Principles, Faq); page-transition unification; media budget plan (`gallery_scrub.mp4` 17MB, `team.mp4` 8MB → re-encode targets); type-scale alignment with the new `--font-index` step. Elevator journey remains untouched in every variant.
+
+## Phase D — Execution order & verification
+
+1. Write the three docs (`docs/awwwards/AUDIT.md`, `PLAN.md`, `HOMEPAGE-PROPOSAL.md`).
+2. Baseline homepage screenshots at 1440×900 and 390×844 (before).
+3. Route group + interior layout + Lenis/grain/cursor/transitions + tokens.
+4. Pages in order: works → services → about → contact → privacy.
+5. Verify: `npm run build` clean; per-page screenshots at both sizes; homepage after-shots diffed against baseline (revert any shared change that moves a pixel); console clean on load/scroll/hover; reduced-motion path; keyboard focus; grep `SYMBOL STUDIO` / `#FE552E`.

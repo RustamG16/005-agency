@@ -4,6 +4,7 @@ import { HeaderThemeProvider } from "@/components/chrome/HeaderThemeContext";
 import { Header } from "@/components/chrome/Header";
 import { Footer } from "@/components/chrome/Footer";
 import { GuideDock } from "@/components/guide/GuideDock";
+import { GuideRadial } from "@/components/guide/GuideRadial";
 import { site } from "@/content/site";
 import "@/styles/globals.css";
 
@@ -52,7 +53,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header />
           <main id="main">{children}</main>
           <Footer />
-          <GuideDock />
+          {/* The `panel` slot stays empty: `GuideAsk` is PROMPT-B's (Cursor). */}
+          <GuideDock menu={<GuideRadial />} />
         </HeaderThemeProvider>
       </body>
     </html>

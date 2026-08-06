@@ -1,0 +1,10 @@
+/* The section that takes the frame from the hero.
+ *
+ * The hero pins with `pinSpacing: false`, so while it is held it is
+ * `position: fixed` and this section scrolls up over it — this section IS the
+ * handoff. A static block would paint its background BELOW a fixed sibling, so
+ * it has to be positioned and lifted one step to do the covering. */
+.overHero {
+  position: relative;
+  z-index: 1;
+}

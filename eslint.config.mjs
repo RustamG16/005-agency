@@ -15,6 +15,11 @@ const eslintConfig = [
       "design_claude/**",
       "design_claude_homepage/**",
       "design_logo/**",
+      // Design-board material (the render harness that produced DESIGN-LOCK.md,
+      // plus the Stitch export tree). Nothing under app/ or components/ imports
+      // from it — the app only cites it in comments — but it was failing the
+      // build's lint pass on 1048 errors that predate any of this work.
+      "homepage/**",
       "audit-shots/**",
       ".next/**",
       ".next-dev/**",

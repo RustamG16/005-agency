@@ -22,7 +22,28 @@ const TOKEN_HEX = {
   ink: 0x241f1f,
   hairline: 0xd6d2c2,
   paper: 0xf5f3e8,
+  gray: 0x6e6963,
+  cotton: 0xedebdd,
 } as const;
+
+/**
+ * DESIGN-LOCK §3's ring states, relocated to the pad's milled rim.
+ *
+ * The lock put these on a circular disc behind the robot; Russ retired the disc
+ * on 2026-08-03 because it flattened him into a badge. The states themselves
+ * were never retired — they just had nowhere to live. The rim is the one
+ * hairline element already in the render, so it carries them, and hover/drag
+ * read as light catching machined metal instead of a UI ring stuck on a 3D
+ * object.
+ */
+export type GuideRimState = "rest" | "hover" | "dragging";
+
+export const RIM_COLOR: Record<"cotton" | "noir", Record<GuideRimState, number>> = {
+  // On cotton the lock specifies no ring at rest — the rim drops to the pad's
+  // own ink so it reads as an unlit edge rather than a drawn line.
+  cotton: { rest: TOKEN_HEX.ink, hover: TOKEN_HEX.hairline, dragging: TOKEN_HEX.gray },
+  noir: { rest: TOKEN_HEX.gray, hover: TOKEN_HEX.cotton, dragging: TOKEN_HEX.cotton },
+};
 
 /* ---- locked scene numbers (DESIGN-LOCK §1–2) --------------------------- */
 
@@ -60,6 +81,14 @@ const EYE_FORWARD = 0.244; // of model height
 export const EYE_BASE = 1.35;
 export const EYE_CTA = 1.9; // absolute, not a multiplier — see plan deviation 2
 export const EYE_SLEEP = 0.6;
+
+/** Resting yaw. Was -0.28 (a 16° three-quarter); Russ read that as him looking
+ *  away. Kept as a slight turn so he still reads as a figure in space rather
+ *  than a decal, but shallow enough to be facing you. */
+export const REST_TURN = -0.1;
+
+/** Squared up to the reader — where he goes while he is speaking. */
+export const FACING_READER = 0;
 
 /** The lifted curve. `s` is 0.94 here, matching the `cherry-lift` entry in
  *  guide-radial.js that produced the locked measurement (body Y 0.085 =
@@ -182,11 +211,16 @@ export type GuidePose = {
   walk: number; // clip weights, 0..1
   talk: number;
   greet: number;
+  run: number;
 };
+
+/** The clips this rig actually ships, by the name the pose uses for each. */
+export const CLIP_KEYS = ["walk", "talk", "greet", "run"] as const;
+export type GuideClip = (typeof CLIP_KEYS)[number];
 
 export function createPose(): GuidePose {
   return {
-    turn: -0.28,
+    turn: REST_TURN,
     tilt: 0,
     headTurn: 0,
     headPitch: 0,
@@ -198,6 +232,7 @@ export function createPose(): GuidePose {
     walk: 0,
     talk: 0,
     greet: 0,
+    run: 0,
   };
 }
 
@@ -209,6 +244,8 @@ export type GuideRobot = {
   resize(size: number): void;
   /** Crown position in viewport pixels, or null when off-screen. */
   getCrown(): { x: number; y: number } | null;
+  /** DESIGN-LOCK §3 ring states, carried by the pad's rim. */
+  setRim(ground: "cotton" | "noir", state: GuideRimState): void;
   dispose(): void;
 };
 
@@ -416,12 +453,15 @@ export async function buildGuideRobot(
   const headRestX = head ? (head as THREE.Object3D).rotation.x : 0;
 
   /* ---- clips ----
-   * The rig ships Greet / Run / Talk / Walking. There is NO idle or fidget
-   * clip, so ambient life is procedural (see guide-idle.ts). */
+   * The rig ships exactly four: `Armature|action_Greet`, `Armature|Run`,
+   * `Armature|Talk`, `Armature|Walking` — read off the GLB, not assumed. There
+   * is NO idle or fidget clip, so ambient life stays procedural (guide-idle.ts),
+   * and there is no spin/jump/flip either, which is why "Do a trick" is Run plus
+   * a turn written in code. */
   const mixer = gltf.animations.length ? new THREE.AnimationMixer(model) : null;
-  const actions: Record<string, THREE.AnimationAction> = {};
+  const actions: Partial<Record<GuideClip, THREE.AnimationAction>> = {};
   if (mixer) {
-    const wire = (name: string, re: RegExp) => {
+    const wire = (name: GuideClip, re: RegExp) => {
       const clip = gltf.animations.find((c) => re.test(c.name));
       if (!clip) return;
       const a = mixer.clipAction(clip);
@@ -433,6 +473,7 @@ export async function buildGuideRobot(
     wire("walk", /walk/i);
     wire("talk", /talk/i);
     wire("greet", /greet/i);
+    wire("run", /run/i);
   }
 
   // With every action disabled the mixer stops writing to the bones, which
@@ -478,19 +519,30 @@ export async function buildGuideRobot(
   /* ---- per-frame ---- */
 
   const apply = (dt: number, elapsed: number) => {
+    /* Ambient life, always running. Three periods that do not divide into each
+     * other, so the loop never lands on an obvious beat — the whole point is
+     * that he looks like he is doing something rather than cycling. */
     group.position.set(0, -((SPAN[0] + SPAN[1]) / 2) * modelH, 0);
-    group.rotation.y = pose.turn + Math.sin(elapsed * 0.55) * 0.07 * pose.sway;
-    group.rotation.x = pose.tilt + Math.sin(elapsed * 0.9) * 0.014 * pose.sway;
+    group.rotation.y =
+      pose.turn +
+      (Math.sin(elapsed * 0.55) * 0.06 + Math.sin(elapsed * 0.23) * 0.03) * pose.sway;
+    group.rotation.x = pose.tilt + Math.sin(elapsed * 0.9) * 0.018 * pose.sway;
+    group.rotation.z = Math.sin(elapsed * 0.41) * 0.012 * pose.sway;
 
-    // The figure breathes and can be nudged; the pad never moves, so he reads
-    // as an object standing ON something rather than a decal beside it.
-    const bob = Math.sin(elapsed * 0.8) * 0.006 * pose.sway * modelH + pose.bob * modelH;
+    // The figure breathes; the pad never moves, so he reads as an object
+    // standing ON something rather than a decal beside it.
+    const bob =
+      (Math.sin(elapsed * 0.8) * 0.008 + Math.sin(elapsed * 1.7) * 0.002) * pose.sway * modelH +
+      pose.bob * modelH;
     figure.position.set(pose.offsetX * modelH, bob + pose.offsetY * modelH, 0);
 
     if (mixer) {
-      const total = pose.walk + pose.talk + pose.greet;
-      for (const [name, action] of Object.entries(actions)) {
-        const w = clamp(pose[name as "walk" | "talk" | "greet"], 0, 1);
+      let total = 0;
+      for (const name of CLIP_KEYS) {
+        const action = actions[name];
+        if (!action) continue;
+        const w = clamp(pose[name], 0, 1);
+        total += w;
         action.enabled = w > 0.001;
         action.setEffectiveWeight(w);
       }
@@ -552,12 +604,19 @@ export async function buildGuideRobot(
     renderer.forceContextLoss();
   };
 
+  /* The rim is set, not tweened: at this size a colour crossfade is invisible
+   * and a tween would be one more thing to kill on unmount. */
+  const setRim = (ground: "cotton" | "noir", state: GuideRimState) => {
+    padRimMat.color.setHex(RIM_COLOR[ground][state]);
+  };
+
   return {
     pose,
     clips: gltf.animations.map((c) => c.name),
     render,
     resize,
     getCrown,
+    setRim,
     dispose,
   };
 }

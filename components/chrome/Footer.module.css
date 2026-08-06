@@ -130,25 +130,29 @@
   }
 }
 
-/* Giant dark-grey wordmark — Symbol footer pattern (own wording), cropped at the page edge */
-.wordmarkWrap {
-  overflow: hidden;
-  width: 100%;
-  margin-top: var(--space-6);
-  margin-bottom: calc(-1 * var(--space-4)); /* cancels footer padding so glyphs meet the edge */
-  text-align: center;
-  user-select: none;
-  pointer-events: none;
+/* The giant wordmark moved to `FooterWordmark.tsx` + `.module.css`: it needs to
+   measure its own advance and to carry an entrance, and neither belongs in a
+   server component's stylesheet. */
+
+.bottomRight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
 }
 
-.wordmark {
-  display: block;
-  font-family: var(--font-family-display);
-  font-size: 15.5vw;
-  line-height: 0.75;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: var(--color-wordmark);
-  transform: translateY(14%); /* bottom of glyphs clipped by the wrap */
+.colophon {
+  color: var(--color-gray);
+}
+
+.colophon a {
+  color: var(--color-gray);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--duration-nav-hover) var(--ease-out-sharp);
+}
+
+.colophon a:hover,
+.colophon a:focus-visible {
+  color: var(--color-bone);
 }

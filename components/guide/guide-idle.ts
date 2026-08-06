@@ -4,17 +4,23 @@
  * "Always doing something": one weighted micro-behavior every 6–14s, plus two
  * continuous reactions (cursor glance, scroll brace) and a 90s sleep.
  *
- * The rig ships Greet / Run / Talk / Walking and NO idle or fidget clip, so
- * every ambient behavior here is procedural — head yaw/pitch on `Head_05`,
- * group sway, and an emissive dip for the blink. Clips are used only where one
- * genuinely exists: Walking while dragging, Talk while a bubble is up, Greet on
- * request.
+ * The rig ships Greet / Run / Talk / Walking and NO idle or fidget clip, so the
+ * small ambient beats here are procedural — head yaw/pitch on `Head_05`, group
+ * sway, and an emissive dip for the blink.
+ *
+ * FIXED 2026-08-04. The scheduler used to be procedural and nothing else, and
+ * nothing anywhere in the app called `playClip("greet")` — so the wave the model
+ * ships had literally never played and he read as inert. The pool now draws from
+ * the rig's own clips as well, and a counter guarantees a wave every 3–5 ticks
+ * however the weighted draw falls, so you never go long without seeing him do
+ * something unmistakably alive.
  *
  * Everything in this module is inert under `prefers-reduced-motion`.
  */
 
 import type { gsap as GsapType } from "gsap";
 import { EYE_BASE, EYE_SLEEP, type GuidePose } from "./guide-robot";
+import type { GuideClipName } from "./guide-state";
 
 /** No input for this long and he nods off. */
 const SLEEP_AFTER_MS = 90_000;
@@ -25,13 +31,16 @@ const GLANCE_RADIUS = 160;
 const LOOK_YAW = 0.28;
 const GLANCE_YAW_MAX = 0.4;
 
+/** A wave is forced if the draw has not produced one within this many ticks. */
+const WAVE_EVERY_MIN = 3;
+const WAVE_EVERY_MAX = 5;
+
 export type IdleScheduler = {
   start(): void;
   stop(): void;
   /** Any input — resets the sleep timer and wakes him. */
   notifyInput(): void;
   notifyPointer(x: number, y: number): void;
-  notifyScroll(velocity: number): void;
   setBusy(busy: boolean): void;
   isAsleep(): boolean;
   destroy(): void;
@@ -43,16 +52,26 @@ type Options = {
   /** Puck centre in viewport px, or null when the scene isn't mounted. */
   getPuckCentre(): { x: number; y: number } | null;
   onSleepChange(asleep: boolean): void;
+  /** Plays one of the rig's clips. The scene owns weights and release. */
+  playClip(name: GuideClipName): void;
   reduced: boolean;
 };
 
 export function createIdleScheduler(opts: Options): IdleScheduler {
-  const { pose, gsap, getPuckCentre, onSleepChange, reduced } = opts;
+  const { pose, gsap, getPuckCentre, onSleepChange, playClip, reduced } = opts;
 
   /* Reusable random generators rather than Math.random arithmetic. */
-  const nextDelay = gsap.utils.random(6, 14, true) as unknown as () => number;
+  /* 4–9s, tightened from the spec's 6–14s. At the slower cadence he could stand
+   * still for a quarter of a minute at a time, which is what read as lifeless —
+   * and with the scroll brace gone, the scheduler is now the only thing moving
+   * him. */
+  const nextDelay = gsap.utils.random(4, 9, true) as unknown as () => number;
+  const nextWaveGap = gsap.utils.random(
+    WAVE_EVERY_MIN,
+    WAVE_EVERY_MAX,
+    true
+  ) as unknown as () => number;
   const clampGlance = gsap.utils.clamp(-GLANCE_YAW_MAX, GLANCE_YAW_MAX);
-  const braceFromVelocity = gsap.utils.mapRange(0, 2600, 0, 0.09);
 
   let running = false;
   let asleep = false;
@@ -93,7 +112,9 @@ export function createIdleScheduler(opts: Options): IdleScheduler {
     lookTl.restart();
   };
 
-  type Behavior = { run: () => void; weight: number; needsHead: boolean };
+  type Behavior = { run: () => void; weight: number; needsHead: boolean; isWave?: boolean };
+
+  const wave = () => playClip("greet");
 
   const behaviors: Behavior[] = [
     { run: () => look(-1), weight: 3, needsHead: true },
@@ -101,12 +122,17 @@ export function createIdleScheduler(opts: Options): IdleScheduler {
     { run: () => blinkTl.restart(), weight: 5, needsHead: false },
     { run: () => fidgetTl.restart(), weight: 2, needsHead: true },
     { run: () => stretchTl.restart(), weight: 1, needsHead: true },
+    // The rig's own clips. Greet is the wave; Run is a short burst on the spot,
+    // rare enough that it stays a surprise rather than a tic.
+    { run: wave, weight: 3, needsHead: false, isWave: true },
+    { run: () => playClip("run"), weight: 1, needsHead: false },
   ];
 
   /* Expand the weights once into a flat pool so picking is a single
    * random-from-array rather than a cumulative-sum walk every tick. */
   const pool: Behavior[] = behaviors.flatMap((b) => Array<Behavior>(b.weight).fill(b));
   const pickBehavior = gsap.utils.random(pool, true) as unknown as () => Behavior;
+  const waveBehavior = behaviors.find((b) => b.isWave)!;
 
   const clearTimer = () => {
     if (timer !== null) {
@@ -121,13 +147,30 @@ export function createIdleScheduler(opts: Options): IdleScheduler {
     timer = window.setTimeout(tick, nextDelay() * 1000);
   };
 
+  /* Ticks since he last waved, and the gap at which one is owed. Without this
+   * the wave is just one weight among seven and you can watch him for two
+   * minutes without seeing the one behaviour that reads as a greeting. */
+  let sinceWave = 0;
+  let waveDue = nextWaveGap();
+
   const tick = () => {
     timer = null;
     if (!running || reduced) return;
     if (!busy && !asleep) {
-      const behavior = pickBehavior();
+      const behavior = sinceWave >= waveDue ? waveBehavior : pickBehavior();
       // While the cursor owns the head, skip anything that would fight it.
-      if (!(cursorActive && behavior.needsHead)) behavior.run();
+      const skipped = cursorActive && behavior.needsHead;
+      if (!skipped) behavior.run();
+
+      // The counter tracks TICKS, not successful draws. Counting only the acts
+      // that ran means leaving the cursor parked near him — the most likely
+      // thing a reader does — starves the wave indefinitely.
+      if (behavior.isWave && !skipped) {
+        sinceWave = 0;
+        waveDue = nextWaveGap();
+      } else {
+        sinceWave += 1;
+      }
     }
     schedule();
   };
@@ -216,28 +259,6 @@ export function createIdleScheduler(opts: Options): IdleScheduler {
         cursorActive = false;
         yawTo(0);
       }
-    },
-
-    notifyScroll(velocity) {
-      if (reduced || busy || asleep) return;
-      const amount = braceFromVelocity(Math.min(Math.abs(velocity), 2600));
-      if (amount < 0.004) return;
-      const sign = velocity > 0 ? 1 : -1;
-      gsap.to(pose, {
-        tilt: amount * sign,
-        headPitch: amount * 1.4 * sign,
-        duration: 0.18,
-        ease: "power2.out",
-        overwrite: "auto",
-      });
-      gsap.to(pose, {
-        tilt: 0,
-        headPitch: 0,
-        duration: 0.7,
-        delay: 0.18,
-        ease: "power2.inOut",
-        overwrite: "auto",
-      });
     },
 
     setBusy(next) {

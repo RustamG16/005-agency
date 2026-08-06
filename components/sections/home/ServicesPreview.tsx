@@ -8,6 +8,7 @@ import { ArrowRightIcon } from "@/components/ui/Icons";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
 import { InteriorRevealLine } from "@/components/motion/InteriorReveal";
 import { gsap } from "@/components/motion/gsap";
+import { MOTION, MQ } from "@/components/motion/motion";
 import styles from "./ServicesPreview.module.css";
 
 export function ServicesPreview() {
@@ -22,17 +23,17 @@ export function ServicesPreview() {
       if (!rows.length) return;
 
       const mm = gsap.matchMedia();
-      mm.add("(min-width: 769px) and (prefers-reduced-motion: no-preference)", () => {
-        gsap.set(rows, { autoAlpha: 0, y: 28 });
+      mm.add(MQ.desktopMotion, () => {
+        gsap.set(rows, { autoAlpha: 0, y: MOTION.yBlock });
         const tween = gsap.to(rows, {
           autoAlpha: 1,
           y: 0,
-          duration: 0.65,
-          stagger: 0.07,
-          ease: "power4.out",
+          duration: MOTION.enter,
+          stagger: MOTION.stagger,
+          ease: MOTION.ease,
           scrollTrigger: {
             trigger: list,
-            start: "top 82%",
+            start: MOTION.start,
             once: true,
             invalidateOnRefresh: true,
             refreshPriority: -10,

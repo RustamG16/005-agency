@@ -1,0 +1,221 @@
+/* The Guide — radial menu. Every value from DESIGN-LOCK §4.
+   Petals: 44px, radius 148, arc 176°→276°, mark = Archivo Black 15px.
+   Amendment 12 spaces three petals across that arc instead of six (step 50°).
+   Index: 24px rows / 30px pitch, Inter 12px uppercase ls 0.1em.
+   Motion: petals scale 0.86→1 + opacity, 260ms, 26ms stagger;
+           index rows translateX 10→0 at +40ms. */
+
+/* The root box is NEVER interactive — only the controls inside it are.
+ *
+ * It used to take `pointer-events: auto` while open, which is fine on its own,
+ * but the drag handle is a later sibling covering the same box and now overhangs
+ * it by 20px: the petal nearest the centre fell inside the handle and its clicks
+ * went to the drag instead. Lifting the controls (and only the controls) above
+ * the handle is what keeps both usable. */
+.root {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ---- petals ------------------------------------------------------------ */
+
+.petal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1; /* above the drag handle — see the note on .root */
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  padding: 0;
+  pointer-events: none;
+  background: var(--color-ink);
+  color: var(--color-cotton);
+  transform: translate3d(var(--x), var(--y), 0) scale(0.86);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform var(--duration-nav-active) var(--ease-out-sharp),
+    opacity var(--duration-nav-active) var(--ease-out-sharp),
+    visibility 0s linear var(--duration-nav-active),
+    background-color var(--duration-nav-hover) var(--ease-out-sharp),
+    color var(--duration-nav-hover) var(--ease-out-sharp);
+  transition-delay: calc(var(--i) * 26ms);
+}
+
+.root[data-open="true"] .petal {
+  transform: translate3d(var(--x), var(--y), 0) scale(1);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: calc(var(--i) * 26ms);
+  transition:
+    transform var(--duration-nav-active) var(--ease-out-sharp) calc(var(--i) * 26ms),
+    opacity var(--duration-nav-active) var(--ease-out-sharp) calc(var(--i) * 26ms),
+    visibility 0s linear 0s,
+    background-color var(--duration-nav-hover) var(--ease-out-sharp),
+    color var(--duration-nav-hover) var(--ease-out-sharp);
+}
+
+/* The Ask petal reads as a slip of paper in the fan. */
+.petal[data-kind="ask"] {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  box-shadow: none;
+  border: 1px solid var(--color-hairline);
+}
+
+.mark {
+  font-family: var(--font-family-display);
+  font-size: 15px;
+  line-height: 1;
+}
+
+.petal:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.root[data-ground="noir"] .petal:focus-visible {
+  outline-color: var(--color-cotton);
+}
+
+/* Hover either half of a pair and both light. */
+.petal[data-lit="true"] {
+  background: var(--color-accent); /* cherry — solid red field carrying cotton */
+  color: var(--color-cotton);
+}
+
+.petal[data-kind="ask"][data-lit="true"] {
+  background: var(--color-paper);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* ---- label index ------------------------------------------------------- */
+
+.index {
+  position: absolute;
+  right: var(--index-right);
+  top: 50%;
+  z-index: 1;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: right;
+  pointer-events: none;
+}
+
+.root[data-open="true"] .indexButton {
+  pointer-events: auto;
+}
+
+.indexRow {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(10px);
+  transition:
+    transform var(--duration-nav-active) var(--ease-out-sharp),
+    opacity var(--duration-nav-active) var(--ease-out-sharp),
+    visibility 0s linear var(--duration-nav-active);
+}
+
+.root[data-open="true"] .indexRow {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition:
+    transform var(--duration-nav-active) var(--ease-out-sharp)
+      calc(40ms + var(--i) * 26ms),
+    opacity var(--duration-nav-active) var(--ease-out-sharp) calc(40ms + var(--i) * 26ms),
+    visibility 0s linear 0s;
+}
+
+/* The Ask row is set apart from the numbered stack. */
+.indexRow[data-kind="ask"] {
+  margin-bottom: 8px;
+}
+
+.indexButton {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  height: 24px;
+  padding: 0;
+  pointer-events: none;
+  font-family: var(--font-family-ui);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-gray);
+  white-space: nowrap;
+  transition: color var(--duration-nav-hover) var(--ease-out-sharp);
+}
+
+.indexMark {
+  font-family: var(--font-family-display);
+  font-size: 11px;
+}
+
+.indexButton:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.root[data-ground="noir"] .indexButton:focus-visible {
+  outline-color: var(--color-cotton);
+}
+
+.indexRow[data-lit="true"] .indexButton {
+  color: var(--color-accent); /* cherry on cotton */
+}
+
+.root[data-ground="noir"] .indexButton {
+  color: var(--color-gray-on-noir);
+}
+
+.root[data-ground="noir"] .indexRow[data-lit="true"] .indexButton {
+  color: var(--color-accent-on-noir); /* chili-300 — AA at body size on noir */
+}
+
+/* ---- ≤520px: the ring is dropped, the index becomes the menu ------------ */
+
+@media (max-width: 520px) {
+  .petal {
+    display: none;
+  }
+
+  .index {
+    right: calc(100% + 12px);
+    row-gap: 0;
+  }
+
+  .indexRow {
+    height: 44px;
+  }
+
+  .indexButton {
+    height: 44px;
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .petal,
+  .root[data-open="true"] .petal,
+  .indexRow,
+  .root[data-open="true"] .indexRow {
+    transition-duration: 0ms;
+    transition-delay: 0ms;
+  }
+}

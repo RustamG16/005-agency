@@ -47,6 +47,56 @@ verification protocol) and the CC-BY colophon requirement.
    hidden and between behavior ticks in sleep; keyboard + focus rules exactly as
    locked §7.
 
+### Amendment — 2026-08-04 (PROMPT C)
+
+9. **"Explain this section" is a sixth petal.** It speaks the current stop's
+   approved hint line through the bubble. Decision 2 above allotted the home ring
+   "5 chapters + Ask"; adding Explain would make seven petals, and seven do not
+   fit — at step 16.7° the chord between petal centres is 42.9px against a 44px
+   petal, so they overlap. The ring therefore carries **four section jumps
+   (Capabilities, Selected work, Inside the process, How we work) + Explain +
+   Ask**. The FAQ is off the ring; it sits one screen below "How we work" and is
+   still served by hint #05. Widening the arc to 176°→296° would fit a seventh
+   petal but pushes past "up" into the page, and was not taken.
+10. **The homepage gained a Selected Work section** (the deck) after
+   HOME-GUIDE-SPEC §5 was written, so it has **no approved hint line**. It gets a
+   jump petal and stays silent; "Explain this section" falls back to the nearest
+   preceding stop that has copy. No line was invented or re-pointed to fill the
+   gap.
+11. **DESIGN-LOCK §3's ring states now live on the pad's milled rim.** The disc
+   they were specified on was retired on 2026-08-03; the states themselves were
+   not, and they had nowhere to render. Rest / hover+open / dragging map to the
+   §3 colours per ground (`RIM_COLOR` in `guide-robot.ts`).
+
+### Amendment — 2026-08-04 (PROMPT D)
+
+12. **The ring loses its section jumps and becomes three petals.** Amendment 9's
+   "four section jumps + Explain + Ask" is retired. The nav already carries the
+   page's structure, and a second table of contents inside the guide made him a
+   menu rather than a guide. The ring is now three things you can ask of him:
+   **Explain this section · Do a trick · Ask a question**, spaced evenly across
+   the same locked 176°→276° arc — step 50°, chord 2·148·sin 25° = 125px against
+   a 44px petal, so the fan is airier than six ever were. Geometry, mark
+   treatment and the always-visible label index are unchanged (lock §4).
+   `HOME_STOPS` survives as the hint schedule and as what Explain reads from; it
+   no longer feeds petals, so `GuideStop.petal` is gone.
+   - **"Do a trick"** plays a random unused clip. Read off the GLB, the rig ships
+     exactly four — `action_Greet`, `Run`, `Talk`, `Walking` — and three were
+     already wired, so **`Run` is the only unused clip and there is no spin, jump
+     or flip**. The trick is therefore Run on the spot while the figure turns a
+     full 360° in code, eye at the CTA step (lock 1.9) for the duration, 6s
+     cooldown. Flagged rather than folded in: a real trick clip would need to be
+     authored or sourced for the model.
+   - Under `prefers-reduced-motion` the trick petal is **omitted**, not disabled,
+     and the remaining two re-space across the same arc.
+
+13. **The wave was never wired.** Spec decision 5 ("small fidget from GLB clips")
+   and decision 7 ("one wave on first visit per session") were both unbuilt: the
+   idle scheduler was entirely procedural and nothing in the app ever called
+   `playClip("greet")`, so the wave the model ships had never played. The
+   scheduler now draws clip-driven acts alongside the procedural ones and
+   guarantees a wave every 3–5 ticks, and the first arrival of a session waves.
+
 ## Architecture & interface contract (Track A ↔ Track B)
 
 Two work tracks build this in parallel. The contract between them is

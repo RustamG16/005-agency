@@ -18,12 +18,21 @@
   z-index: 150;
 }
 
+/* The corner is his HOME, not his cage.
+ *
+ * REVISED 2026-08-04 (Russ): dragging used to move the robot inside this fixed
+ * box, so past a certain reach he was outside his own canvas and you were
+ * dragging an empty pad. The whole dock travels now — `--guide-x/y` are written
+ * by `guide-drag.ts`, 1:1 with the pointer — so he tracks your hand exactly and
+ * cannot leave his frame. Never transition the transform: any easing there
+ * reads as him lagging behind the cursor. */
 .dock {
   position: absolute;
   right: 24px;
   bottom: 24px;
   width: 180px;
   height: 180px;
+  transform: translate3d(var(--guide-x, 0px), var(--guide-y, 0px), 0);
   pointer-events: none;
   /* He is absent over the hero and simply appears once you are past it — no
      choreographed hand-off. */
@@ -39,7 +48,15 @@
   visibility: visible;
   transition:
     opacity var(--duration-reveal) var(--ease-out-sharp),
-    visibility 0s linear 0s;
+    visibility 0s linear 0s,
+    bottom var(--duration-reveal) var(--ease-out-sharp);
+}
+
+/* He steps up off anything marked `data-guide-avoid` — the footer wordmark — so
+   he is looking at it rather than sitting on the last letter. The lift is
+   measured by the scene; this is only where it lands. */
+.dock[data-aside="true"] {
+  bottom: var(--guide-aside-lift, 24px);
 }
 
 @media (max-width: 520px) {

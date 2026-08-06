@@ -3,6 +3,7 @@ import { navItems } from "@/content/navigation";
 import { site } from "@/content/site";
 import { ArrowRightIcon } from "@/components/ui/Icons";
 import { HeaderZone } from "./HeaderZone";
+import { FooterWordmark } from "./FooterWordmark";
 import styles from "./Footer.module.css";
 
 export function Footer() {
@@ -48,18 +49,33 @@ export function Footer() {
           </div>
         </div>
 
-        <div className={`wrap ${styles.bottom}`}>
+        {/* `data-guide-avoid` keeps the corner guide off this row. The CC BY
+            attribution is a licence condition, not decoration — it has to be
+            readable, and he was standing on it. */}
+        <div className={`wrap ${styles.bottom}`} data-guide-avoid>
           <span>
             © {year} {site.name}. All rights reserved.
           </span>
-          <Link href="/privacy" className={styles.link}>
-            Privacy
-          </Link>
+          <div className={styles.bottomRight}>
+            {/* CC BY 4.0 attribution for the guide's model — required, not optional. */}
+            <span className={styles.colophon}>
+              Robot:{" "}
+              <a
+                href="https://sketchfab.com/3d-models/repo-robot-d125b0dbd8854f75a7e1fb49cfd4ef14"
+                target="_blank"
+                rel="noreferrer"
+              >
+                &ldquo;REPO Robot&rdquo; by OscarLomas3D
+              </a>{" "}
+              (CC BY 4.0)
+            </span>
+            <Link href="/privacy" className={styles.link}>
+              Privacy
+            </Link>
+          </div>
         </div>
 
-        <div className={styles.wordmarkWrap} aria-hidden="true">
-          <span className={styles.wordmark}>Convenium</span>
-        </div>
+        <FooterWordmark word="Convenium" />
       </footer>
     </HeaderZone>
   );

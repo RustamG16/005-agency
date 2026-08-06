@@ -1,0 +1,43 @@
+/* Giant dark-grey wordmark — the footer's last statement.
+ *
+ * Sized FROM the container: `--wordmark-ratio` is the advance of the word in
+ * ems, so `100cqw / ratio` is the largest size at which the whole thing fits.
+ * The seed comes from `tokens.css`; `FooterWordmark.tsx` overwrites it with the
+ * measured value once the real face is up.
+ *
+ * `overflow: hidden` is the ENTRANCE MASK, not a crop. The negative margins
+ * below trim leading only — the numbers are well inside Archivo Black's empty
+ * space above the caps (0.155em) and below the baseline (0.125em), so no part of
+ * a glyph is ever cut. The word used to be pushed 14% down inside this box,
+ * which took the feet off every letter; that is the defect this file exists to
+ * fix. */
+.wrap {
+  container-type: inline-size;
+  overflow: hidden;
+  width: 100%;
+  margin-top: var(--space-6);
+  text-align: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.ink {
+  display: block;
+  font-family: var(--font-family-display);
+  font-size: calc(100cqw / var(--wordmark-ratio));
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-wordmark);
+  /* Leading only — see the note above. */
+  margin-top: -0.1em;
+  margin-bottom: -0.08em;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink {
+    will-change: auto;
+  }
+}

@@ -146,7 +146,8 @@ async function run() {
     await page.locator("[data-guide-dock]").screenshot({ path: `${OUT}/${vp.name}-platform.png` });
 
     /* ---- hover ---- */
-    const puck = page.locator("[data-guide-dock] button");
+    // The puck specifically — the dock also holds the radial menu's buttons now.
+    const puck = page.locator("[data-guide-dock] button[data-ground]");
     await puck.hover();
     await page.waitForTimeout(300);
     check((await puck.getAttribute("data-state")) === "hover", "hover registers");

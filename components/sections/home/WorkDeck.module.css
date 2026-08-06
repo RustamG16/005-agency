@@ -1,0 +1,196 @@
+.section {
+  position: relative;
+  background: var(--color-noir);
+  color: var(--color-cotton);
+  padding-top: var(--space-6);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-gray);
+}
+
+.head :global(.eyebrow) {
+  color: var(--color-gray-on-noir);
+}
+
+.headLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent-on-noir);
+  transition: color var(--duration-nav-hover) var(--ease-out-sharp);
+}
+
+.headLink svg {
+  width: 14px;
+  height: auto;
+  transition: transform var(--duration-nav-hover) var(--ease-out-sharp);
+}
+
+.headLink:hover,
+.headLink:focus-visible {
+  color: var(--color-cotton);
+}
+
+.headLink:hover svg,
+.headLink:focus-visible svg {
+  transform: translateX(4px);
+}
+
+/* ---- the deck --------------------------------------------------------- */
+
+.deck {
+  position: relative;
+}
+
+.panel {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: stretch;
+  padding: var(--space-container);
+}
+
+.inner {
+  position: relative;
+  flex: 1;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transform-origin: 50% 30%;
+  will-change: transform;
+  /* The milled edge that makes the stack read as plates rather than slides. */
+  border: 1px solid var(--color-gray);
+}
+
+.plate {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Image above, solid caption below, hairline between. A wash over photography
+   would be a gradient and would still leave cotton text sitting on whatever the
+   frame happens to be bright at — a solid band is both rule-true and legible. */
+.mediaWrap {
+  position: relative;
+  display: block;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.media {
+  object-fit: cover;
+}
+
+.text {
+  flex: 0 0 auto;
+  padding: clamp(var(--space-2), 2.4vw, var(--space-4)) clamp(var(--space-3), 4vw, var(--space-5));
+  background: var(--color-noir);
+  border-top: 1px solid var(--color-gray);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: clamp(var(--space-2), 2.4vw, var(--space-4));
+  row-gap: var(--space-1);
+  align-items: baseline;
+}
+
+.index {
+  grid-row: 1 / span 3;
+  font-family: var(--font-family-display);
+  font-size: var(--font-card-title);
+  line-height: 1;
+  color: var(--color-accent-graphic); /* chili — graphic use, display size, on noir */
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-family-display);
+  font-size: var(--font-display);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-cotton);
+}
+
+.meta {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-gray-on-noir);
+}
+
+.sep {
+  padding: 0 0.5em;
+}
+
+.outcome {
+  max-width: var(--measure);
+  font-family: var(--font-family-serif);
+  font-size: var(--font-body);
+  line-height: 1.3;
+  color: var(--color-cotton);
+}
+
+/* Written by the scrubbed timeline as the next plate covers this one. */
+.cover {
+  position: absolute;
+  inset: 0;
+  background: var(--color-noir);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.plate:focus-visible {
+  outline: 2px solid var(--color-cotton);
+  outline-offset: -6px;
+}
+
+/* ---- flattened states -------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .panel {
+    position: static;
+    height: auto;
+    min-height: 78svh;
+    padding: var(--space-1) var(--space-container);
+  }
+
+  .text {
+    grid-template-columns: 1fr;
+  }
+
+  .index {
+    grid-row: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    position: static;
+    height: auto;
+    min-height: 70svh;
+    padding: var(--space-1) var(--space-container);
+  }
+
+  .inner {
+    transform: none !important;
+  }
+
+  .cover {
+    display: none;
+  }
+}

@@ -35,3 +35,12 @@ screenshots/
 
 # quarantined unused files
 _unused/generated/
+
+# extra build dirs from parallel sessions
+.next-build/
+.next-guide/
+.next-live/
+
+# scratch scripts
+scripts/_*.mjs
+__shot.mjs

@@ -3,6 +3,7 @@ import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Grain } from "@/components/motion/Grain";
 import { Cursor } from "@/components/motion/Cursor";
 import { InteriorReveals } from "@/components/motion/InteriorReveals";
+import { GuideHints } from "@/components/guide/GuideHints";
 
 /**
  * Homepage route-group layout. Same motion surface as interiors:
@@ -14,6 +15,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
       <Grain />
       <Cursor />
       <InteriorReveals />
+      <GuideHints />
       {children}
     </SmoothScroll>
   );

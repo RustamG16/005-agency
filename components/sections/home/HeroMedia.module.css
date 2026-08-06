@@ -1,0 +1,29 @@
+.media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--color-noir);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* DESIGN.md hero grade — the film stays the noisy "before" world. */
+  filter: brightness(0.78) saturate(0.78) contrast(1.08);
+}
+
+/* The placeholder the scrub progress drives until the film lands: a single
+   full-width rule, held in the negative space ABOVE the statement so it never
+   crosses a glyph. One graphic element, no ornament. */
+.horizon {
+  position: absolute;
+  /* Inset to the container, not full-bleed: edge-to-edge it reads as a divider
+     under the header rather than a rule inside the composition. */
+  left: var(--space-container);
+  right: var(--space-container);
+  top: 22%;
+  height: 1px;
+  background: var(--color-gray);
+  will-change: transform;
+}

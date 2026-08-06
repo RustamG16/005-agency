@@ -6,9 +6,13 @@
  * so he reads as an object in space. The §3 ring states go with it; hover and
  * drag now show on the pad's own rim, inside the render. */
 
+/* The handle overhangs the canvas by 20px on every side. He is a small figure
+   inside a 180px frame, so a hit box that stops at the canvas edge means half the
+   grabs at him land on the page behind. The canvas itself is unchanged — this is
+   reach, not size. */
 .puck {
   position: absolute;
-  inset: 0;
+  inset: -20px;
   display: block;
   padding: 0;
   border: 0;
@@ -31,10 +35,9 @@
   cursor: grabbing;
 }
 
+/* Inset back to the stage box the handle overhangs. */
 .canvas {
   position: absolute;
-  inset: 0;
+  inset: 20px;
   display: block;
-  width: 100%;
-  height: 100%;
 }

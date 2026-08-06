@@ -42,6 +42,13 @@
 
   /* Fluid type scale — clamp(mobile-390, fluid, desktop-1440) */
   --font-hero: clamp(3rem, 2.07rem + 3.81vw, 5.5rem); /* 48 -> 88 */
+  /* Homepage hero. Larger than --font-hero because the statement now carries the
+     opening viewport alone — there is no film behind it to share the work. */
+  /* Ceiling is set by measurement, not taste: "WE TAKE BUSINESSES" is 11.97em
+     wide in Archivo Black at -0.03em, so 112px is the largest size that keeps it
+     on one line inside the 1440 container. Above this it wraps and the
+     three-line composition breaks. */
+  --font-hero-display: clamp(2.75rem, 1.171rem + 6.476vw, 7rem); /* 44 -> 112 */
   --font-display: clamp(2.25rem, 1.6rem + 2.67vw, 4rem); /* 36 -> 64 */
   --font-manifesto: clamp(4rem, 1.77rem + 9.14vw, 10rem); /* 64 -> 160 */
   --font-footer: clamp(3rem, 1.89rem + 4.57vw, 6rem); /* 48 -> 96 */
@@ -88,4 +95,10 @@
 
   /* Reading measure */
   --measure: 600px;
+
+  /* Advance width of "CONVENIUM" in Archivo Black at -0.02em tracking, in ems.
+     Measured in the browser, not estimated — the footer wordmark divides the
+     container width by it so the whole word always fits. Re-measure if the
+     wordmark's text, face or tracking changes. */
+  --wordmark-ratio: 6.82;
 }

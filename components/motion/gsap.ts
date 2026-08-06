@@ -11,6 +11,10 @@ if (typeof window !== "undefined") {
   // first measures its position. One refresh once everything has settled keeps every trigger's
   // start/end accurate instead of quietly drifting from late layout shifts.
   window.addEventListener("load", () => ScrollTrigger.refresh());
+  // `load` is not enough on its own: Archivo Black is the tallest thing on the page and it can
+  // swap in after the load event, moving every measured start by the difference between the
+  // fallback's line box and its own.
+  document.fonts?.ready.then(() => ScrollTrigger.refresh());
 }
 
 export { gsap, ScrollTrigger };

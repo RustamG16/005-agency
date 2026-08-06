@@ -27,9 +27,10 @@ export type GuideMode =
   | "ask"
   | "sleep";
 
-export type GuideEdge = "left" | "right" | "bottom";
+/** Offset from the dock's CSS home corner, in px. Set by dragging. */
+export type GuidePoint = { x: number; y: number };
 
-export type GuidePuckPos = { edge: GuideEdge; offset: number };
+export type GuidePuckPos = GuidePoint;
 
 export type GuideLine = { eyebrow: string; text: string };
 
@@ -61,8 +62,8 @@ export type GuideSnapshot = {
 
 export const GUIDE_STORAGE_KEY = "convenium.guide.puck";
 
-/** Where the puck sits before anyone has dragged it. */
-export const DEFAULT_PUCK_POS: GuidePuckPos = { edge: "right", offset: 24 };
+/** Where the puck sits before anyone has dragged it: at its CSS home. */
+export const DEFAULT_PUCK_POS: GuidePuckPos = { x: 0, y: 0 };
 
 /* ---- internals --------------------------------------------------------- */
 
@@ -72,9 +73,15 @@ type CrownListener = (crown: GuideCrown | null) => void;
 /** Imperative hooks the scene registers so state changes reach three.js. */
 export type GuideSceneBridge = {
   setEyeStep?(on: boolean): void;
-  playClip?(name: "greet" | "talk" | "walk"): void;
+  playClip?(name: GuideClipName): void;
+  /** The whole trick — clip, turn, eye step, cooldown. Owned by the scene. */
+  playTrick?(): boolean;
+  /** Talk clip + turn to face the reader, held until the bubble retires. */
+  setTalking?(on: boolean): void;
   wake?(): void;
 };
+
+export type GuideClipName = "greet" | "talk" | "walk" | "run";
 
 const listeners = new Set<Listener>();
 const crownListeners = new Set<CrownListener>();
@@ -117,9 +124,26 @@ function getSnapshot() {
   return snapshot;
 }
 
+/* Auto-retire (spec §6). It lives HERE rather than in `GuideHints` because the
+ * radial speaks too — "Explain this section" and the Ask fallback both went up
+ * and stayed up forever, since the only 6s timer on the page belonged to the
+ * scroll hints. One bubble, one clock, whoever opened it. */
+export const BUBBLE_MS = 6000;
+
+let bubbleTimer: ReturnType<typeof setTimeout> | null = null;
+
+function clearBubbleTimer() {
+  if (bubbleTimer === null) return;
+  clearTimeout(bubbleTimer);
+  bubbleTimer = null;
+}
+
 /** Opening the ring or the Ask panel retires the bubble (DESIGN-LOCK §6). */
 function retireBubble() {
-  if (snapshot.line) commit({ line: null });
+  clearBubbleTimer();
+  if (!snapshot.line) return;
+  commit({ line: null });
+  bridge.setTalking?.(false);
 }
 
 export const guideStore = {
@@ -180,11 +204,24 @@ export const guideStore = {
       snapshot.mode === "idle" || snapshot.mode === "hover" || snapshot.mode === "sleep";
     commit({ line, mode: talkable ? "talking" : snapshot.mode });
     bridge.wake?.();
-    bridge.playClip?.("talk");
+    // Held for as long as the bubble is up, and he turns to face the reader
+    // while he is saying it — a fixed-length clip stopped talking a third of
+    // the way through the line.
+    bridge.setTalking?.(true);
+
+    clearBubbleTimer();
+    if (typeof window !== "undefined") {
+      bubbleTimer = setTimeout(() => {
+        bubbleTimer = null;
+        guideStore.dismissBubble();
+      }, BUBBLE_MS);
+    }
   },
 
   dismissBubble() {
+    clearBubbleTimer();
     commit({ line: null, mode: snapshot.mode === "talking" ? "idle" : snapshot.mode });
+    bridge.setTalking?.(false);
   },
 
   /* ---- eye ---- */
@@ -208,8 +245,13 @@ export const guideStore = {
   },
 
   /** Track B: play a rig clip without importing the scene. */
-  playClip(name: "greet" | "talk" | "walk") {
+  playClip(name: GuideClipName) {
     bridge.playClip?.(name);
+  },
+
+  /** Returns false when the trick is on cooldown or the scene is not up yet. */
+  playTrick() {
+    return bridge.playTrick?.() ?? false;
   },
 
   /** Track A only — the scene registers itself here on mount. */
@@ -230,11 +272,14 @@ export function loadPuckPos(): GuidePuckPos {
     if (!raw) return DEFAULT_PUCK_POS;
     const parsed = JSON.parse(raw) as Partial<GuidePuckPos>;
     if (
-      (parsed.edge === "left" || parsed.edge === "right" || parsed.edge === "bottom") &&
-      typeof parsed.offset === "number" &&
-      Number.isFinite(parsed.offset)
+      typeof parsed.x === "number" &&
+      typeof parsed.y === "number" &&
+      Number.isFinite(parsed.x) &&
+      Number.isFinite(parsed.y)
     ) {
-      return { edge: parsed.edge, offset: parsed.offset };
+      // Not clamped here — the viewport may have changed since it was written,
+      // so the drag controller re-clamps against the live one on mount.
+      return { x: parsed.x, y: parsed.y };
     }
   } catch {
     /* private mode, disabled storage, or hand-edited junk — fall through */

@@ -1,194 +1,101 @@
 .hero {
   position: relative;
-  height: 100svh;
   background: var(--color-noir);
+  color: var(--color-cotton);
 }
 
-.frame {
+.stage {
   position: relative;
-  height: 100%;
-  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   overflow: hidden;
 }
 
-/* Layer A media stack — OpeningSequence fades this behind shut doors before revealing Works. */
-.bgLayer {
-  position: absolute;
-  inset: 0;
-}
-
-.video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Approved grade (DESIGN.md "Hero grade") — keeps the film's color but ties it toward the
-     system palette rather than reading as a fully separate, foreign world. */
-  filter: brightness(0.78) saturate(0.78) contrast(1.08);
-}
-
-.fallbackPoster {
-  z-index: auto;
-}
-
-.scrim {
-  position: absolute;
-  inset: 0;
-  background: rgba(5, 5, 5, 0.19);
-}
-
-.overlayText {
-  position: absolute;
+/* Content sits above the media layer. */
+.content {
+  position: relative;
   z-index: 2;
-  left: var(--space-container);
-  right: var(--space-container);
-  bottom: 16%;
-  max-width: 34ch;
-  pointer-events: none;
+  padding-bottom: clamp(var(--space-6), 12vh, var(--space-7));
+  padding-top: calc(var(--space-7) + var(--space-4));
+}
+
+.headline {
+  margin: 0;
+  /* The statement is allowed to run past the container's right edge —
+     DESIGN.md: oversized display words can bleed beyond the viewport. */
+  max-width: none;
+  font-size: var(--font-hero-display);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+}
+
+.display {
+  display: block;
   font-family: var(--font-family-display);
-  font-size: clamp(1.25rem, 0.85rem + 1.9vw, 2.5rem);
-  line-height: 1.15;
   text-transform: uppercase;
-  color: var(--color-bone);
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  animation: heroOverlayIn 900ms var(--ease-out-sharp) 300ms forwards;
-}
-
-@keyframes heroOverlayIn {
-  to {
-    opacity: 1;
-  }
-}
-
-.scrollCue {
-  position: absolute;
-  bottom: var(--space-4);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-family-ui);
-  font-size: var(--font-label);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-bone);
-  transition: opacity 400ms var(--ease-out-sharp);
-}
-
-.scrollLine {
-  /* The hero's one accent moment (DESIGN-FIX-PLAN-3 FIX 3) — everything else in the overlay is bone. */
-  width: 1px;
-  height: 28px;
-  background: var(--color-accent-on-noir);
-  animation: scrollPulse 2s ease-in-out infinite;
-}
-
-@keyframes scrollPulse {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.door {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  background: var(--color-noir);
-  z-index: 3;
+  color: var(--color-cotton);
   will-change: transform;
 }
 
-.doorLeft {
-  left: 0;
-  transform: translateX(-100%);
+/* The turn. Sentence case, serif, italic — the sentence stops shouting and
+   starts meaning something. */
+.serif {
+  display: block;
+  font-family: var(--font-family-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--color-cotton);
+  will-change: transform;
 }
 
-.doorRight {
-  right: 0;
-  transform: translateX(100%);
+.support {
+  position: relative;
+  margin-top: var(--space-4);
+  max-width: var(--measure);
+  font-family: var(--font-family-ui);
+  font-size: var(--font-body);
+  line-height: 1.45;
+  color: var(--color-gray-on-noir);
+  will-change: transform;
 }
 
-/* Beats — cross-fade on the closed doors, driven by the same scrub timeline as the doors
-   (see Hero.tsx "hero-sequence"). z-index above the doors (3) so they show once closed.
-   Hidden by default: on mobile the ScrollTrigger/timeline never runs, so this stays inert
-   and the separate .beatsStatic block below is what renders instead. */
-.beats {
+.cue {
   position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
-}
-
-.beatRow {
-  position: absolute;
-  inset: 0;
+  right: var(--space-container);
+  bottom: clamp(var(--space-3), 5vh, var(--space-5));
+  z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0 var(--space-container);
-  text-align: center;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.beatWord {
-  font-family: var(--font-family-display);
-  font-size: clamp(2.25rem, 1.1rem + 4.3vw, 6rem);
-  line-height: 1.05;
+  gap: var(--space-2);
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
   text-transform: uppercase;
-  color: var(--color-bone);
-  overflow-wrap: break-word;
+  letter-spacing: 0.1em;
+  color: var(--color-gray-on-noir);
 }
 
-/* Static fallback (mobile / reduced motion) — plain stacked lines right after the hero, no pin. */
-.beatsStatic {
-  background: var(--color-noir);
-  color: var(--color-bone);
-  padding-top: var(--space-7);
-  padding-bottom: var(--space-7);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
+.cueLine {
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: var(--color-gray);
 }
 
-.staticQuestion {
-  font-family: var(--font-family-display);
-  font-size: clamp(1.75rem, 1.1rem + 3.5vw, 3rem);
-  line-height: 1.1;
-  text-transform: uppercase;
-  color: var(--color-bone);
-  max-width: 18ch;
-  margin-bottom: var(--space-2);
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid rgba(238, 237, 232, 0.18);
-}
-
-.staticBeat {
-  font-family: var(--font-family-display);
-  font-size: clamp(2.5rem, 1.5rem + 6vw, 5rem);
-  line-height: 0.9;
-  text-transform: uppercase;
-  min-width: 0;
-  overflow-wrap: break-word;
-  letter-spacing: -0.02em;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scrollLine {
-    animation: none;
+@media (max-width: 768px) {
+  .content {
+    padding-top: calc(var(--space-7) + var(--space-2));
+    padding-bottom: var(--space-6);
   }
 
-  .overlayText {
-    animation: none;
-    opacity: 1;
+  .cue {
+    left: var(--space-container);
+    right: auto;
+  }
+
+  .cueLine {
+    width: 32px;
   }
 }
