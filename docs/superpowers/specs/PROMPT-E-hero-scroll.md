@@ -1,13 +1,30 @@
-# PROMPT E — Claude Code desktop (Opus 5), run in Plan Mode
+# PROMPT E — Claude Code desktop (Opus 5)
 
 Hero scroll animation. Copy everything below the line into Claude Code.
 
 **Before you paste:**
 
 1. Higgsfield MCP must be connected in Claude Code and authenticated, with ≥ 100 credits.
-   Verify with the `balance` tool before starting Phase 1.
+   Verify by running `claude mcp list`, then call the MCP's `balance` tool before Phase 1.
 2. `ffmpeg` and `ffprobe` must be on PATH.
-3. Start in Plan Mode. This work has hard spend gates — do not let it run unattended.
+3. Working tree must be clean. Checkpoint commit is `1e91f41`; the spec and this prompt are
+   `7cd8dcf`. That commit is the restore point for every auto-mode phase below.
+
+**Mode is per phase, not per run.** `IMPLEMENTATION-PLAN.md` §0.2 already requires each phase
+to be its own session; that applies here.
+
+| Phase | Mode | Why |
+| --- | --- | --- |
+| 0 — harness | Auto | Free, reversible, clean commit behind it |
+| 1 — anchor still | **Plan** | 6 credits, and the judgement is the point — you pick the still |
+| 2 — motion clip | **Plan** | 62.5 credits across two gates |
+| 3 — encode + rule change | Auto | Commands verbatim in spec §4.3, `CLAUDE.md` wording pre-approved in §6 |
+| 4 — seek path | Auto | Free, checkpoint commit covers it |
+| 5–6 — polish, verify | Auto | Free |
+
+Phase 2 is the one that must not run unattended. The previz exists so the §4.4 grade problem
+is found at 17.5 credits instead of 45; an unattended run will read "previz looks fine" and go
+straight to the master.
 
 Skills to invoke: `frontend-design`, `gsap-scrolltrigger`, `gsap-react`, `gsap-performance`,
 `ai-video-director`, `web-design-pro`, `design:accessibility-review`.
@@ -41,9 +58,12 @@ dependencies. **Do not** touch any other route or section.
 
 ## Phases — one session each, gated
 
-Run these in order. Each must pass its exit criteria before the next begins.
+Run these in order, each as its own session. Each must pass its exit criteria before the next
+begins. The mode label on each heading is binding: phases marked PLAN MODE must not run
+unattended, because they spend real credits on judgement calls that are mine to make, not
+yours.
 
-### Phase 0 — preview harness (free)
+### Phase 0 — preview harness · auto · free
 
 Build `/dev/hero-preview` per spec §4.5. It mounts a candidate image into the real
 `HeroMedia` box with the real `<h1>`, real tokens, real `next/font` faces, and the real
@@ -59,7 +79,7 @@ production may import from it.
 Exit: slider drives progress end to end, cotton edge tracks it, grade and type match
 production exactly.
 
-### Phase 1 — anchor still (6 credits, GATED)
+### Phase 1 — anchor still · PLAN MODE · 6 credits · GATED
 
 **Stop and ask before generating anything.**
 
@@ -72,7 +92,7 @@ graded, with type over them at several progress values. Not as flat thumbnails.
 Exit: one approved still. On-brand, focal point horizontally centred with headroom, nothing
 essential near the left or right edge, statement type legible over it at every progress value.
 
-### Phase 2 — motion clip (62.5 credits, GATED TWICE)
+### Phase 2 — motion clip · PLAN MODE · 62.5 credits · GATED TWICE
 
 **Stop and ask before the previz. Stop and ask again before the master.**
 
@@ -94,7 +114,7 @@ that model rejects the param). Do not exceed the 31.5-credit reserve without ask
 
 Exit: one approved master.
 
-### Phase 3 — encode (free)
+### Phase 3 — encode · auto · free
 
 The three ffmpeg commands in spec §4.3, unchanged. Then amend `CLAUDE.md` line 22 to the
 exact replacement text in spec §6 — this rule change is approved, do not skip it and do not
@@ -103,7 +123,7 @@ improvise different wording.
 Exit: `public/media/hero_scrub.mp4` ≤ 8 MB, `hero_scrub-m.mp4` ≤ 3 MB,
 `public/images/poster-hero-scrub.jpg` extracted from the **encoded** file, `CLAUDE.md` amended.
 
-### Phase 4 — the seek path (free)
+### Phase 4 — the seek path · auto · free
 
 Implement all five behaviours in spec §2.1 inside `HeroMedia.tsx`, behind the existing
 `HeroMediaHandle.setProgress` contract. Set `SCRUB_SRC`. Verify each behaviour individually,
@@ -118,13 +138,13 @@ not just the composite:
 
 Exit: all five present and individually demonstrated.
 
-### Phase 5 — polish (free)
+### Phase 5 — polish · auto · free
 
 Contrast of the statement over the film at every progress value, scroll-cue legibility,
 header flip timing at `CHROME_FLIP_AT`. Invoke `web-design-pro` and
 `design:accessibility-review`.
 
-### Phase 6 — verification (free)
+### Phase 6 — verification · auto · free
 
 Everything in spec §9. Run the scrub checks from the Phase 0 harness first, then confirm each
 one on the real page under real scroll — a check that only ever passed in the harness has not
