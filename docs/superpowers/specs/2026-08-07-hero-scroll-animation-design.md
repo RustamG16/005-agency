@@ -90,11 +90,14 @@ canvas frame-sequence upgrade in §8.
 progress 0.00   camera low in a dark shaft, one raking light from a high opening
          0.62   HANDOFF_AT   — statement type lifts out ahead of the covering edge
          0.92   CHROME_FLIP_AT — header flips dark → light
-         1.00   camera arrives at the opening; frame near-blown cotton
-                Capabilities (already cotton) now covers the frame
+         1.00   camera arrives at the opening, frame at its brightest
+                Capabilities (already cotton) fully covers the frame
 ```
 
-The clip ends on the wipe colour, so the handoff is a colour match rather than a cut.
+Progress is also the fraction of the frame Capabilities has covered, so the film is always
+being wiped from the top as it plays. The clip brightens toward its end and the grade eases
+off over the back of the pin so the travelling seam between cotton and film closes tonally
+rather than stepping. The film does not — and cannot — reach cotton exactly; see §4.4.
 
 One continuous forward move at constant velocity. No cuts, no reversal: a velocity reversal
 mid-clip reads as a rewind under scrub even though the render is continuous.
@@ -157,6 +160,66 @@ ffmpeg -i seedance-out.mp4 -an \
 
 Poster: `ffmpeg -i public/media/hero_scrub.mp4 -vframes 1 public/images/poster-hero-scrub.jpg`
 — extracted from the *encoded* file, per §2.1 item 4.
+
+### 4.4 The grade, and why the film cannot end on cotton
+
+`HeroMedia.module.css` already grades the film:
+
+```css
+filter: brightness(0.78) saturate(0.78) contrast(1.08);
+```
+
+That grade is deliberate — DESIGN.md keeps the hero film as "the noisy before world" — and it
+breaks the naive version of the handoff. Cotton is `#EDEBDD`, roughly 237 on the red channel.
+Reaching 237 through `brightness(0.78)` needs a source value of 304, which does not exist.
+**The film can never match the wipe colour while the grade is on.**
+
+It does not need to. Re-reading `Hero.tsx`: the pin runs one viewport with `pinSpacing: false`,
+so progress *is* the fraction of the frame the Capabilities section has already covered. At
+progress 1.0 the film is fully hidden behind cotton and its last frame is never seen
+uncovered. The real requirement is softer and more specific: the *moving seam* between
+cotton above and film below must not read as a hard tonal step while it travels.
+
+Two consequences for this design:
+
+1. **The clip must brighten steadily toward its end**, so the shrinking band of visible film
+   rises toward cotton as the seam sweeps down. This is why §4.2's motion prompt ends with
+   "the opening fills the frame with soft light" — that clause is structural, not decorative.
+2. **The grade must ease off over the back of the pin.** Animate `brightness` 0.78 → 1.0 and
+   `contrast` 1.08 → 1.0 across roughly `HANDOFF_AT` → 1.0, on the same timeline, so the
+   final visible sliver is as close to cotton as the encode allows.
+
+Neither is guesswork to be settled in code review — both are measured in the harness below
+before the master is generated.
+
+### 4.5 Preview harness
+
+A development-only route, `/dev/hero-preview`, built **before** any credits are spent.
+
+It mounts each candidate still into the real `HeroMedia` box, with the real `<h1>` statement
+over it, the real `tokens.css` values, the real `next/font` faces, and the real
+`.video` grade — then exposes a progress slider from 0 to 1 that drives the same
+`setProgress` handle the pinned timeline will drive, plus a simulated cotton edge descending
+at the same rate as the Capabilities cover.
+
+What it is for:
+
+- Choosing the anchor still on the evidence that matters — full-bleed, cropped, graded, with
+  type over it — rather than as three flat thumbnails.
+- Measuring the §4.4 seam behaviour and fixing the grade ramp before the 45-credit master.
+- Serving as the rig for the §9 contrast, linearity and reverse-scrub checks in Phases 4–6,
+  where stepping progress deterministically is far easier than driving real scroll.
+
+Constraints:
+
+- Not in `app/sitemap.ts`'s `routes` array, and given `robots: { index: false }` in its own
+  metadata — `app/robots.ts` currently allows `/` wholesale, so the exclusion has to live on
+  the route.
+- No production imports point at it; it imports from production, never the reverse.
+- Deleted or left behind a `NODE_ENV !== "production"` guard at the end of Phase 6. Decide
+  which at Phase 6, not now.
+
+Cost: zero credits, zero new dependencies.
 
 ---
 
@@ -273,7 +336,9 @@ accepted.
 Additional checks specific to this work:
 
 The scrub checks below run at 1440×900 only; at 390×844 the pin does not exist and the
-correct result is a static poster.
+correct result is a static poster. Drive them from the `/dev/hero-preview` harness (§4.5),
+where progress can be set deterministically, then confirm the same result once on the real
+page under real scroll — a check that only ever passes in the harness has not been run.
 
 - **Scrub linearity.** Drive the pin to progress 0, 0.25, 0.5, 0.75, 1.0 and screenshot each.
   Frames must differ monotonically; a repeated frame between two steps means the seek is
@@ -284,6 +349,9 @@ correct result is a static poster.
   fetched.
 - **Text contrast over film.** Sample the statement type against the film at the same five
   progress values. WCAG AA at all five, not only at the endpoints.
+- **Wipe seam.** At progress 0.7, 0.8 and 0.9, sample the graded film immediately below the
+  descending cotton edge. The tonal step across the seam must narrow as progress rises, per
+  §4.4. A widening step means the grade ramp is wrong or the clip does not brighten.
 - **File weight.** Desktop master ≤ 8 MB, mobile ≤ 3 MB. Fail the phase above that.
 - **Console.** Zero errors after a full scroll pass, including the blob revoke on unmount.
 - **Brand grep.** No `SYMBOL STUDIO`, no `#FE552E`, no Rules font, no colour cast in the
@@ -295,12 +363,17 @@ correct result is a static poster.
 
 | Phase | Work | Exit criteria | Skill |
 | --- | --- | --- | --- |
-| 1 | Generate 3 anchor stills, pick one | One approved still, on-brand, correctly composed for centre-crop | `ai-video-director` for the frame prompt; Higgsfield `generate_image`; `frontend-design` to judge |
-| 2 | Previz at 720p fast → approve motion → final 1080p master | One approved master; camera continuous, no reversal, ends on cotton | `ai-video-director` for the motion prompt; Higgsfield `generate_video` |
+| 0 | Build the `/dev/hero-preview` harness (§4.5) against the current placeholder | Slider drives `setProgress` 0→1; cotton edge descends; grade and type match production | `frontend-design`, `gsap-react` |
+| 1 | Generate 3 anchor stills, judge them **in the harness**, pick one | One approved still, on-brand, composed for centre-crop, type legible over it at every progress value | `ai-video-director` for the frame prompt; Higgsfield `generate_image`; `frontend-design` to judge |
+| 2 | Previz at 720p fast → check the seam and grade ramp (§4.4) in the harness → approve → final 1080p master | One approved master; camera continuous, no reversal, brightens toward the end; grade ramp fixed | `ai-video-director` for the motion prompt; Higgsfield `generate_video` |
 | 3 | ffmpeg: `-g 4` master, 720p mobile, extracted poster; amend `CLAUDE.md` §6 | Three files in `public/`, weights inside §9 limits, rule amended | none — bash |
 | 4 | Port the seek path (§2.1) into `HeroMedia`; set `SCRUB_SRC` | All five behaviours present and individually verified | `gsap-scrolltrigger`, `gsap-react`, `gsap-performance` |
 | 5 | Polish: contrast over film, cue legibility, header flip timing | §9 contrast and console checks pass | `web-design-pro`, `design:accessibility-review` |
 | 6 | Full verification pass | Every §9 check green | project verification protocol in `CLAUDE.md` |
 
 Phases 1 and 2 are the only ones that spend credits, and each is gated on an explicit go.
-Phases 3–6 are free and reversible.
+Phase 0 and Phases 3–6 are free and reversible.
+
+Phase 0 exists to move both credit-spending decisions onto evidence. Without it, the anchor
+is chosen from flat thumbnails and the §4.4 grade problem is not discovered until after the
+master is paid for.
