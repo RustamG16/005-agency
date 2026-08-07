@@ -35,6 +35,7 @@ const EZ = 5.2;
 export const SCREEN_WINDOW: [number, number] = [0.72, 0.9];
 
 /** Optional media. Absent files fall back to the canvas-drawn surfaces, silently. */
+const MANIFEST_SRC = "/images/about/manifest.json";
 const COVER_SRC = "/images/about/monolith-cover.jpg";
 const PLATE_SRC = (i: number) => `/images/about/plates/plate-0${i + 1}.jpg`;
 const SCREEN_VIDEO_SRC = "/videos/loops/loop-a.mp4";
@@ -212,19 +213,31 @@ export function buildMonolith(canvas: HTMLCanvasElement, stage: HTMLElement): Mo
   /**
    * Optional media, loaded after first paint.
    *
-   * Every URL is probed with `fetch` before anything is attached to the DOM or to a
-   * TextureLoader: a missing `<img>`/`<video>` source logs a 404 to the console, a
-   * missing `fetch` does not. Absent files therefore leave the canvas-drawn surfaces
-   * in place with a genuinely clean console.
+   * These eight files have never existed, and the previous approach — HEAD-probe each URL
+   * and skip on a non-ok response — was written believing `fetch` fails quietly. It does
+   * not: Chrome logs "Failed to load resource: 404" for a failed `fetch` exactly as it
+   * does for an `<img>`. So every visit to /about fired eight requests, took eight 404s,
+   * and printed eight console errors, which is a standing failure of the CLAUDE.md
+   * verification gate ("console error check").
+   *
+   * A manifest inverts it. One request that returns 200, listing what is actually present.
+   * Absent or empty, nothing else is requested and the canvas-drawn surfaces stand — which
+   * is the intended default, not a fallback. Dropping assets in still needs no code change,
+   * only a line in the manifest.
    */
-  const exists = async (url: string) => {
+  const manifest = (async (): Promise<Set<string>> => {
     try {
-      const res = await fetch(url, { method: "HEAD", cache: "force-cache" });
-      return res.ok;
+      const res = await fetch(MANIFEST_SRC, { cache: "force-cache" });
+      if (!res.ok) return new Set();
+      const json: unknown = await res.json();
+      const list = (json as { available?: unknown })?.available;
+      return Array.isArray(list) ? new Set(list.filter((s): s is string => typeof s === "string")) : new Set();
     } catch {
-      return false;
+      return new Set();
     }
-  };
+  })();
+
+  const exists = async (url: string) => (await manifest).has(url);
 
   const loadOptionalMedia = (tl: gsap.core.Timeline) => {
     const loader = new THREE.TextureLoader();

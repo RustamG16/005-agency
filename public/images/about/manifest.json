@@ -1,0 +1,4 @@
+{
+  "_comment": "Optional media for the about-page monolith. List only files that exist here; components/sections/about/monolith/monolith.ts requests nothing that is not listed, so an unlisted or missing file costs no request and logs no 404. Empty is the intended default — the monolith is canvas-drawn and complete without any of this. Specs are in MEDIA-BRIEF-ABOUT.md: plates 1024x1024 JPG <=250KB, cover 896x1160 <=400KB, loop 1080x1080 6-8s, audio stripped.",
+  "available": []
+}
