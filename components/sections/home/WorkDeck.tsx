@@ -92,7 +92,10 @@ function WorkPlate({ project, index }: { project: Project; index: number }) {
             <span className={styles.index} aria-hidden="true">
               {indexLabel(index)}
             </span>
-            <h3 className={styles.name}>{project.name}</h3>
+            {/* Same length threshold as the works index — see WorkDeck.module.css. */}
+            <h3 className={styles.name} data-long={project.name.length > 12 || undefined}>
+              {project.name}
+            </h3>
             <span className={styles.meta}>
               {project.sector}
               <span className={styles.sep} aria-hidden="true">

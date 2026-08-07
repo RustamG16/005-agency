@@ -149,6 +149,14 @@
   color: var(--color-cotton);
 }
 
+/* "EDUCATION4STUDENTS" is 18 unbreakable characters. At --font-display's 36px floor it
+   ran 467px inside a 308px plate and `.inner`'s overflow:hidden cut it to "EDUCAT". The
+   cap binds only where the plate is actually narrow — at 1440 the token is still the
+   smaller of the two, so the deck is unchanged. Threshold matches the works index. */
+.name[data-long] {
+  font-size: min(var(--font-display), 5.9vw);
+}
+
 .meta {
   font-family: var(--font-family-ui);
   font-size: var(--font-label);
