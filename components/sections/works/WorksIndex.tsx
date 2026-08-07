@@ -12,6 +12,15 @@ function floorNumber(indexFromTop: number, total: number) {
   return String(total - indexFromTop).padStart(2, "0");
 }
 
+/**
+ * One index row.
+ *
+ * The row used to be a single `<a href="#its-own-id">` — a link that navigated to itself,
+ * which is also why an external link could not live inside it (nested anchors are invalid).
+ * Now the row is a plain element that owns the hover, and the project name is the link, out
+ * to the live build. The whole row keeps `data-cursor` so the affordance still reads at row
+ * scale rather than only over the eleven characters of a name.
+ */
 function WorksRow({
   project,
   floor,
@@ -20,26 +29,38 @@ function WorksRow({
 }: {
   project: Project;
   floor: string;
-  onHover: (project: Project, el: HTMLElement) => void;
+  onHover: (project: Project) => void;
   onLeave: () => void;
 }) {
   return (
-    <a
+    <div
       id={project.slug}
-      href={`#${project.slug}`}
       className={styles.row}
       data-cursor="view"
-      data-cursor-label="View"
-      onMouseEnter={(e) => onHover(project, e.currentTarget)}
+      data-cursor-label="Live"
+      onMouseEnter={() => onHover(project)}
       onMouseLeave={onLeave}
-      onFocus={(e) => onHover(project, e.currentTarget)}
-      onBlur={onLeave}
     >
       <span className={styles.floor} aria-hidden="true">
         {floor}
       </span>
       <div className={styles.main}>
-        <h2 className={styles.name}>{project.name}</h2>
+        <h2 className={styles.name}>
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.nameLink}
+            onFocus={() => onHover(project)}
+            onBlur={onLeave}
+          >
+            {project.name}
+            <span className={styles.visit}>
+              Visit live site
+              <span aria-hidden="true"> ↗</span>
+            </span>
+          </a>
+        </h2>
         <p className={styles.meta}>
           {project.sector}
           <span className={styles.metaSep} aria-hidden="true">
@@ -56,29 +77,30 @@ function WorksRow({
 
       <div className={styles.mobileMedia}>
         <Image
-          src={project.poster}
+          src={project.cover}
           alt=""
           fill
           sizes="(max-width: 899px) 100vw, 0px"
           className={styles.mobilePoster}
           style={{ objectPosition: project.objectPosition }}
         />
-        <video
-          className={styles.mobileVideo}
-          muted
-          playsInline
-          loop
-          preload="metadata"
-          poster={project.poster}
-          data-single-active
-          data-video-offset={project.videoOffset}
-          aria-hidden="true"
-          style={{ objectPosition: project.objectPosition }}
-        >
-          <source src="/media/columns.mp4" type="video/mp4" />
-        </video>
+        {project.loop && (
+          <video
+            className={styles.mobileVideo}
+            muted
+            playsInline
+            loop
+            preload="none"
+            poster={project.cover}
+            data-single-active
+            aria-hidden="true"
+            style={{ objectPosition: project.objectPosition }}
+          >
+            <source src={project.loop} type="video/mp4" />
+          </video>
+        )}
       </div>
-    </a>
+    </div>
   );
 }
 
@@ -93,21 +115,13 @@ export function WorksIndex() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !active) return;
+    if (!video || !active?.loopPortrait) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
-    const seek = () => {
-      try {
-        video.currentTime = active.videoOffset;
-      } catch {
-        /* ignore seek before ready */
-      }
-      video.play().catch(() => {});
-    };
-
-    if (video.readyState >= 1) seek();
-    else video.addEventListener("loadedmetadata", seek, { once: true });
+    video.play().catch(() => {
+      /* refused, or no source — the cover stands in */
+    });
 
     return () => {
       video.pause();
@@ -155,24 +169,29 @@ export function WorksIndex() {
             <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={active.poster}
+                src={active.coverPortrait}
                 alt=""
                 className={styles.panelPoster}
-                style={{ objectPosition: active.objectPosition }}
               />
-              <video
-                ref={videoRef}
-                className={styles.panelVideo}
-                muted
-                playsInline
-                loop
-                preload="metadata"
-                poster={active.poster}
-                aria-hidden="true"
-                style={{ objectPosition: active.objectPosition }}
-              >
-                <source src="/media/columns.mp4" type="video/mp4" />
-              </video>
+              {active.loopPortrait && (
+                /* `key` is load-bearing. Changing a <source>'s src does not reload a
+                   <video> — the element keeps playing whatever it already fetched — so
+                   without a remount the panel would show the first project hovered for
+                   every project after it. */
+                <video
+                  key={active.slug}
+                  ref={videoRef}
+                  className={styles.panelVideo}
+                  muted
+                  playsInline
+                  loop
+                  preload="auto"
+                  poster={active.coverPortrait}
+                  aria-hidden="true"
+                >
+                  <source src={active.loopPortrait} type="video/mp4" />
+                </video>
+              )}
             </>
           )}
         </div>

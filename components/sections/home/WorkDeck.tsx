@@ -25,11 +25,94 @@ import { gsap } from "@/components/motion/gsap";
 import { MQ } from "@/components/motion/motion";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
 import { ArrowRightIcon } from "@/components/ui/Icons";
-import { projects } from "@/content/projects";
+import { useMediaActivation } from "@/components/motion/useMediaActivation";
+import { projects, type Project } from "@/content/projects";
 import styles from "./WorkDeck.module.css";
 
 function indexLabel(i: number) {
   return String(i + 1).padStart(2, "0");
+}
+
+/**
+ * One plate. Its own component because each needs its own activation state — a single
+ * hook at deck level would run all four films at once.
+ *
+ * The plate links out to the live site rather than to an internal case page: there are no
+ * case pages, and the strongest thing we can say about a build is "go and use it".
+ */
+function WorkPlate({ project, index }: { project: Project; index: number }) {
+  const innerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const { active, activate, deactivate } = useMediaActivation(innerRef, videoRef);
+
+  return (
+    <article className={styles.panel}>
+      <div className={styles.inner} ref={innerRef}>
+        <a
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.plate}
+          data-cursor="view"
+          data-cursor-label="Live"
+          onMouseEnter={activate}
+          onMouseLeave={deactivate}
+          onFocus={activate}
+          onBlur={deactivate}
+        >
+          <span className={styles.mediaWrap} data-active={active}>
+            <Image
+              src={project.cover}
+              alt=""
+              fill
+              sizes="100vw"
+              className={styles.media}
+              style={{ objectPosition: project.objectPosition }}
+              priority={index === 0}
+            />
+            {/* The film sits on top and fades in. Because cover.jpg is this clip's own
+                frame 0, the crossfade has nothing to cross — it is the same image. */}
+            {project.loop && (
+              <video
+                ref={videoRef}
+                className={styles.video}
+                muted
+                playsInline
+                loop
+                preload="none"
+                aria-hidden="true"
+                style={{ objectPosition: project.objectPosition }}
+              >
+                <source src={project.loop} type="video/mp4" />
+              </video>
+            )}
+          </span>
+
+          <span className={styles.text}>
+            <span className={styles.index} aria-hidden="true">
+              {indexLabel(index)}
+            </span>
+            <h3 className={styles.name}>{project.name}</h3>
+            <span className={styles.meta}>
+              {project.sector}
+              <span className={styles.sep} aria-hidden="true">
+                ·
+              </span>
+              {project.scope}
+              <span className={styles.sep} aria-hidden="true">
+                ·
+              </span>
+              {project.year}
+            </span>
+            <span className={styles.outcome}>{project.outcome}</span>
+          </span>
+        </a>
+
+        {/* Darkens as the next plate covers this one. */}
+        <span className={styles.cover} aria-hidden="true" />
+      </div>
+    </article>
+  );
 }
 
 export function WorkDeck() {
@@ -101,45 +184,7 @@ export function WorkDeck() {
 
         <div className={styles.deck}>
           {projects.map((project, i) => (
-            <article key={project.slug} className={styles.panel}>
-              <div className={styles.inner}>
-                <Link href={`/works#${project.slug}`} className={styles.plate} data-cursor="view" data-cursor-label="View">
-                  <span className={styles.mediaWrap}>
-                    <Image
-                      src={project.poster}
-                      alt=""
-                      fill
-                      sizes="100vw"
-                      className={styles.media}
-                      style={{ objectPosition: project.objectPosition }}
-                      priority={i === 0}
-                    />
-                  </span>
-
-                  <span className={styles.text}>
-                    <span className={styles.index} aria-hidden="true">
-                      {indexLabel(i)}
-                    </span>
-                    <h3 className={styles.name}>{project.name}</h3>
-                    <span className={styles.meta}>
-                      {project.sector}
-                      <span className={styles.sep} aria-hidden="true">
-                        ·
-                      </span>
-                      {project.scope}
-                      <span className={styles.sep} aria-hidden="true">
-                        ·
-                      </span>
-                      {project.year}
-                    </span>
-                    <span className={styles.outcome}>{project.outcome}</span>
-                  </span>
-                </Link>
-
-                {/* Darkens as the next plate covers this one. */}
-                <span className={styles.cover} aria-hidden="true" />
-              </div>
-            </article>
+            <WorkPlate key={project.slug} project={project} index={i} />
           ))}
         </div>
       </section>

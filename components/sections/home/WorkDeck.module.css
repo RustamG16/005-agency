@@ -94,6 +94,31 @@
   object-fit: cover;
 }
 
+/* The film. Held at opacity 0 until the plate is active; because cover.jpg is this clip's
+   own frame 0 the fade is between two identical images, so there is no visible handover —
+   what you see is the still starting to move. `scale` on the wrapper is DESIGN.md's 1.035. */
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--duration-reveal) var(--ease-out-sharp);
+}
+
+.mediaWrap {
+  transition: transform var(--duration-reveal) var(--ease-out-sharp);
+}
+
+.mediaWrap[data-active="true"] .video {
+  opacity: 1;
+}
+
+.mediaWrap[data-active="true"] {
+  transform: scale(1.035);
+}
+
 .text {
   flex: 0 0 auto;
   padding: clamp(var(--space-2), 2.4vw, var(--space-4)) clamp(var(--space-3), 4vw, var(--space-5));
@@ -192,5 +217,15 @@
 
   .cover {
     display: none;
+  }
+
+  /* Poster only, per CLAUDE.md. The hook already refuses to call play(); this makes sure
+     a frame that autoplayed before the JS ran cannot show through either. */
+  .video {
+    display: none;
+  }
+
+  .mediaWrap[data-active="true"] {
+    transform: none;
   }
 }

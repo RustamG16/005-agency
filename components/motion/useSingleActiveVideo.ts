@@ -40,12 +40,19 @@ export function useSingleActiveVideo(
               activeRef.current?.pause();
               activeRef.current = video;
             }
-            const offset = Number(video.dataset.videoOffset || 0);
-            if (!Number.isNaN(offset) && Math.abs(video.currentTime - offset) > 0.35) {
-              try {
-                video.currentTime = offset;
-              } catch {
-                /* ignore */
+            // Only re-seek when a video actually declares an offset. Reading a missing
+            // attribute as 0 would mean "drifted from 0" is true for every clip past the
+            // first third of a second, so every intersection change yanked it back to the
+            // start. Projects now carry their own film and declare no offset at all.
+            const raw = video.dataset.videoOffset;
+            if (raw !== undefined) {
+              const offset = Number(raw);
+              if (!Number.isNaN(offset) && Math.abs(video.currentTime - offset) > 0.35) {
+                try {
+                  video.currentTime = offset;
+                } catch {
+                  /* ignore */
+                }
               }
             }
             video.play().catch(() => {});

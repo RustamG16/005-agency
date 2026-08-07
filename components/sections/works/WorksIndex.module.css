@@ -55,6 +55,69 @@
   letter-spacing: -0.02em;
 }
 
+.nameLink {
+  display: inline;
+  color: inherit;
+  text-decoration: none;
+  /* The underline is drawn rather than inherited so it can sit clear of the descenders
+     on a display face at index size. */
+  background-image: linear-gradient(var(--color-cherry), var(--color-cherry));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0 2px;
+  transition: background-size var(--duration-reveal) var(--ease-out-sharp);
+}
+
+.row:hover .nameLink,
+.nameLink:focus-visible {
+  background-size: 100% 2px;
+}
+
+.nameLink:focus-visible {
+  outline: 2px solid var(--color-cherry);
+  outline-offset: 6px;
+}
+
+/* Reads as a caption beside the name, not a button — the whole row already behaves as the
+   affordance. Kept in the flow (rather than hidden until hover) on touch, where there is no
+   hover to reveal it and "opens the live site" is the one thing worth saying out loud. */
+.visit {
+  display: inline-block;
+  margin-left: 0.8em;
+  vertical-align: middle;
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--color-cherry);
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .visit {
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+      opacity var(--duration-reveal) var(--ease-out-sharp),
+      transform var(--duration-reveal) var(--ease-out-sharp);
+  }
+
+  .row:hover .visit,
+  .nameLink:focus-visible .visit {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nameLink,
+  .visit {
+    transition: none;
+  }
+}
+
 .meta {
   margin-top: var(--space-2);
   font-family: var(--font-family-ui);
