@@ -35,7 +35,9 @@
   --color-accent-on-noir: var(--red-chili-300); /* accent text on noir — AA */
   --color-accent-graphic: var(--red-chili); /* non-text chili: rules, marks, display */
   --color-accent-deep: var(--red-maroon); /* hover / depth / darker red band */
-  --color-gold: var(--color-accent); /* legacy alias — existing rules inherit red */
+  /* --color-gold is gone. It was an alias onto --color-accent so gold-era rules would
+     inherit red rather than break; the four rules that still named it now name the token
+     they actually wanted, so the alias only kept a retired word alive. */
   --color-wordmark: #2a2424; /* giant footer wordmark on noir */
   /* Interior dark-section eyebrow — lighter than --color-gray for contrast on noir */
   --color-gray-on-noir: #a8a29a; /* 7.02:1 on noir */
