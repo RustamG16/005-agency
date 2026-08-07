@@ -31,10 +31,12 @@
  *      scrubbing does not work either. No video technique survives it, so the
  *      rejection is caught and the session falls back to the still.
  *
- * HARD RULE (root CLAUDE.md): only the tight-GOP (`-g 4`) re-encode may be
- * scrubbed. `/media/hero_autoplay.mp4` is a normal encode — its keyframes sit
- * ~2s apart, so a seek lands on the nearest one and the scrub visibly sticks.
- * Never point the constants below at it.
+ * ONLY THE TIGHT-GOP (`-g 4`) RE-ENCODE IS SCRUBBABLE. This is physics, not
+ * policy: `/media/hero_autoplay.mp4` is a normal encode whose keyframes sit ~2s
+ * apart, so a seek lands on the nearest one and the scrub visibly sticks. `-g 4`
+ * puts a keyframe every ~0.17s at 24fps, which lands a seek within three frames
+ * and is imperceptible under `scrub: 0.3`. Never point the constants below at a
+ * normally-encoded file.
  *
  * If the encodes are absent the component degrades to the poster, and if that is
  * absent too, to the noir ground and its horizon rule. Nothing throws.

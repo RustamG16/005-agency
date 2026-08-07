@@ -19,7 +19,6 @@ A production website for Convenium Studio (fictional-brand portfolio project). T
 - Fonts: Archivo Black / Newsreader / Inter via `next/font` only.
 - No gradients, glassmorphism, emoji icons, decorative shadows, or blanket scroll-fade animations.
 - Reference PNGs are specs — never ship them as page images.
-- The hero video scrub requires the tight-GOP (`-g 4`) re-encode — never scrub the original file. All-keyframe was the original rule; it produces ~20 MB masters. See `docs/superpowers/specs/2026-08-07-hero-scroll-animation-design.md` §6.
 - Don't fabricate clients, testimonials, awards, staff, addresses or phone numbers.
 
 ## Verification (every phase)
