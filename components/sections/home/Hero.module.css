@@ -58,7 +58,13 @@
   font-family: var(--font-family-ui);
   font-size: var(--font-body);
   line-height: 1.45;
-  color: var(--color-gray-on-noir);
+  /* Cotton, not --color-gray-on-noir. That grey is 7.02:1 on flat noir and was
+     the right choice when this hero WAS flat noir, but the film put lit concrete
+     behind this paragraph: measured over the graded film it falls to 3.83:1 at
+     rest, under the 4.5:1 body-text bar. Cotton measures 8.9:1 on the same
+     frames. The hierarchy against the statement is carried by size and weight,
+     which is where it should have been carried anyway. */
+  color: var(--color-cotton);
   will-change: transform;
 }
 

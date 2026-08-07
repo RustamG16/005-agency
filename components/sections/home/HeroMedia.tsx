@@ -46,17 +46,11 @@ import { useCallback, useEffect, useImperativeHandle, useRef, useState, type Ref
 import { MQ } from "@/components/motion/motion";
 import styles from "./HeroMedia.module.css";
 
-/* The tight-GOP hero re-encode (spec §4.3). Empty disables the film entirely and
- * leaves the noir ground and its horizon rule.
- *
- * TURNING THE FILM ON IS THIS ONE LINE — set it to "/media/hero_scrub.mp4". It
- * is empty only because the encodes are not on disk yet: the anchor still and the
- * motion clip could not be generated (the Higgsfield calls were blocked by the
- * auto-mode permission classifier), and pointing this at a missing file 404s on
- * every page load. The whole path below is implemented and was verified end to
- * end against a synthetic 5s tight-GOP fixture cut with the exact §4.3
- * commands. */
-const SCRUB_SRC: string = "";
+/* The tight-GOP hero re-encode (spec §4.3): a 5s architectural ascent, 1920×1080
+ * at 24fps, grayscale, `-g 4`. Setting this to "" disables the film entirely and
+ * leaves the noir ground and its horizon rule, which is a valid state — nothing
+ * below throws when the encodes are absent. */
+const SCRUB_SRC: string = "/media/hero_scrub.mp4";
 /** 720p encode for phones, chosen by screen short side — never by UA. */
 const SCRUB_SRC_MOBILE = "/media/hero_scrub-m.mp4";
 /** The ENCODED clip's extracted first frame. A re-rendered still pops on handover. */
