@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { HeroPreview } from "./HeroPreview";
 
 /**
@@ -22,5 +23,11 @@ export const metadata: Metadata = {
 };
 
 export default function HeroPreviewPage() {
+  /* Kept rather than deleted: the anchor still and the motion clip have not been
+   * generated yet, and this is the rig they get judged on. Guarded so it is a
+   * 404 in a production build — noindex keeps it out of search, this keeps it
+   * off the deployed site entirely. */
+  if (process.env.NODE_ENV === "production") notFound();
+
   return <HeroPreview />;
 }
