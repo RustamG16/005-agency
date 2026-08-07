@@ -392,7 +392,7 @@ instead — the crops in the commit message clear an "Activate Windows" watermar
 a scrollbar, and two floating bubbles from x=1832:
 
 ```bash
-S='public/media/works/screenshots/edu4students/Screenshot (2145).png'
+S='assets/sources/works/screenshots/edu4students/Screenshot (2145).png'
 G="eq=saturation=0.88:contrast=1.04,colorbalance=rs=-0.02:bs=0.01"
 ffmpeg -i "$S" -vf "crop=1662:935:0:0,scale=1440:810:flags=lanczos,$G" -q:v 4 cover.jpg
 ffmpeg -i "$S" -vf "crop=748:935:25:0,scale=960:1200:flags=lanczos,$G" -q:v 4 cover-portrait.jpg
