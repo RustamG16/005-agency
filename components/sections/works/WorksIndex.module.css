@@ -29,6 +29,16 @@
   border-bottom: 1px solid var(--color-hairline);
 }
 
+/* A grid track sized `1fr` still floors at min-content, so any child that refuses to wrap
+   pushes the track — and the whole document — wider than the viewport. `.main` is
+   `display: contents` below 900px, so these are the grid items directly. */
+.name,
+.meta,
+.outcome,
+.mobileMedia {
+  min-width: 0;
+}
+
 @media (min-width: 900px) {
   .row {
     grid-template-columns: 72px 1fr;
@@ -55,6 +65,14 @@
   letter-spacing: -0.02em;
 }
 
+/* Long names get their own ramp. 176px is right for SONN'WERK and impossible for
+   EDUCATION4STUDENTS — a single unbreakable 18-character token that pushed the document
+   1008px wider than the viewport and gave every page a horizontal scrollbar. Keyed on
+   character count rather than per slug, so the next long client name needs no code change. */
+.name[data-long] {
+  font-size: min(var(--font-index), 6.4vw);
+}
+
 .nameLink {
   display: inline;
   color: inherit;
@@ -78,36 +96,22 @@
   outline-offset: 6px;
 }
 
-/* Reads as a caption beside the name, not a button — the whole row already behaves as the
-   affordance. Kept in the flow (rather than hidden until hover) on touch, where there is no
-   hover to reveal it and "opens the live site" is the one thing worth saying out loud. */
+/* Rides the meta line, inheriting its size and casing, so it reads as the last item in
+   "sector · scope · year · visit live site" rather than as a button. Shown outright on
+   touch, where there is no hover to reveal it. */
 .visit {
-  display: inline-block;
-  margin-left: 0.8em;
-  vertical-align: middle;
-  font-family: var(--font-family-ui);
-  font-size: var(--font-label);
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  line-height: 1;
   color: var(--color-cherry);
-  white-space: nowrap;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .visit {
     opacity: 0;
-    transform: translateX(-6px);
-    transition:
-      opacity var(--duration-reveal) var(--ease-out-sharp),
-      transform var(--duration-reveal) var(--ease-out-sharp);
+    transition: opacity var(--duration-reveal) var(--ease-out-sharp);
   }
 
   .row:hover .visit,
-  .nameLink:focus-visible .visit {
+  .row:focus-within .visit {
     opacity: 1;
-    transform: none;
   }
 }
 
@@ -149,6 +153,18 @@
 @media (max-width: 899px) {
   .row {
     grid-template-columns: 40px 1fr;
+  }
+
+  /* --font-index floors at 72px, which is wider than the ~302px this column gets at 390
+     for anything past about six characters: SONN'WERK alone ran 128px past the viewport
+     and took the document with it. Capping in vw ties the name to the column it has to
+     live in. Scoped to this breakpoint so the desktop index is untouched. */
+  .name {
+    font-size: min(var(--font-index), 11.5vw);
+  }
+
+  .name[data-long] {
+    font-size: min(var(--font-index), 5.7vw);
   }
 
   .main {

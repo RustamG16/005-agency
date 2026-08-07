@@ -6,6 +6,14 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--", "--port", "4328"],
       "port": 4328
+    },
+    {
+      "comment": "Same server, no fixed port. Use when 4328 is already held by another session — the port comes from PORT, so two can run side by side.",
+      "name": "agency-alt",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "autoPort": true,
+      "port": 4329
     }
   ]
 }

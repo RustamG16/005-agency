@@ -45,7 +45,10 @@ function WorksRow({
         {floor}
       </span>
       <div className={styles.main}>
-        <h2 className={styles.name}>
+        {/* `data-long` drops the size for names that cannot fit the column at index
+            scale. "Education4Students" is 18 characters and overflowed the document by
+            1008px at 176px — the whole page scrolled sideways because of one row. */}
+        <h2 className={styles.name} data-long={project.name.length > 12 || undefined}>
           <a
             href={project.url}
             target="_blank"
@@ -55,10 +58,7 @@ function WorksRow({
             onBlur={onLeave}
           >
             {project.name}
-            <span className={styles.visit}>
-              Visit live site
-              <span aria-hidden="true"> ↗</span>
-            </span>
+            <span className="visually-hidden"> — opens the live site in a new tab</span>
           </a>
         </h2>
         <p className={styles.meta}>
@@ -71,16 +71,27 @@ function WorksRow({
             ·
           </span>
           {project.year}
+          {/* The affordance rides the meta line rather than the name. Inside the <h2> it
+              was an inline-block in a 176px line box and inflated every row to 310px
+              tall. Decorative: the name is the actual link. */}
+          <span className={styles.visit} aria-hidden="true">
+            <span className={styles.metaSep}>·</span>
+            Visit live site ↗
+          </span>
         </p>
         <p className={styles.outcome}>{project.outcome}</p>
       </div>
 
       <div className={styles.mobileMedia}>
+        {/* `0px` here made the browser fall back to the widest candidate — it was fetching
+            the 3840px variant for a ~450px box. A real length keeps the descriptor valid
+            while still telling desktop, where this block is display:none, to take the
+            smallest thing on offer. */}
         <Image
           src={project.cover}
           alt=""
           fill
-          sizes="(max-width: 899px) 100vw, 0px"
+          sizes="(max-width: 899px) 100vw, 1px"
           className={styles.mobilePoster}
           style={{ objectPosition: project.objectPosition }}
         />
