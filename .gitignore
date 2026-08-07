@@ -33,6 +33,10 @@ next-env.d.ts
 # generated artifacts
 screenshots/
 
+# capture-preview.mjs intermediate frames — ~700 MB per run, and fully reproducible from
+# the beat lists in scripts/capture-preview.mjs. Only the encodes in public/works/ ship.
+qa/preview/
+
 # quarantined unused files
 _unused/generated/
 
