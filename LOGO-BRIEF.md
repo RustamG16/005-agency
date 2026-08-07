@@ -20,11 +20,15 @@ belongs on a bronze plaque in a gallery, not on a startup landing page.
 
 ## Non-negotiables (verified from `styles/tokens.css`, `app/fonts.ts`, `styles/globals.css`)
 
-- **Color tokens (exact):** `--color-noir #050505`, `--color-bone #eeede8`,
+- **Color tokens (exact):** ~~`--color-noir #050505`, `--color-bone #eeede8`,
   `--color-paper #f8f7f2`, `--color-ink #171717`, `--color-gray #777771`,
-  `--color-hairline #cac8c0`, `--color-gold #b18a46`. Gold is a rare accent — at most
-  one gold detail in the mark, never a gold fill. (An all-gold pill *is* a defined
-  `.btn` style in `globals.css`, but that's for CTAs, not the logo.)
+  `--color-hairline #cac8c0`, `--color-gold #b18a46`~~ — **stale, do not use.** These were
+  read from `styles/tokens.css` at the time and every one has changed since. Current:
+  noir `#1B1717`, cotton `#EDEBDD`, paper `#F5F3E8`, ink `#241F1F`, gray `#6E6963`,
+  hairline `#D6D2C2`, cherry `#810100`. **Gold is retired** — the "one gold detail in the
+  mark" guidance below no longer applies; a mark that needs an accent uses cherry, and
+  `DESIGN.md` → Red rule governs which red is legal where. Re-read `DESIGN.md` before
+  drawing anything.
 - **Type (exact):** `--font-family-display` = **Archivo Black** (400);
   `--font-family-serif` = **Newsreader** (400/500 + italic); `--font-family-ui` =
   **Inter** (400/500/600) — all via `next/font`. A wordmark uses Archivo Black or a

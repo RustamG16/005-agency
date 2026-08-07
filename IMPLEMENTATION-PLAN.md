@@ -93,9 +93,17 @@ Do not present generated people in the studio video as Convenium employees. The 
 - Supporting idea: Convenium turns strategic clarity into identities, digital experiences and campaigns built to compete at a higher level.
 - Contact email: `hello@convenium.studio` unless replaced with a confirmed address before launch.
 
-### Core palette
+### Core palette — SUPERSEDED
 
-| Token | Value |
+> **Do not build from this table.** It is the first-generation palette and every value in
+> it has since changed. `CLAUDE.md` names `DESIGN.md` as the only source of visual values,
+> with `styles/tokens.css` as its executable form. Current: noir `#1B1717`, cotton
+> `#EDEBDD`, paper `#F5F3E8`, ink `#241F1F`, gray `#6E6963` (`#A8A29A` on noir), hairline
+> `#D6D2C2`, cherry `#810100`, maroon `#630000`, chili `#D73B3E`, chili-300 `#E5595C`.
+> Gold `#B18A46` is retired, and the three gold UI systems below went with it — see
+> `DESIGN.md` → Red rule for what replaced them.
+
+| Token | Value (retired) |
 | --- | --- |
 | Black | `#050505` |
 | Bone | `#EEEDE8` |
@@ -104,12 +112,6 @@ Do not present generated people in the studio video as Convenium employees. The 
 | Muted gray | `#777771` |
 | Hairline | `#CAC8C0` |
 | Old gold | `#B18A46` |
-
-Gold remains restricted to three UI systems:
-
-1. Primary project/contact CTA
-2. Level/index indicator
-3. Final footer word or arrow
 
 ### Typography
 

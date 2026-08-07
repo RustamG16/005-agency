@@ -4,6 +4,13 @@
 
 A production website for Convenium Studio (fictional-brand portfolio project). The layout language follows the reference PNGs in `assets/design/`; the identity, copy and assets are Convenium's own.
 
+**Selected Works is the exception: those four projects are real and shipped.** Sonn'werk, The Meridian, SR Urologie and Education4Students each link out to their live site, and their preview media is deterministic capture of those sites — real pixels, never a mockup or a generated approximation. Two consequences:
+
+- Copy about them must stay checkable. Describe what was built; no invented metrics, no outcome claims we cannot stand behind. Where a line reads like a claim it should be the client's own positioning carried over (Sonn'werk's "from the field to the bottle" is their tagline, translated).
+- The Meridian is a **concept build**, not a booked hotel client, and is labelled as such in its `sector`. Do not quietly promote it.
+
+See `content/projects.ts` for the media contract and `PROJECT-PREVIEW-GUIDE.md` for how the captures are made.
+
 ## Read before coding
 
 1. `IMPLEMENTATION-PLAN.md` — the build plan. §0 is the execution protocol; follow it.

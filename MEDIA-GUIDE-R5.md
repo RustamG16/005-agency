@@ -5,9 +5,11 @@ Supersedes M1/M2 in `MEDIA-GUIDE.md` (R4). Generation moves from Google Flow to
 
 ## R5 decisions (locked)
 
-- **Accent:** `--color-accent: #9E2B2B` (oxblood) on bone; `--color-accent-on-noir:
-  #C1554D` on noir. `--color-gold` is now an alias of `--color-accent`. Gold `#B18A46`
-  is retired from new assets. Same ≤3-rendered-uses-per-page rule.
+- **Accent:** ~~`--color-accent: #9E2B2B` (oxblood) on bone; `--color-accent-on-noir:
+  #C1554D` on noir.~~ **Superseded.** The reds are now cherry `#810100`, maroon `#630000`,
+  chili `#D73B3E` and chili-300 `#E5595C`, with fixed roles — see `DESIGN.md` → Red rule,
+  which `CLAUDE.md` names as the only source of visual values. Gold `#B18A46` stays retired.
+  Same ≤3-rendered-uses-per-page rule.
 - **Motif — the thin slash of light.** One shape, three appearances: the red seam
   between the elevator doors (hero) → the red diagonal line across the masterpiece
   canvas (M2) → thin red hairlines in UI (nav-active underline, section rules,
@@ -31,8 +33,9 @@ code (CSS transform scale on the still plate), so it stays pixel-crisp at any zo
   (opening center = 50% / 41.75%). On a 1920×1080 plate that's ≈ 403×513px,
   ratio 0.786 — matches the 448×580 card (0.772) almost exactly.
 - **Card loop media:** Seedance 2 has no 4:5 output — generate case-study loops at
-  **3:4**, center-crop ~3% of height to 448:580. Applies to
-  `SELECTED-WORKS-CARD-GUIDE.md` too.
+  **3:4**, center-crop ~3% of height to 448:580. Applies to generated loops only: the
+  Selected Works cards now carry captures of real sites at 1440×810 and 960×1200, made by
+  `scripts/capture-preview.mjs` — see `PROJECT-PREVIEW-GUIDE.md` §5.
 - Text zones: **left 5%→35%**, **right 65%→95%** (light type on dark wall).
 - Vanishing point dead center; horizon locked at ~55% height.
 

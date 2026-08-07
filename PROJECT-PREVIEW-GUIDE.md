@@ -1,15 +1,21 @@
 # Project Preview Guide — capturing live sites as case-study media
 
 How to turn a real, scroll-animated website into the preview media the Selected Works
-showcase needs. Pairs with `SELECTED-WORKS-CARD-GUIDE.md` (which describes the *slots*:
-`poster`, `loop[]`, `nav`) and `MEDIA-GUIDE-R5.md` (grade + accent rules).
+showcase needs. Pairs with `MEDIA-GUIDE-R5.md` (grade rules).
 
-Scope of this revision: **sonnwerk** (`https://rustamg16.github.io/002-sonnwerk/`).
-`sr-urologie` and `russolutions` follow the same pipeline — see §8.
+> The slot vocabulary this guide used to borrow from `SELECTED-WORKS-CARD-GUIDE.md`
+> (`poster`, `loop[]`, `nav`) is obsolete — the live contract is in `content/projects.ts`
+> and §5 below. That guide is quarantined in `_unused/docs/`; its beat-composition advice
+> still reads well, its slot names no longer match anything.
 
-> **Open decision (flag for Mikkel):** `CLAUDE.md` defines Selected Works as four
-> fictional cases (VANTA / AUREL / NULL·ONE / FERRO). Real projects replacing them is a
-> content change, not a media change. Decide before wiring `content/projects.ts`.
+Scope: **sonnwerk**, **meridian** and **sr-urologie** are captured and shipping.
+**education4students** is wired but not captured — see §9. `russolutions` follows the same
+pipeline (§8) if it is ever added.
+
+> **Decision made.** Selected Works is the four real projects; the fictional cases
+> (VANTA / AUREL / NULL·ONE / FERRO) are gone. `content/projects.ts` is wired, each row
+> links out to its live site, and `CLAUDE.md` records the honesty constraints that come
+> with showing real client work.
 
 ---
 
@@ -269,28 +275,54 @@ ffmpeg -i nav-master.mp4 -vf "scale=1440:-2:flags=lanczos,format=yuv420p" \
 ffmpeg -i nav-master.mp4 -c:v libsvtav1 -crf 34 -preset 6 -an nav.webm
 ```
 
-Placement, matching `SELECTED-WORKS-CARD-GUIDE.md`:
+### What actually ships
+
+Run `scripts/encode-preview.mjs` rather than the raw ffmpeg above — it applies the §6
+grade, extracts the cover and checks the budgets:
+
+```bash
+node scripts/capture-preview.mjs --site <slug>              # landscape, 1920×1080
+node scripts/capture-preview.mjs --site <slug> --portrait   # 480×600 @ dSF 2 → 960×1200
+node scripts/encode-preview.mjs  --site <slug> [--portrait]
+```
 
 ```
-public/works/sonnwerk/card-loop.mp4    6 s  · 896×1160 · target < 1.5 MB
-public/works/sonnwerk/nav.mp4         28 s  · 1440×810 · target < 6 MB
-public/works/sonnwerk/poster.jpg             896×1160 · target < 180 KB
+public/works/<slug>/loop.mp4            1440×810   6 s · < 4 MB
+public/works/<slug>/cover.jpg           1440×810        < 260 KB
+public/works/<slug>/loop-portrait.mp4    960×1200  6 s · < 1.8 MB
+public/works/<slug>/cover-portrait.jpg   960×1200       < 200 KB
 ```
 
-Then in `content/projects.ts`, `loop` becomes a single video path rather than a stills
-array, or keep the array contract and add `cardLoop`. Whichever — change the `Project`
-type once, not per project.
+**Two orientations, not one.** The homepage deck plate is full-bleed landscape; the
+`/works` hover panel is 4:5. §4a forbids cropping a desktop capture to portrait, so the
+portrait pair is a second capture at a viewport narrow enough that the site serves its own
+phone layout — no bars, no crop, and it doubles as proof the build is responsive.
 
-**Reduced motion:** `prefers-reduced-motion` gets `poster.jpg` and nothing else, per
+**No crossfade wrap.** A crossfaded loop is seamless at the wrap but has no true frame 0,
+so the poster can never match it and every hover opens with a pop. The handover happens on
+every hover; the wrap only if someone lingers past six seconds. So the loops run
+forward-only and `cover.jpg` is extracted from the encoded clip's own frame 0 — the
+handover is exact. Beat lists hold ~1 s on a still frame at both ends, so the wrap is a cut
+between two static images rather than a motion stutter.
+
+**Budgets are looser than the 1.5 MB above**, which was written for a 896×1160 thumbnail.
+These are full-bleed surfaces carrying real client footage. It is affordable because
+playback is `preload="none"`, one video at a time, and the landscape loops replaced a
+shared 7.3 MB `columns.mp4`. Per-site CRF lives in `encode-preview.mjs`: sonnwerk is drone
+footage of a hemp field and encodes ~3× heavier than meridian at the same setting.
+
+**Reduced motion:** `prefers-reduced-motion` gets the cover and nothing else, per
 `CLAUDE.md`. No autoplay, no cycling.
 
 ---
 
 ## 6. Grade
 
-Sonnwerk's palette is warm gold-green; Convenium's is noir/bone with oxblood `#9E2B2B`.
+Sonnwerk's palette is warm gold-green; Convenium's is noir `#1B1717` / cotton `#EDEBDD`
+with cherry `#810100` (the oxblood `#9E2B2B` and noir `#050505` this section used to quote
+are from a retired generation — `DESIGN.md` and `styles/tokens.css` are the only source).
 The captures will fight the surrounding page if shipped raw. Pull them ~15% toward the
-house grade — desaturate slightly, lift the blacks to `#050505` rather than pure zero:
+house grade — desaturate slightly, cool the highlights:
 
 ```bash
 -vf "eq=saturation=0.88:contrast=1.04,colorbalance=rs=-0.02:bs=0.01"
@@ -332,6 +364,43 @@ writing a beat list for either, run the same three probes I ran on sonnwerk:
 
 Then: pick the one idea the site is *for*, give it a third of the runtime, add two
 interaction beats, end where you started. Same three files out.
+
+---
+
+## 9. The other three, as captured
+
+Beat lists live in `scripts/capture-preview.mjs`. What the probes turned up:
+
+**meridian** — `rustamg16.github.io/003-meridian-mvp/`. Lenis, three canvases, GSAP
+pin-spacer. Three frame sequences under `/frames/`: `hero` (181), `dining` (120+), `spa`
+(84+). Only `hero` is on the card-loop path and only it is warmed; add the others to
+`sequences[]` before pointing a beat at a `.scrub-teaser`, or the canvas records blank. The
+one idea is the ARRIVAL — descending through the cloud sea onto the resort, `#top` 0 → 0.55.
+Captured in a browser rather than rebuilt from the frames because the wordmark is a DOM
+overlay and the cover needs it legible.
+
+**sr-urologie** — `sr-urologie.netlify.app`. Plain DOM, no sequence, doc only 4838px. One
+autoplay 8 s `hero.mp4`, declared in `videos[]` so it is paused at load and driven off the
+capture clock — otherwise it advances on the wall clock and two runs differ. The hero has
+no scroll travel at a 1080-tall viewport, so it is a hold and the film supplies the motion.
+
+**education4students** — `rustamg16.github.io/education-hub-connect/`. **Not captured: the
+deploy is broken.** GitHub Pages is serving the unbuilt Vite `index.html`, which requests
+`/src/main.tsx` (an absolute path, also wrong for a project-page base), so `#root` stays
+empty and the page renders blank. Its two covers are derived from the existing screenshot
+instead — the crops in the commit message clear an "Activate Windows" watermark from y=942,
+a scrollbar, and two floating bubbles from x=1832:
+
+```bash
+S='public/media/works/screenshots/edu4students/Screenshot (2145).png'
+G="eq=saturation=0.88:contrast=1.04,colorbalance=rs=-0.02:bs=0.01"
+ffmpeg -i "$S" -vf "crop=1662:935:0:0,scale=1440:810:flags=lanczos,$G" -q:v 4 cover.jpg
+ffmpeg -i "$S" -vf "crop=748:935:25:0,scale=960:1200:flags=lanczos,$G" -q:v 4 cover-portrait.jpg
+```
+
+Once the deploy is fixed: write beats, run the two captures and the two encodes, then add
+`loop` and `loopPortrait` to its entry in `content/projects.ts`. Everything else is wired —
+the type makes both optional and the surfaces fall back to the cover.
 
 ---
 
