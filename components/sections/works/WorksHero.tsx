@@ -51,10 +51,10 @@ export function WorksHero() {
               playsInline
               loop
               preload="metadata"
-              poster="/images/poster-columns.jpg"
+              poster="/images/poster-works-hero.jpg"
               aria-hidden="true"
             >
-              <source src="/media/columns.mp4" type="video/mp4" />
+              <source src="/media/works-hero.mp4" type="video/mp4" />
             </video>
           </div>
         </div>

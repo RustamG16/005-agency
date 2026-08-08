@@ -55,9 +55,20 @@ const CLIP_HOLD: Record<string, number> = { greet: 1.6, talk: 2.4, run: 1.2 };
 const TRICK_SECONDS = 1.5;
 const TRICK_COOLDOWN_MS = 6000;
 
-/** He appears once this much of the first screen has scrolled past. The hero's
- *  pin now spans exactly one viewport (Hero.tsx), so anything below ~1 would put
- *  him on stage while the statement is still holding the frame. */
+/* Left alone for this long, away from home, and he walks back (guide-drag's
+ * `returnHome`). Only interactions WITH HIM restart it — a click elsewhere on
+ * the page is not him being used, and treating it as such would let a visitor
+ * who is reading normally keep him stranded indefinitely, which is the whole
+ * problem the return exists to fix. */
+const RETURN_AFTER_MS = 12_000;
+
+/** How far he lifts off his pad while carried, in model heights. */
+const CARRY_LIFT = 0.06;
+
+/* He appears once the first screen has scrolled past. FALLBACK ONLY: a route
+ * whose opening section is pinned makes "one viewport" meaningless — the R6 hero
+ * pins for 300% — so where a section declares `data-guide-reveal-after` the gate
+ * measures that element instead. This number only applies to routes that do not. */
 const REVEAL_AT = 0.98;
 
 type RingState = "idle" | "hover" | "menu" | "dragging";
@@ -220,8 +231,19 @@ export function GuideScene() {
        * was dropped silently and its once-per-direction trigger never fired
        * again on the way down. */
       let visible: boolean | null = null;
+      const revealAfter = document.querySelector<HTMLElement>("[data-guide-reveal-after]");
       const syncVisible = () => {
-        const next = window.scrollY > window.innerHeight * REVEAL_AT;
+        let next: boolean;
+        if (revealAfter) {
+          /* A pinned section is `position: fixed` while it is held, so its own
+           * rect stops moving and would never satisfy this. ScrollTrigger's
+           * pin-spacer is the box that actually occupies the scroll, so measure
+           * that when it exists. */
+          const box = revealAfter.closest<HTMLElement>(".pin-spacer") ?? revealAfter;
+          next = box.getBoundingClientRect().bottom <= 0;
+        } else {
+          next = window.scrollY > window.innerHeight * REVEAL_AT;
+        }
         if (next === visible) return;
         visible = next;
         dock.dataset.visible = next ? "true" : "false";
@@ -357,24 +379,77 @@ export function GuideScene() {
           );
 
           /* ---- pick him up and put him anywhere ---- */
+
+          /* The standby before he walks home. Only ever armed while he is away
+           * from home, and only ever restarted by something the visitor did to
+           * HIM — see RETURN_AFTER_MS. */
+          let returnTimer: ReturnType<typeof setTimeout> | null = null;
+
+          const clearReturnTimer = () => {
+            if (returnTimer === null) return;
+            clearTimeout(returnTimer);
+            returnTimer = null;
+          };
+
+          const armReturn = () => {
+            clearReturnTimer();
+            if (drag.isHome()) return;
+            returnTimer = setTimeout(() => {
+              returnTimer = null;
+              /* FIX (audit finding, R6): the timer used to fire unconditionally.
+               * Opening the radial or Ask fires ONE `guideStore` notification —
+               * `interrupt()` below arms this timer at that moment — but staying
+               * open past RETURN_AFTER_MS produces no further notification, so
+               * the original code walked the dock (and the radial anchored to
+               * it) out from under a visitor still choosing an option. A mode
+               * still counted as "occupied" re-arms instead of firing — the
+               * return keeps deferring for as long as the surface stays open,
+               * and only actually walks once the visitor is truly idle. */
+              const occupied =
+                guideStore.mode === "menu" || guideStore.mode === "ask" || guideStore.mode === "talking";
+              if (occupied) {
+                armReturn();
+                return;
+              }
+              drag.returnHome();
+            }, RETURN_AFTER_MS);
+          };
+
+          /* Anything the visitor does to him kills a walk in progress and puts
+           * the clock back to zero. The return must never fight the user. */
+          const interrupt = () => {
+            drag.cancelReturn();
+            armReturn();
+          };
+
           const drag = createDragController({
             dock,
             puck,
+            gsap,
+            reduced,
             initial: loadPuckPos(),
             onDragStart: () => {
+              clearReturnTimer();
               idle.setBusy(true);
               idle.notifyInput();
               guideStore.setMode("dragging");
               // He walks while he is being carried — the one clip that reads as
-              // "in transit" rather than "standing somewhere else".
+              // "in transit" rather than "standing somewhere else" — and lifts
+              // clear of his pad, so he reads as picked up rather than slid.
               gsap.to(built.pose, { walk: 1, duration: 0.2, ease: "none", overwrite: "auto" });
+              gsap.to(built.pose, { bob: CARRY_LIFT, duration: 0.22, ease: "power2.out" });
             },
             onDragEnd: () => {
               idle.setBusy(false);
               guideStore.setMode("idle");
               gsap.to(built.pose, { walk: 0, duration: 0.3, ease: "none", overwrite: "auto" });
+              // He settles back onto the pad. `back.out` gives the landing a
+              // little weight without becoming a bounce.
+              gsap.to(built.pose, { bob: 0, duration: 0.34, ease: "back.out(1.6)" });
+              armReturn();
             },
             onTap: () => {
+              interrupt();
               idle.notifyInput();
               if (guideStore.mode === "menu") guideStore.closeMenu();
               else guideStore.openMenu();
@@ -382,9 +457,55 @@ export function GuideScene() {
             onSettle: (p) => {
               guideStore.setPuckPos(p);
             },
+
+            /* THE SLEEP RULE. The return deliberately does NOT call
+             * `idle.notifyInput()`. That function means "the visitor did
+             * something", and this is him moving on his own — crediting it as
+             * input would let a robot left alone postpone his own 90s doze
+             * forever, so he could never sleep once stranded. Instead the walk
+             * runs inside the same `setBusy` bracket the drag and the trick use,
+             * which suppresses ambient behaviours for its duration without
+             * touching the sleep clock. The doze therefore keeps counting from
+             * the visitor's last real input, and a return at 12s never defers
+             * it. Nothing double-fires because `setBusy` is not a timer. */
+            onReturnStart: () => {
+              idle.setBusy(true);
+              dock.dataset.returning = "true";
+              gsap.to(built.pose, { walk: 1, duration: 0.25, ease: "none", overwrite: "auto" });
+            },
+            onReturnEnd: (arrived) => {
+              idle.setBusy(false);
+              delete dock.dataset.returning;
+              gsap.to(built.pose, { walk: 0, duration: 0.3, ease: "none", overwrite: "auto" });
+              if (!arrived) return;
+              /* Home again, so the stored offset goes. Without this a reload
+               * would put him straight back where he was stranded, which is the
+               * exact state the walk just undid. */
+              guideStore.setPuckPos({ x: 0, y: 0 });
+            },
           });
           cleanups.push(drag.attach());
+          cleanups.push(() => {
+            clearReturnTimer();
+            drag.cancelReturn();
+          });
           drag.reclamp();
+
+          /* He may already be away from home on mount, restored from storage —
+           * that is the stranded case, and it must resolve itself without
+           * needing a drag first. */
+          armReturn();
+
+          /* Opening the radial or a bubble is him being used, so a walk in
+           * progress stops. Subscribing beats hooking each call site: `speak`
+           * fires from Track B (hints, the radial's Explain) which by design
+           * knows nothing about the scene. */
+          cleanups.push(
+            guideStore.subscribe(() => {
+              const m = guideStore.mode;
+              if (m === "menu" || m === "ask" || m === "talking") interrupt();
+            })
+          );
 
           /* ---- input ---- */
           const onPointerMove = (e: PointerEvent) => idle.notifyPointer(e.clientX, e.clientY);
@@ -399,6 +520,8 @@ export function GuideScene() {
           });
 
           const onEnter = () => {
+            // Reaching for him counts, so the walk stops and the clock resets.
+            interrupt();
             idle.notifyInput();
             // Reaching for him is an interaction, so a hint he is still holding
             // retires (DESIGN-LOCK §5) — otherwise the puck reads as dead for
@@ -507,6 +630,15 @@ export function GuideScene() {
             };
             // Where he has been dragged to, in px from his home corner.
             (window as unknown as Record<string, unknown>).__guideOffset = () => drag.position();
+            /* Fires the walk home now instead of after the 12s standby, so
+             * verification can cover the arrival and the cancellation without
+             * three separate 12-second waits. It drives the same `returnHome`
+             * the timer does — the standby is what is skipped, not the
+             * behaviour, so a test using this still proves the real path. */
+            (window as unknown as Record<string, unknown>).__guideReturnNow = () => {
+              drag.returnHome();
+              return drag.isReturning();
+            };
             // Pose readout for verification runs that need to prove a clip or a
             // turn actually happened rather than infer it from a screenshot.
             // Fields are copied one by one: GSAP hangs a circular `_gsap` record
@@ -531,6 +663,7 @@ export function GuideScene() {
             cleanups.push(() => {
               delete (window as unknown as Record<string, unknown>).__guideDebug;
               delete (window as unknown as Record<string, unknown>).__guideOffset;
+              delete (window as unknown as Record<string, unknown>).__guideReturnNow;
             });
           }
 

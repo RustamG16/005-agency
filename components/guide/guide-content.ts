@@ -78,9 +78,9 @@ export const HOME_STOPS: GuideStop[] = [
     label: "Inside the process",
     n: 4,
     line: "This is how a project actually runs.",
-    mid: "Five stages, and you're in the room for all of them.",
+    mid: "Two people, one room, every stage.",
     explain:
-      "Discover, position, design, build, launch. Small direct teams — strategists, designers and makers in the same room — which is why the idea survives the trip from the first question to the final frame.",
+      "Brief, make, test, hand over. No account layer and no roster — the two people you brief are the two people who make it, which is why the idea survives the trip from the first question to the final frame.",
   },
   {
     anchor: "principles",

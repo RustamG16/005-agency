@@ -1,18 +1,2 @@
-checks: 30, failed: 0
-console errors: 16
-ERR: [desktop] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [desktop] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [desktop] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [desktop] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [desktop] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [desktop] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [desktop] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [desktop] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [mobile] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [mobile] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [mobile] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [mobile] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [mobile] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [mobile] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [mobile] Failed to load resource: the server responded with a status of 404 (Not Found)
-ERR: [mobile] Failed to load resource: the server responded with a status of 404 (Not Found)
+checks: 40, failed: 0
+console errors: 0

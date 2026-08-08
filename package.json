@@ -9,6 +9,8 @@
     "start": "next start",
     "lint": "eslint .",
     "screenshot": "node scripts/screenshot.mjs",
+    "verify:guide": "node scripts/verify-guide.mjs",
+    "verify:hero": "node scripts/verify-hero.mjs",
     "audit:site": "node scripts/full-audit.mjs",
     "audit:symbolstudio": "node scripts/audit-symbolstudio.mjs"
   },

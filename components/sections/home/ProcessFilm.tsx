@@ -3,154 +3,189 @@
 /**
  * Inside the process.
  *
- * Rebuilt 2026-08-04. The old version was a static headline block sitting over
- * the film. Now the section is pinned and the film opens: it starts as a
- * letterboxed band and widens to fill the frame while the type arrives against
- * it, with a progress rule tracking how far through you are.
+ * REBUILT 2026-08-08 (R6). The previous version was a pinned band that opened
+ * from letterbox to full while type arrived on solid noir — competent, but it
+ * did not speak the same language as `/about`, where one continuous medium
+ * carries six chapters and the page demonstrates the studio rather than
+ * describing it. This rebuild adopts `/about`'s mechanism directly:
  *
- * The type is never set over the moving image — it sits above the band on solid
- * noir. That is a legibility decision, not a layout one: cotton over an
- * unpredictable frame of a film cannot be held to AA.
+ * THE STICKY BED, not a pin. `.plateStage` is `position: sticky; top: 0;
+ * height: 100svh; margin-bottom: -100svh` — identical to
+ * `MonolithScene.module.css`'s `.stage`. The negative margin keeps the sticky
+ * element out of the height calculation, so the four beat `<section>`s' own
+ * `min-height`s (from `content/process.ts`) are the only thing setting scroll
+ * length. A sticky bed cannot have a dead pin, because the page never stops —
+ * this retires the whole class of bug the old docblock recorded fighting once
+ * ("the last real motion used to land at t=0.72").
  *
- * The video is NOT scrubbed. `team.mp4` is a normal encode; only the
- * all-keyframe re-encode may ever be seeked (root CLAUDE.md). It plays once when
- * the section is reached, exactly as before.
+ * TWO INDEPENDENT RHYTHMS, exactly as `MonolithScene.tsx` documents it: the
+ * plate is one continuous scrub across the WHOLE root (`start: "top top"`,
+ * `end: "bottom bottom"`), while each beat's copy arrives on its own
+ * once-only reveal as that beat's section crosses into view. They stay
+ * decoupled on purpose — the medium is a single take, the copy is discrete.
+ *
+ * LEGIBILITY BY CONSTRUCTION, not by tuning. The plate lives in `.plateStage`
+ * at `grid-column: 7 / span 6`; every beat's copy lives in its OWN sticky
+ * wrapper at `grid-column: 1 / span 5`. Two separate elements, not a shared
+ * one, so cotton type can never sit over the moving image at any progress on
+ * any breakpoint — there is no clip-path or z-index trick for a future edit
+ * to get wrong.
+ *
+ * Media contract matches the rest of the site: `ProcessPlate` degrades
+ * through a manifest (scrub → stills → poster → bare), desktop-motion only,
+ * extracted posters, `-an`. Below 900px there is no sticky bed at all — the
+ * beats stack in normal flow with one static poster image ahead of them,
+ * matching how Hero and Principles both collapse outside desktop motion.
  */
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { gsap } from "@/components/motion/gsap";
-import { MOTION, MQ } from "@/components/motion/motion";
+import { SplitText } from "gsap/SplitText";
+import { gsap, ScrollTrigger } from "@/components/motion/gsap";
+import { MQ } from "@/components/motion/motion";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
+import { processBeats } from "@/content/process";
+import { ProcessPlate, type ProcessPlateHandle } from "./ProcessPlate";
+import manifest from "@/public/media/process/manifest.json";
 import styles from "./ProcessFilm.module.css";
 
+const TOTAL_VH = processBeats.reduce((sum, b) => sum + b.lengthVh, 0);
+
 export function ProcessFilm() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const playedRef = useRef(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.35 && !playedRef.current) {
-          playedRef.current = true;
-          video.play().catch(() => {});
-        }
-      },
-      { threshold: [0, 0.35, 1] }
-    );
-    io.observe(video);
-    return () => io.disconnect();
-  }, []);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const plateRef = useRef<ProcessPlateHandle>(null);
 
   useGSAP(
     () => {
-      const section = sectionRef.current;
-      if (!section) return;
+      const root = rootRef.current;
+      if (!root) return;
 
-      const q = gsap.utils.selector(section);
-      const mm = gsap.matchMedia();
+      const reduced = window.matchMedia(MQ.reduced).matches;
+      const cleanups: Array<() => void> = [];
+      const splits: SplitText[] = [];
 
-      mm.add(MQ.desktopMotion, () => {
-        const lines = q("[data-process-line]");
-        const band = q(`.${styles.band}`);
-        const ruleFill = q(`.${styles.ruleFill}`);
-        const body = q(`.${styles.body}`);
-
-        gsap.set(lines, { yPercent: MOTION.yPercentLine, autoAlpha: 0 });
-        gsap.set(body, { y: MOTION.yBlock, autoAlpha: 0 });
-        gsap.set(ruleFill, { scaleX: 0 });
-        // Four explicit values on both ends: Chrome normalises `inset(34% 0 34% 0)`
-        // to the two-value shorthand, and GSAP then interpolates the two forms
-        // against each other — the bottom edge opens before the top.
-        gsap.set(band, { clipPath: "inset(34% 0% 34% 0%)" });
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            id: "process-film",
-            start: "top top",
-            // Was +=140%. The last real motion used to land at t=0.72, leaving
-            // ~353px of pin where only a 1px rule moved — that dead stretch is
-            // what read as the page sticking before it let go.
-            end: "+=100%",
-            pin: true,
-            pinSpacing: true,
-            anticipatePin: 1,
-            scrub: 0.4,
-            invalidateOnRefresh: true,
-          },
+      /* ---- copy reveals: per-beat, once-only, independent of the scrub ---- */
+      const wireCopyReveals = () => {
+        root.querySelectorAll<HTMLElement>("[data-head]").forEach((el) => {
+          const trigger = { trigger: el, start: "top 82%", once: true };
+          if (reduced) {
+            gsap.from(el, { autoAlpha: 0, duration: 0.32, scrollTrigger: trigger });
+            return;
+          }
+          SplitText.create(el, {
+            type: "lines",
+            mask: "lines",
+            autoSplit: true,
+            onSplit(self) {
+              splits.push(self);
+              return gsap.from(self.lines, {
+                yPercent: 100,
+                duration: 0.42,
+                ease: "expo.out",
+                stagger: 0.06,
+                scrollTrigger: trigger,
+              });
+            },
+          });
         });
 
-        // The band now opens across almost the whole pin, so the frame is still
-        // changing when the pin hands back — no dead ground at either end.
-        tl.to(ruleFill, { scaleX: 1, ease: "none", duration: 1 }, 0)
-          .to(lines, { yPercent: 0, autoAlpha: 1, ease: MOTION.ease, duration: 0.2, stagger: 0.08 }, 0.04)
-          .to(body, { y: 0, autoAlpha: 1, ease: MOTION.ease, duration: 0.2 }, 0.26)
-          .to(band, { clipPath: "inset(0% 0% 0% 0%)", ease: MOTION.easeInOut, duration: 0.8 }, 0.12);
+        root.querySelectorAll<HTMLElement>("[data-body]").forEach((el) => {
+          gsap.from(el, {
+            autoAlpha: 0,
+            y: reduced ? 0 : 24,
+            duration: 0.42,
+            ease: "expo.out",
+            scrollTrigger: { trigger: el, start: "top 85%", once: true },
+          });
+        });
+      };
+      cleanups.push(() => splits.forEach((s) => s.revert()));
 
-        return () => {
-          tl.scrollTrigger?.kill();
-          tl.kill();
-        };
+      void (async () => {
+        await (document.fonts?.ready ?? Promise.resolve());
+        wireCopyReveals();
+      })();
+
+      /* ---- the plate: one continuous scrub across the whole root ---- */
+      const mm = gsap.matchMedia();
+      mm.add(MQ.desktopMotion, () => {
+        const trigger = ScrollTrigger.create({
+          trigger: root,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.3,
+          onUpdate: (self) => plateRef.current?.setProgress(self.progress),
+        });
+        return () => trigger.kill();
       });
+      cleanups.push(() => mm.revert());
 
-      return () => mm.revert();
+      return () => cleanups.forEach((fn) => fn());
     },
-    { scope: sectionRef }
+    { scope: rootRef }
   );
 
   return (
     <HeaderZone theme="dark">
-      <section ref={sectionRef} className={styles.section} aria-label="Inside the process">
-        <div className={styles.stage}>
-          <div className={`wrap ${styles.copy}`}>
-            <div className={styles.labelRow}>
-              <p className={`eyebrow ${styles.label}`}>Inside the process</p>
-              <span className={styles.rule} aria-hidden="true">
-                <span className={styles.ruleFill} />
-              </span>
-            </div>
-
-            <h2 className={styles.heading}>
-              <span className={styles.lineMask}>
-                <span className={styles.line} data-process-line>
-                  The work stays close
-                </span>
-              </span>
-              <span className={styles.lineMask}>
-                <span className={styles.line} data-process-line>
-                  to the idea.
-                </span>
-              </span>
-            </h2>
-
-            <p className={styles.body}>
-              Convenium runs small, direct teams around every brand. Strategists, designers and makers
-              work in the same room, close enough to keep an idea intact from the first question to the
-              final frame. The people in this film are part of that process — not a roster, not a
-              department.
-            </p>
+      <div ref={rootRef} className={styles.root}>
+        {/* Mobile / reduced-motion poster — the whole sticky mechanism is
+            desktop-motion only, so this is the entire process visual outside
+            it: one static frame ahead of the stacked beats. A plain <img>
+            reading the manifest directly, NOT a second `ProcessPlate` mount —
+            two mounts would both pass the same desktop-motion check and fetch
+            the scrub video twice regardless of which one CSS hides. */}
+        {manifest.poster && (
+          <div className={styles.mobilePoster} aria-hidden="true">
+            {/* eslint-disable-next-line @next/next/no-img-element -- must match the encoded frame pixel for pixel */}
+            <img className={styles.mobilePosterImg} src={`/images/process/${manifest.poster}`} alt="" />
           </div>
+        )}
 
-          <div className={styles.band}>
-            <video
-              ref={videoRef}
-              className={styles.video}
-              muted
-              playsInline
-              preload="metadata"
-              poster="/images/poster-team.jpg"
-            >
-              <source src="/media/team.mp4" type="video/mp4" />
-            </video>
+        <div className={styles.plateStage}>
+          <div className={`wrap ${styles.plateGrid}`}>
+            <div className={styles.plateSlot}>
+              <ProcessPlate handleRef={plateRef} />
+            </div>
           </div>
         </div>
-      </section>
+
+        {processBeats.map((beat, i) => (
+          <section
+            key={beat.id}
+            className={styles.beat}
+            // Read by CSS only under desktop motion — the mobile/reduced
+            // stylesheet fixes min-height to `auto` regardless of this value,
+            // so a huge dead gap under a static (non-sticky) copy block is
+            // structurally impossible rather than tuned away.
+            style={{ ["--beat-vh" as string]: beat.lengthVh }}
+            aria-label={beat.heading}
+          >
+            <div className={styles.sticky}>
+              <div className={`wrap ${styles.copyGrid}`}>
+                <div className={styles.copySlot}>
+                  <p className={styles.eyebrow}>
+                    {beat.eyebrow}
+                    <span className={styles.eyebrowIndex}>
+                      {String(i + 1).padStart(2, "0")} / {String(processBeats.length).padStart(2, "0")}
+                    </span>
+                  </p>
+                  <h3 className={styles.heading} data-head>
+                    {beat.heading}
+                  </h3>
+                  <p className={styles.body} data-body>
+                    {beat.body}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        ))}
+      </div>
     </HeaderZone>
   );
 }
+
+/** Exposed for the verification harness — total scroll length in vh, so a
+ *  script can compute exact scroll offsets for each beat boundary without
+ *  guessing at layout. */
+export const PROCESS_TOTAL_VH = TOTAL_VH;

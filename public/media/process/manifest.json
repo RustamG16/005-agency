@@ -1,0 +1,6 @@
+{
+  "_comment": "Media for the homepage process plate (components/sections/home/ProcessPlate.tsx). List only files that exist here; the plate requests nothing that is not listed, so an unlisted or missing file costs no request and logs no 404 — the same contract as /images/about/manifest.json. Tiers, most to least capable: scrub (tight-GOP, seekable) > stills (discrete frames at the beat boundaries) > poster (single still) > bare (no media file — a plain noir plate, same fallback Principles.tsx already ships). Specs are in MEDIA-BRIEF-R6.md.",
+  "scrub": "process-scrub.mp4",
+  "poster": "poster.jpg",
+  "stills": ["still-0.00.jpg", "still-0.20.jpg", "still-0.50.jpg", "still-0.80.jpg"]
+}

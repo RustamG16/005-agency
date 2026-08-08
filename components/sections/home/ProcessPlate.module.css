@@ -1,0 +1,33 @@
+/* The bare state (no tier resolved yet, or the "bare" fallback) IS this noir
+   plate — Principles.tsx ships the identical fallback for its own three
+   plates, so an unfilled or still-loading process plate reads as composed,
+   not as a hole. */
+.plate {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  background: var(--color-noir);
+  /* --color-hairline is documented "rules and borders on cotton" — every other
+     use of it sits on a cotton ground. This plate sits on noir, so it follows
+     AboutChapters' dimmed variant for a border on dark instead of the full-
+     strength cotton hairline. */
+  border: 1px solid rgba(202, 200, 192, 0.22);
+}
+
+/* All three possible layers (video, still, poster) are mounted at once — see
+   ProcessPlate.tsx's docblock on why — and stacked here. Only the one
+   `data-active` tier is shown; the rest sit at opacity 0 underneath. */
+.media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+.media[data-active="true"] {
+  opacity: 1;
+}

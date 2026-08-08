@@ -1,6 +1,32 @@
 "use client";
 
 /**
+ * STALE AS OF R6 (2026-08-08) — do not trust this harness's readout.
+ *
+ * The hero it previews no longer exists: the film changed from a dark
+ * architectural ascent to the Convenium ident, the hero inverted from
+ * cotton-on-noir to ink-on-cotton, the §4.4 grade ramp below was RETIRED
+ * (Hero.tsx no longer grades the film at all), the "cover" here is a
+ * height-percentage div where production now uses a clip-path panel shared
+ * with a second `.statement` layer, and the headline text below is the
+ * pre-R6 copy. `HANDOFF_AT`/`CHROME_FLIP_AT` are the old constants; the real
+ * ones are `INVERT_FROM`/`INVERT_TO`/`REVEAL_AT` in `Hero.tsx`.
+ *
+ * R6's actual verification tool is `scripts/verify-hero.mjs` — it drives the
+ * real pin via `Hero.tsx`'s dev-only `__heroRange()`, not a re-implementation,
+ * so it cannot drift the way this harness did. Every R6 hero constant was
+ * chosen against ITS output, not this one's.
+ *
+ * Left in place rather than deleted or half-patched: partially updating the
+ * constants without also replacing the cover mechanic and dropping the grade
+ * would make this MORE misleading, not less — a plausible-looking readout
+ * that quietly lies about how the real hero behaves. Full rewrite is P1
+ * backlog (`AUDIT-R6.md`), gated out of production builds either way.
+ *
+ * Everything below this notice is the PRE-R6 docblock, unmodified, for
+ * whoever does that rewrite.
+ * ---
+ *
  * The hero-preview harness (spec §4.5).
  *
  * WHAT IT REBUILDS, AND WHAT IT BORROWS. The stage, the media box, the grade and

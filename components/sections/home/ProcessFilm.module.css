@@ -1,77 +1,110 @@
-.section {
+/* Inside the process — the /about sticky-bed pattern, scoped to this section.
+   Mobile-first: everything below is the flat, non-pinned state; the sticky
+   mechanics only switch on inside the desktop-motion media query at the
+   bottom. That is a deliberate inversion of the old mobile-collapses-desktop
+   pattern — it means the default (no-JS, print, ancient browser) rendering is
+   always the simple one. */
+
+.root {
   position: relative;
   background: var(--color-noir);
   color: var(--color-cotton);
 }
 
-/* A HARD one-viewport frame, not a minimum.
- *
- * It was `min-height` until 2026-08-04, and at 1440×900 the copy pushed the
- * section to 1319px — so 419px of it, the bottom of the film, sat below the fold
- * for the whole pin and only swept in after the pin released. That was the
- * "jumps to the film image". Locking the height to the frame keeps the band
- * inside the picture the whole way; `1fr` gives it whatever the copy leaves. */
-.stage {
-  position: relative;
-  height: 100svh;
+/* ---- the plate stage (desktop motion only; see bottom media query) ---- */
+
+.plateStage {
+  display: none;
+}
+
+.plateGrid {
+  width: 100%;
+  height: 100%;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  overflow: hidden;
-}
-
-.copy {
-  padding-top: clamp(var(--space-6), 12vh, var(--space-7));
-  padding-bottom: var(--space-4);
-}
-
-.labelRow {
-  display: flex;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 24px;
   align-items: center;
-  gap: var(--space-3);
 }
 
-.label {
-  color: var(--color-gray-on-noir);
-  flex: 0 0 auto;
+.plateSlot {
+  grid-column: 7 / span 6;
+  aspect-ratio: 4 / 3;
+  max-height: 72vh;
 }
 
-/* Progress rule — the only graphic the section adds. Tracks the pin. */
-.rule {
-  position: relative;
-  flex: 1;
-  height: 1px;
-  background: var(--color-gray);
+/* ---- the mobile / reduced-motion poster ---- */
+
+.mobilePoster {
+  width: 100%;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
+  border-radius: var(--radius-media);
+  border: 1px solid rgba(202, 200, 192, 0.22);
+  /* Small on purpose: `.sticky` on the first beat already opens with its own
+     --space-6 pad-top, and the two were stacking into a ~150px dead gap
+     before the first beat's label on narrow viewports. */
+  margin: 0 auto var(--space-3);
+  max-width: calc(1440px - 2 * var(--space-container));
 }
 
-.ruleFill {
-  position: absolute;
-  inset: 0;
-  background: var(--color-accent-graphic); /* chili — graphic rule on noir */
-  transform-origin: 0 50%;
-  transform: scaleX(0);
+.mobilePosterImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---- beats ---- */
+
+.beat {
+  position: relative;
+  z-index: 1;
+  min-height: auto;
+}
+
+.sticky {
+  position: static;
+  padding: var(--space-6) 0;
+}
+
+.copyGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 24px;
+}
+
+.copySlot {
+  grid-column: 1 / span 5;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-gray-on-noir);
+}
+
+.eyebrowIndex {
+  /* Body-size text on noir uses chili-300, not chili — DESIGN.md's red rule:
+     chili itself is graphic-only (rules, marks, ≥24px display) and fails AA
+     below that size. This label is --font-label, well under the threshold. */
+  color: var(--color-accent-on-noir); /* chili-300 */
+  letter-spacing: 0.04em;
 }
 
 .heading {
   margin-top: var(--space-4);
   font-family: var(--font-family-display);
   font-size: var(--font-display);
-  line-height: 0.9;
+  line-height: 0.92;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  /* Wide enough that each masked line stays a single line — a line that wraps
-     inside its own mask breaks the reveal. */
-  max-width: 22ch;
-}
-
-.lineMask {
-  display: block;
-  overflow: hidden;
-}
-
-.line {
-  display: block;
-  line-height: inherit;
+  max-width: 14ch;
 }
 
 .body {
@@ -83,45 +116,34 @@
   color: var(--color-cotton);
 }
 
-/* The film opens from a letterboxed band to the full frame across the pin. */
-.band {
-  position: relative;
-  min-height: 0;
-  margin-top: var(--space-3);
-  overflow: hidden;
-  will-change: clip-path;
-}
-
-.video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(0.2) contrast(1.05) brightness(0.92);
-}
-
-@media (max-width: 768px) {
-  .stage {
-    height: auto;
-    grid-template-rows: auto auto;
+@media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+  .plateStage {
+    display: block;
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    /* Keeps this sticky element out of the height calculation — the beats'
+       own --beat-vh values are the only thing setting scroll length. Same
+       trick MonolithScene.module.css uses for its WebGL stage. */
+    margin-bottom: -100svh;
+    z-index: 0;
+    overflow: hidden;
   }
 
-  .copy {
-    padding-top: var(--space-6);
+  .mobilePoster {
+    display: none;
   }
 
-  .band {
-    aspect-ratio: 4 / 3;
-    clip-path: none !important;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .stage {
-    height: auto;
+  .beat {
+    min-height: calc(var(--beat-vh) * 1vh);
   }
 
-  .band {
-    aspect-ratio: 16 / 9;
-    clip-path: none !important;
+  .sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    padding: 0;
   }
 }

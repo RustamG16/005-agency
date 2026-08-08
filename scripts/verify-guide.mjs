@@ -8,9 +8,21 @@
  * requestAnimationFrame and IntersectionObserver do not run there, so a working
  * robot reads as a blank square. Real Chromium is the only honest check.
  *
- * Covers the 2026-08-03 revision: corner-locked stage, 3D platform, no clipping
- * disc, nudge-and-walk-back drag, and the appear-after-hero gate. Edge docking,
- * position persistence and drop-to-jump are retired and no longer asserted.
+ * Covers the 2026-08-04 drag model and the 2026-08-08 (R6) return: the 3D
+ * platform with no clipping disc, the appear-after-hero gate, a real
+ * zero-movement click, free 1:1 drag that LEAVES HIM WHERE HE IS DROPPED, and
+ * the walk home with its cancellation and its clearing of the stored offset.
+ *
+ * TWO ASSERTIONS WERE WRONG UNTIL R6 and are corrected here rather than
+ * deleted, because both encoded behaviour that had already been retired:
+ *   - "stage stayed corner-locked through the drag" contradicted the 2026-08-04
+ *     rewrite, in which the whole dock travels. It now asserts the opposite,
+ *     which is the actual contract: he stays where he is put.
+ *   - "returns to idle after the walk back" described the 2026-08-03 corner-lock.
+ *     The state does return to idle, but because the drag ended, not because
+ *     anything walked. Relabelled; the walk home is asserted separately below.
+ * The old docblock also claimed position persistence was "retired and no longer
+ * asserted" while it was in fact live in guide-state. It is asserted now.
  */
 
 import { chromium } from "playwright";
@@ -51,6 +63,22 @@ async function parkScroll(page, y) {
     else window.scrollTo(0, target);
   }, y);
   await page.waitForTimeout(400);
+}
+
+/** Park just past the opening section.
+ *
+ *  A fixed multiple of the viewport used to do this, but the R6 homepage hero
+ *  pins for 300% of the viewport, so 2.2 screens now lands a third of the way
+ *  INTO the ident and the guide is correctly still hidden. Measure the section
+ *  that declares the gate — pin spacer included — instead of guessing. */
+async function parkPastHero(page, vp) {
+  const y = await page.evaluate(() => {
+    const anchor = document.querySelector("[data-guide-reveal-after]");
+    const box = anchor?.closest(".pin-spacer") ?? anchor;
+    if (!box) return null;
+    return window.scrollY + box.getBoundingClientRect().bottom + 40;
+  });
+  await parkScroll(page, y ?? vp.height * 2.2);
 }
 
 /** Non-transparent pixels in the canvas — catches a silently failed GLB load.
@@ -125,7 +153,7 @@ async function run() {
     check(atTop.visible === "false", `hidden over the hero (data-visible=${atTop.visible})`);
     await page.screenshot({ path: `${OUT}/${vp.name}-hero-absent.png` });
 
-    await parkScroll(page, vp.height * 2.2);
+    await parkPastHero(page, vp);
     await page.waitForTimeout(1200);
     const afterScroll = await stageInfo(page);
     check(afterScroll.visible === "true", `appears past the hero (data-visible=${afterScroll.visible})`);
@@ -162,32 +190,86 @@ async function run() {
     await page.waitForTimeout(250);
     check((await puck.getAttribute("data-state")) !== "menu", "second real click closes it");
 
-    /* ---- nudge, then walk back to the pad ---- */
-    const box = await puck.boundingBox();
-    const cx = box.x + box.width / 2;
-    const cy = box.y + box.height / 2;
-    await page.mouse.move(cx, cy);
-    await page.mouse.down();
-    await page.mouse.move(cx - 45, cy - 30, { steps: 8 });
-    await page.waitForTimeout(150);
+    /* ---- free drag: he goes where he is put ---- */
+    const drag = async (dx, dy) => {
+      const b = await puck.boundingBox();
+      await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2);
+      await page.mouse.down();
+      await page.mouse.move(b.x + b.width / 2 + dx, b.y + b.height / 2 + dy, { steps: 8 });
+      await page.waitForTimeout(150);
+    };
+
+    await drag(-45, -30);
     check((await puck.getAttribute("data-state")) === "dragging", "drag past threshold enters drag state");
 
     const nudged = await page.evaluate(() => window.__guideOffset?.() ?? null);
     await page.screenshot({ path: `${OUT}/${vp.name}-nudged.png` });
     await page.mouse.up();
-    await page.waitForTimeout(1800);
-    check(
-      (await puck.getAttribute("data-state")) === "idle",
-      "returns to idle after the walk back"
-    );
+    await page.waitForTimeout(600);
+    check((await puck.getAttribute("data-state")) === "idle", "drag release returns to idle");
     if (nudged !== null) pass(`offset while dragging: ${JSON.stringify(nudged)}`);
 
-    /* ---- he never leaves the corner ---- */
+    /* ---- he stays where he is dropped ----
+     * The 2026-08-04 contract, and the exact inverse of what this script used to
+     * assert. Checked WELL INSIDE the 12s standby so the walk home cannot be
+     * what moves him back. */
     const afterDrag = await stageInfo(page);
     check(
-      afterDrag.right === afterScroll.right && afterDrag.bottom === afterScroll.bottom,
-      "stage stayed corner-locked through the drag"
+      afterDrag.right !== afterScroll.right || afterDrag.bottom !== afterScroll.bottom,
+      `stage stayed where it was dropped (right ${afterScroll.right}→${afterDrag.right}, bottom ${afterScroll.bottom}→${afterDrag.bottom})`
     );
+
+    /* ---- persistence ---- */
+    const stored = await page.evaluate(() => {
+      try {
+        return window.localStorage.getItem("convenium.guide.puck");
+      } catch {
+        return null;
+      }
+    });
+    check(stored !== null && stored !== '{"x":0,"y":0}', `drop position persisted (${stored})`);
+
+    /* ---- a return in flight yields to the user ---- */
+    const started = await page.evaluate(() => window.__guideReturnNow?.() ?? false);
+    check(started === true, "walk home starts on demand");
+    await page.waitForTimeout(120);
+    await drag(30, 20); // grab him mid-walk
+    const midGrab = await page.evaluate(() => window.__guideOffset?.() ?? null);
+    await page.mouse.up();
+    await page.waitForTimeout(400);
+    check(
+      midGrab !== null && (Math.abs(midGrab.x) > 1 || Math.abs(midGrab.y) > 1),
+      `grabbing him mid-walk cancels the return (${JSON.stringify(midGrab)})`
+    );
+
+    /* ---- and left alone, he arrives ---- */
+    await page.evaluate(() => window.__guideReturnNow?.());
+    await page.waitForTimeout(3200); // RETURN_MAX_S is 2.6s
+    const home = await page.evaluate(() => window.__guideOffset?.() ?? null);
+    check(
+      home !== null && Math.abs(home.x) < 1 && Math.abs(home.y) < 1,
+      `walks home to the dock (${JSON.stringify(home)})`
+    );
+
+    /* ---- arriving clears the stored offset, so a reload does not re-strand ---- */
+    const clearedRaw = await page.evaluate(() => {
+      try {
+        return window.localStorage.getItem("convenium.guide.puck");
+      } catch {
+        return null;
+      }
+    });
+    let cleared = null;
+    try {
+      cleared = clearedRaw ? JSON.parse(clearedRaw) : null;
+    } catch {
+      cleared = null;
+    }
+    check(
+      cleared !== null && Math.abs(cleared.x) < 1 && Math.abs(cleared.y) < 1,
+      `arrival cleared the stored offset (${clearedRaw})`
+    );
+    await page.screenshot({ path: `${OUT}/${vp.name}-returned.png` });
 
     /* ---- noir ground ---- */
     await page.goto(`${BASE}/about`, { waitUntil: "domcontentloaded" });

@@ -1,9 +1,12 @@
 /* The section that takes the frame from the hero.
  *
- * The hero pins with `pinSpacing: false`, so while it is held it is
- * `position: fixed` and this section scrolls up over it — this section IS the
- * handoff. A static block would paint its background BELOW a fixed sibling, so
- * it has to be positioned and lifted one step to do the covering. */
+ * Until R6 this section WAS the handoff: the hero pinned with
+ * `pinSpacing: false`, so it scrolled up over the held hero and did the wiping,
+ * which is why it had to be positioned and lifted a step to paint above a fixed
+ * sibling. R6 moved the wipe inside the hero (a cotton field rising over the
+ * ident) and switched the pin to `pinSpacing: true`, so this section now simply
+ * follows the released pin. The stacking context is kept because it is still the
+ * first thing under a `position: relative` hero and costs nothing. */
 .overHero {
   position: relative;
   z-index: 1;

@@ -1,7 +1,10 @@
+/* A LIGHT hero as of R6. The film is the Convenium ident on a paper ground, so
+   the section's own ground is cotton and the statement is ink. Everything below
+   that used to assume cotton-on-noir has been inverted, not tinted. */
 .hero {
   position: relative;
-  background: var(--color-noir);
-  color: var(--color-cotton);
+  background: var(--color-cotton);
+  color: var(--color-ink);
 }
 
 .stage {
@@ -13,10 +16,25 @@
   overflow: hidden;
 }
 
-/* Content sits above the media layer. */
-.content {
+/* The cotton field that rises over the resolved ident. It carries no content —
+   it is a ground, and the statement sits above it. At rest (mobile, reduced
+   motion, before the timeline builds) it does not exist visually at all, so the
+   statement reads directly over the poster. */
+.reveal {
+  display: none;
+}
+
+/* The clip layer for the statement. At rest it is inert — a plain block that
+   just holds the copy in normal flow. It only becomes a full-stage box, and
+   only gets clipped, under desktop motion. */
+.statement {
   position: relative;
   z-index: 2;
+  width: 100%;
+}
+
+.content {
+  width: 100%;
   padding-bottom: clamp(var(--space-6), 12vh, var(--space-7));
   padding-top: calc(var(--space-7) + var(--space-4));
 }
@@ -35,20 +53,28 @@
   display: block;
   font-family: var(--font-family-display);
   text-transform: uppercase;
-  color: var(--color-cotton);
-  will-change: transform;
+  color: var(--color-ink);
 }
 
 /* The turn. Sentence case, serif, italic — the sentence stops shouting and
-   starts meaning something. */
+   starts meaning something. This is the one face break on the page and the
+   reason the statement reads as a promise rather than a slogan.
+
+   The serif line is now the longest of the three — "Designed to be heard, and to
+   be kept." runs 37 characters against "AT FULL VOLUME."'s 15 — so left at the
+   full display size it wraps to three lines at 390 and unbalances the block. It
+   steps down to its own scale rather than dragging the display lines down with
+   it. */
 .serif {
   display: block;
   font-family: var(--font-family-serif);
   font-style: italic;
   font-weight: 400;
+  font-size: 0.62em;
+  line-height: 1.05;
+  margin-top: 0.28em;
   letter-spacing: -0.02em;
-  color: var(--color-cotton);
-  will-change: transform;
+  color: var(--color-ink);
 }
 
 .support {
@@ -58,21 +84,20 @@
   font-family: var(--font-family-ui);
   font-size: var(--font-body);
   line-height: 1.45;
-  /* Cotton, not --color-gray-on-noir. That grey is 7.02:1 on flat noir and was
-     the right choice when this hero WAS flat noir, but the film put lit concrete
-     behind this paragraph: measured over the graded film it falls to 3.83:1 at
-     rest, under the 4.5:1 body-text bar. Cotton measures 8.9:1 on the same
-     frames. The hierarchy against the statement is carried by size and weight,
-     which is where it should have been carried anyway. */
-  color: var(--color-cotton);
-  will-change: transform;
+  /* Ink, not --color-gray. Gray is 4.53:1 on flat cotton and would be the right
+     secondary tone inside the risen panel — but at rest this paragraph sits over
+     the poster instead, and gray falls to ~3.7:1 there, under the 4.5:1 body
+     bar. One colour that holds on both grounds beats two that each hold on one.
+     The hierarchy against the statement is carried by size and weight, which is
+     where it should have been carried anyway. */
+  color: var(--color-ink);
 }
 
 .cue {
   position: absolute;
   right: var(--space-container);
   bottom: clamp(var(--space-3), 5vh, var(--space-5));
-  z-index: 2;
+  z-index: 3;
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -80,7 +105,7 @@
   font-size: var(--font-label);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--color-gray-on-noir);
+  color: var(--color-gray);
 }
 
 .cueLine {
@@ -88,6 +113,32 @@
   width: 56px;
   height: 1px;
   background: var(--color-gray);
+}
+
+@media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+  /* Now it is the wipe: full-bleed, opaque, clipped from the bottom edge up by
+     the pinned timeline. Layer 1 — above the film, below the statement. */
+  .reveal {
+    position: absolute;
+    inset: 0;
+    display: block;
+    z-index: 1;
+    background: var(--color-cotton);
+    will-change: clip-path;
+  }
+
+  /* Same box as `.reveal`, one layer up, so the two clip-paths advance at the
+     same rate and the type is uncovered by the seam rather than fading across
+     it. Anything smaller would move its own edge faster than the panel's. */
+  .statement {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    will-change: clip-path;
+  }
+
 }
 
 @media (max-width: 768px) {

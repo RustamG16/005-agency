@@ -3,9 +3,28 @@
 /**
  * The hero's full-bleed media slot.
  *
- * It renders the scroll-scrubbed film: a five-second architectural ascent whose
- * playhead is `Hero.tsx`'s pin progress. It is deliberately NOT a card —
- * DESIGN.md is explicit that the hero medium is full-bleed and never framed.
+ * It renders the scroll-scrubbed film, whose playhead is `Hero.tsx`'s pin
+ * progress. It is deliberately NOT a card — DESIGN.md is explicit that the hero
+ * medium is full-bleed and never framed.
+ *
+ * THE FILM CHANGED 2026-08-08 (R6). It is no longer a dark architectural ascent;
+ * it is the Convenium ident — the extruded ink wordmark building on a paper
+ * ground, with the striped mark carrying the single red rule that MEDIA-GUIDE-R5
+ * calls the slash of light. Measured mean luma across the 15.04s clip:
+ *
+ *   0.00–0.38  cotton ground, YAVG 207–218   the wordmark types in
+ *   0.40–0.57  noir, YAVG 27–75              a hard cut to the inverted passage
+ *   0.58–0.65  rising back, YAVG 95–155
+ *   0.66–1.00  cotton, YAVG 195–208          the settled mark, easing out
+ *
+ * Two consequences, both load-bearing. The hero inverted from dark to light
+ * (`Hero.tsx` sets the type in ink on cotton, and flips the chrome across the
+ * film's own inversion at the two measured thresholds). And THE GRADE IS GONE:
+ * `brightness(0.78) saturate(0.78) contrast(1.08)` existed to push a bright film
+ * down far enough to hold cotton type, and to ramp back off so the travelling
+ * seam closed on cotton. Neither job exists now — the type is ink, and the film
+ * ends on cotton by itself — so the ident is shown as authored rather than
+ * pushed around by a grade written for a different film.
  *
  * THE CONTRACT IS ONE METHOD. `Hero.tsx` owns scroll and knows nothing about
  * media; this file owns media and knows nothing about scroll. Everything below
@@ -32,40 +51,41 @@
  *      rejection is caught and the session falls back to the still.
  *
  * ONLY THE TIGHT-GOP (`-g 4`) RE-ENCODE IS SCRUBBABLE. This is physics, not
- * policy: `/media/hero_autoplay.mp4` is a normal encode whose keyframes sit ~2s
- * apart, so a seek lands on the nearest one and the scrub visibly sticks. `-g 4`
- * puts a keyframe every ~0.17s at 24fps, which lands a seek within three frames
- * and is imperceptible under `scrub: 0.3`. Never point the constants below at a
- * normally-encoded file.
+ * policy: a normal encode's keyframes sit ~2s apart, so a seek lands on the
+ * nearest one and the scrub visibly sticks. `-g 4` puts a keyframe every ~0.17s
+ * at 24fps, which lands a seek within three frames and is imperceptible under
+ * `scrub: 0.3`. Verified on the shipping encode: 90 keyframes across 361 frames.
+ * Never point the constants below at a normally-encoded file.
  *
  * If the encodes are absent the component degrades to the poster, and if that is
- * absent too, to the noir ground and its horizon rule. Nothing throws.
+ * absent too, to the cotton ground and its horizon rule. Nothing throws.
  */
 
 import { useCallback, useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
 import { MQ } from "@/components/motion/motion";
 import styles from "./HeroMedia.module.css";
 
-/* The tight-GOP hero re-encode (spec §4.3): a 5s architectural ascent, 1920×1080
- * at 24fps, grayscale, `-g 4`. Setting this to "" disables the film entirely and
- * leaves the noir ground and its horizon rule, which is a valid state — nothing
- * below throws when the encodes are absent. */
+/* The tight-GOP hero re-encode: the 15.04s Convenium ident, 1280×720 at 24fps,
+ * `-g 4`, CRF 18 → 4.58 MB (the whole file is fetched to a Blob before the first
+ * seek, so this number is a budget, not a detail). Setting this to "" disables
+ * the film entirely and leaves the cotton ground and its horizon rule, which is
+ * a valid state — nothing below throws when the encodes are absent. */
 const SCRUB_SRC: string = "/media/hero_scrub.mp4";
-/** 720p encode for phones, chosen by screen short side — never by UA. */
+/** 540p encode for phones, chosen by screen short side — never by UA. 2.08 MB. */
 const SCRUB_SRC_MOBILE = "/media/hero_scrub-m.mp4";
 /** The ENCODED clip's extracted first frame. A re-rendered still pops on handover. */
 const POSTER_SRC = "/images/poster-hero-scrub.jpg";
 
-/** Short side at or below this is a phone and gets the 720p encode (spec §7). */
-const MOBILE_SHORT_SIDE = 600;
+/* One poster, deliberately, and it is frame 0 for BOTH paths. The scrub path
+ * needs frame 0 or the handover pops. The no-scrub path — mobile, reduced
+ * motion, save-data, Low Power Mode — wants it too, for a different reason: the
+ * ident opens on a near-empty paper ground, so frame 0 is a clean cotton plate
+ * for the statement to sit on, whereas the settled mark would put a second
+ * CONVENIUM wordmark directly behind the <h1>. The blank-looking frame is the
+ * correct still, not a compromise. */
 
-/* The §4.4 grade ramp. The film can never match cotton through the base grade —
- * cotton is ~237 and reaching it through brightness(0.78) would need a source
- * value of 304 — so instead the grade eases off over the back of the pin and the
- * last visible sliver closes on cotton as tightly as the encode allows. Base
- * values live in the stylesheet; these are only the ramp's endpoints. */
-const RAMP_FROM = 0.62; // Hero.tsx's HANDOFF_AT
-const GRADE = { b0: 0.78, b1: 1.0, c0: 1.08, c1: 1.0 };
+/** Short side at or below this is a phone and gets the smaller encode (spec §7). */
+const MOBILE_SHORT_SIDE = 600;
 
 type Mode = "pending" | "scrub" | "still";
 
@@ -137,15 +157,6 @@ export function HeroMedia({ handleRef }: { handleRef?: Ref<HeroMediaHandle> }) {
     () => ({
       setProgress(p: number) {
         progressRef.current = p;
-
-        // The §4.4 ramp rides the same timeline. Base values stay in CSS; only
-        // the two ramping numbers are written here.
-        const media = mediaRef.current;
-        if (media) {
-          const u = clamp01((p - RAMP_FROM) / (1 - RAMP_FROM));
-          media.style.setProperty("--grade-b", (GRADE.b0 + (GRADE.b1 - GRADE.b0) * u).toFixed(4));
-          media.style.setProperty("--grade-c", (GRADE.c0 + (GRADE.c1 - GRADE.c0) * u).toFixed(4));
-        }
 
         if (modeRef.current === "scrub") {
           applySeek(p);

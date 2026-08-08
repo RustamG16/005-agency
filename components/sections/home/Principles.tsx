@@ -13,13 +13,15 @@
  * hairlines between them say too. They are the one device the old layout got
  * right and they are kept unchanged.
  *
- * The media plates are DELIBERATELY empty noir fields. Russ is supplying the
- * three images (subject and aspect are listed in the PROMPT D report); until
- * they land, a plate of the site's own dark ground is honest, and nothing is
- * invented or pulled from stock to fill the hole. Dropping the images in means
- * putting an <Image> inside `.plate` and nothing else.
+ * The media plates were deliberately empty noir fields until R6: three stills
+ * generated via Higgsfield (`MEDIA-BRIEF-R6.md`), matching the aspect measured
+ * off this file's own `.plate` rule (3:2 mobile, 16:9 from 900px). Wiring them in
+ * was exactly the one change the previous docblock predicted — an `<Image>`
+ * inside `.plate` and nothing else. The empty-plate fallback stays in the CSS
+ * (`.plate`'s noir background) for any principle whose file goes missing.
  */
 
+import Image from "next/image";
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/components/motion/gsap";
@@ -106,7 +108,14 @@ export function Principles() {
                   </p>
                 </div>
                 <div className={styles.media} data-principle-part aria-hidden="true">
-                  <div className={styles.plate} />
+                  <div className={styles.plate}>
+                    <Image
+                      src={`/images/principles/${p.index}.jpg`}
+                      alt=""
+                      fill
+                      sizes="(max-width: 899px) 100vw, 50vw"
+                    />
+                  </div>
                 </div>
               </div>
             </li>
