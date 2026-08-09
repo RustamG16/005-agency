@@ -17,6 +17,10 @@
   grid-template-columns: repeat(12, 1fr);
   column-gap: 24px;
   row-gap: 24px;
+  /* Containing block for the absolutely-positioned `.mark` marginalia only. Changes no
+     in-flow geometry: an abs-pos grid child is removed from track sizing entirely, so it
+     cannot alter a track's size or a sibling's position. */
+  position: relative;
 }
 
 .tightGap {
@@ -132,6 +136,56 @@
   text-align: center;
 }
 
+/* ── Chapter marginalia ──────────────────────────────────────────────────────
+   Page-folio numbering set into the empty half of the chapter bed. Absolutely
+   positioned, so it occupies no grid track and moves nothing; decorative, so it is
+   aria-hidden and carries no `data-head`/`data-body` (which would enrol it in
+   MonolithScene's reveal pass). Static by design — no transition, no scroll trigger. */
+
+.mark {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  font-family: var(--font-family-ui);
+  font-size: var(--font-label);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gray-on-noir);
+}
+
+.markRight {
+  grid-column: 11 / span 2;
+}
+
+.markLeft {
+  grid-column: 1 / span 2;
+}
+
+.markNum {
+  font-family: var(--font-family-display);
+  font-size: var(--font-card-title);
+  line-height: 1;
+  color: color-mix(in srgb, var(--color-cotton) 14%, transparent);
+}
+
+.markRule {
+  width: 100%;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-hairline) 16%, transparent);
+}
+
+/* Below the 12-col bed there is no empty margin to set it in. */
+@media (max-width: 900px) {
+  .mark {
+    display: none;
+  }
+}
+
 /* ── Founder duo (.dc lines 79–92) ───────────────────────────────────────── */
 
 .duo {
@@ -148,14 +202,19 @@
   gap: 6px;
 }
 
+/* Placeholder card — cherry-lit, standing in for the founder photo until a real
+   one lands (AboutChapters.tsx: SHOW_REAL_PORTRAITS). The glow echoes the
+   backlit-panel staging from the reference brief without needing an asset. */
 .duoFrame {
   position: relative;
   aspect-ratio: 3 / 4;
   max-height: 260px;
   border-radius: var(--radius-card);
   overflow: hidden;
-  background: var(--color-ink);
-  border: 1px solid rgba(202, 200, 192, 0.22);
+  background:
+    radial-gradient(120% 90% at 50% 12%, color-mix(in srgb, var(--red-cherry) 60%, transparent), transparent 70%),
+    var(--color-ink);
+  border: 1px solid color-mix(in srgb, var(--color-hairline) 26%, transparent);
   margin-bottom: 12px;
   display: flex;
   align-items: center;
@@ -171,7 +230,7 @@
   position: absolute;
   font-family: var(--font-family-display);
   font-size: clamp(2.5rem, 5vw, 4rem);
-  color: rgba(238, 237, 232, 0.1);
+  color: color-mix(in srgb, var(--color-cotton) 28%, transparent);
   letter-spacing: -0.02em;
 }
 

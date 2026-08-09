@@ -25,6 +25,41 @@ const founders = [
   },
 ];
 
+/**
+ * The files at founders[].src are stock placeholders, not real photos of Marija or
+ * Rustam — showing them as if they were real would misrepresent the two people the
+ * page is about. Until real photos land (see MEDIA-PROMPTS-ABOUT.md §4), the card
+ * shows its cherry-lit CSS placeholder instead. Flip to true once both files are
+ * overwritten with real photography.
+ */
+const SHOW_REAL_PORTRAITS = false;
+
+/**
+ * Chapter folio set into the empty half of the bed. Decorative only: `aria-hidden`, and
+ * deliberately free of `data-head`/`data-body` so `MonolithScene`'s reveal pass skips it.
+ * Absolutely positioned by `.mark`, so it takes no grid track and shifts nothing.
+ */
+function ChapterMark({
+  side,
+  num,
+  caption,
+}: {
+  side: "left" | "right";
+  num: string;
+  caption: string;
+}) {
+  return (
+    <div
+      className={`${styles.mark} ${side === "right" ? styles.markRight : styles.markLeft}`}
+      aria-hidden="true"
+    >
+      <span className={styles.markNum}>{num}</span>
+      <span>{caption}</span>
+      <span className={styles.markRule} />
+    </div>
+  );
+}
+
 export function AboutChapters() {
   return (
     <>
@@ -46,6 +81,7 @@ export function AboutChapters() {
               strategy, identity, web, content and media, carried personally from first
               call to launch.
             </p>
+            <ChapterMark side="right" num="02" caption="Position" />
           </div>
         </div>
       </section>
@@ -61,6 +97,7 @@ export function AboutChapters() {
               Identity and graphic design built to extend — a brand should get stronger
               with use, not need a redesign in a year.
             </p>
+            <ChapterMark side="right" num="03" caption="Identity" />
           </div>
         </div>
       </section>
@@ -76,6 +113,7 @@ export function AboutChapters() {
               Scroll-driven, real-time 3D, built in-house. What you are watching is what
               we ship.
             </p>
+            <ChapterMark side="right" num="04" caption="Web · 3D" />
           </div>
         </div>
       </section>
@@ -96,13 +134,15 @@ export function AboutChapters() {
                 <li key={person.name}>
                   <div className={styles.duoFrame}>
                     <span className={styles.duoFallback}>{person.name.charAt(0)}</span>
-                    <Image
-                      src={person.src}
-                      alt={`${person.name}, co-founder of ${site.shortName}`}
-                      fill
-                      sizes="(max-width: 900px) 40vw, 22vw"
-                      className={styles.duoImg}
-                    />
+                    {SHOW_REAL_PORTRAITS && (
+                      <Image
+                        src={person.src}
+                        alt={`${person.name}, co-founder of ${site.shortName}`}
+                        fill
+                        sizes="(max-width: 900px) 40vw, 22vw"
+                        className={styles.duoImg}
+                      />
+                    )}
                   </div>
                   <p className={styles.duoName}>{person.name}</p>
                   <p className={styles.duoRole}>Co-founder</p>
@@ -114,6 +154,8 @@ export function AboutChapters() {
             <p className={`${styles.body} ${styles.rightCol} ${styles.kicker}`} data-body>
               Everything above was made by the two of us.
             </p>
+
+            <ChapterMark side="left" num="05" caption="Studio" />
           </div>
         </div>
       </section>

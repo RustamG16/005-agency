@@ -15,7 +15,14 @@
 
 import * as THREE from "three";
 import { gsap } from "@/components/motion/gsap";
-import { ARTIFACT_COUNT, TOKEN_HEX, dcArtifactCanvas, dcScreenCanvas } from "./textures";
+import {
+  ARTIFACT_COUNT,
+  TOKEN_HEX,
+  dcArtifactCanvas,
+  dcScreenCanvas,
+  dcSurfaceCanvas,
+  dcWallCanvas,
+} from "./textures";
 
 /** Face geometry locked to the card ratio the rest of the site uses. */
 const FACE_W = 1.4;
@@ -85,6 +92,11 @@ export function buildMonolith(canvas: HTMLCanvasElement, stage: HTMLElement): Mo
   const ambient = new THREE.AmbientLight(0xffffff, 0.22);
   scene.add(key, fill, ambient);
 
+  // Decoration pass — rim light, cotton, for edge separation against the noir wall.
+  const rim = new THREE.DirectionalLight(0xedebdd, 0.9); // cotton
+  rim.position.set(-2.4, 1.6, -2.8);
+  scene.add(rim);
+
   const rig = new THREE.Object3D();
   const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
   camera.position.set(0, 0, 4.2);
@@ -96,11 +108,22 @@ export function buildMonolith(canvas: HTMLCanvasElement, stage: HTMLElement): Mo
 
   const disposables: Array<{ dispose: () => void }> = [];
 
+  // Decoration pass — static backdrop wall. Added to `scene`, never `group`: it must
+  // stay perfectly still, inheriting neither the group's rotation nor the idle float.
+  const wallTex = dcWallCanvas();
+  const wallGeo = new THREE.PlaneGeometry(7.17, 9.28); // 448:580 ratio × 16
+  const wallMat = new THREE.MeshBasicMaterial({ map: wallTex, toneMapped: false });
+  const wall = new THREE.Mesh(wallGeo, wallMat);
+  wall.position.set(0, 0, -3.4);
+  wall.renderOrder = -1;
+  scene.add(wall);
+  disposables.push(wallGeo, wallMat, wallTex);
+
   const sw = FACE_W / COLS;
   const sh = FACE_H / ROWS;
   const sd = DEPTH / LAYERS;
 
-  // Smooth ink — no roughness/bump maps. The body reads as carved by light, not texture.
+  // Body — carved by light, with a decoration-pass micro-tooth roughness/bump map.
   const bodyMat = new THREE.MeshStandardMaterial({
     color: TOKEN_HEX.ink,
     roughness: 0.86,
@@ -109,6 +132,16 @@ export function buildMonolith(canvas: HTMLCanvasElement, stage: HTMLElement): Mo
     opacity: 1,
   });
   disposables.push(bodyMat);
+
+  const surfaceTex = dcSurfaceCanvas();
+  surfaceTex.wrapS = surfaceTex.wrapT = THREE.RepeatWrapping;
+  surfaceTex.repeat.set(3, 4); // seams land on the 3×4 lattice boundaries
+  surfaceTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  bodyMat.roughnessMap = surfaceTex;
+  bodyMat.roughness = 1.0; // map multiplies; canvas value 0.82±0.1 → effective 0.72–0.92, astride today's 0.86
+  bodyMat.bumpMap = surfaceTex;
+  bodyMat.bumpScale = 0.012;
+  disposables.push(surfaceTex);
 
   const shardGeo = new THREE.BoxGeometry(sw, sh, sd);
   const plateGeo = new THREE.PlaneGeometry(sw * 0.82, sh * 0.82);
@@ -139,6 +172,7 @@ export function buildMonolith(canvas: HTMLCanvasElement, stage: HTMLElement): Mo
         if (k === LAYERS - 1 && plateCount < ARTIFACT_COUNT && (i + j) % 2 === 0) {
           const tex = new THREE.CanvasTexture(dcArtifactCanvas(plateCount));
           tex.colorSpace = THREE.SRGBColorSpace;
+          tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
           const mat = new THREE.MeshBasicMaterial({
             map: tex,
             transparent: true,
