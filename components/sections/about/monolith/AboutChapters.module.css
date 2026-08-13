@@ -179,6 +179,24 @@
   background: color-mix(in srgb, var(--color-hairline) 16%, transparent);
 }
 
+/* Chapter-1 floor gauge — ticks reading up to a filled one at the bottom (arrival is
+   the ground floor). Composes `.mark`, so it inherits the same absolute placement and
+   is suppressed below 900px along with the folios. */
+.gauge {
+  gap: 7px;
+}
+
+.gaugeTick {
+  width: 14px;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-hairline) 16%, transparent);
+}
+
+.gaugeTickOn {
+  width: 26px;
+  background: color-mix(in srgb, var(--color-cotton) 34%, transparent);
+}
+
 /* Below the 12-col bed there is no empty margin to set it in. */
 @media (max-width: 900px) {
   .mark {

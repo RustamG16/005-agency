@@ -1,0 +1,103 @@
+{
+  "runId": "20260810T160500-NEW-contact-v2",
+  "variant": "V3",
+  "startedAt": "2026-08-10T16:05:00+02:00",
+  "job": "NEW",
+  "target": "C:\\Users\\Rustam Gurbanov\\Desktop\\DigitalAgency_Saas\\lab\\005-agency  (route /contact-v2)",
+  "skillsRead": [
+    { "skill": "apollo-direction", "at": "2026-08-10T16:03:00+02:00" },
+    { "skill": "apollo-handoff", "at": "2026-08-10T17:10:00+02:00" }
+  ],
+  "stages": [
+    {
+      "n": 0,
+      "name": "Probe",
+      "status": "complete",
+      "at": "2026-08-10T16:02:12+02:00",
+      "artifacts": ["C:/Users/Rustam Gurbanov/apollo/.apollo/env.json"],
+      "note": "Windows PowerShell 5.1. node true, git true, no MCP servers registered in env.json; Claude Browser preview tools available in-session. Apollo-root launchConfig false — target project has its own .claude/launch.json."
+    },
+    {
+      "n": 1,
+      "name": "Intake",
+      "status": "complete",
+      "at": "2026-08-10T16:05:00+02:00",
+      "artifacts": ["_apollo/run.json"],
+      "note": "Classified NEW. Route 2 -> 3 -> 4 -> 5 -> 6. Isolation honoured: no reads under apollo/evals or scratchpad backups."
+    },
+    {
+      "n": 2,
+      "name": "Evidence",
+      "status": "degraded",
+      "at": "2026-08-10T16:24:00+02:00",
+      "artifacts": [
+        "_apollo/evidence/tokens.json",
+        "_apollo/evidence/v1-contact-measured.json"
+      ],
+      "note": "DEGRADED: no screenshots. The Browser pane was not compositing frames, so every screenshot call timed out after 5s at every width. Substituted rendered-DOM measurement (getBoundingClientRect + getComputedStyle) on the live /contact at all six widths 375/768/1024/1440/1920/2560 — numbers are measured, not estimated, but no image of the page was ever seen. Nothing in this run claims a visual observation. Console clean on /contact at 1920. Isolation held: no eval or backup content surfaced."
+    }
+    ,
+    {
+      "n": 3,
+      "name": "Direction",
+      "status": "complete",
+      "at": "2026-08-10T16:40:00+02:00",
+      "artifacts": ["_apollo/directions.md"],
+      "note": "Three directions developed, one committed ('The Threshold'). Rejected: 'The Call Sheet' (no structural answer to 1920; paper-on-cotton 1.06:1; broadsheet default), 'The Shaft' (violates DESIGN.md:25 ban on literal floor indicators; starves the qualifying copy). Type widths measured in-browser with the real loaded Archivo Black/Newsreader, not estimated."
+    }
+    ,
+    {
+      "n": 4,
+      "name": "Comp",
+      "status": "degraded",
+      "at": "2026-08-10T16:58:00+02:00",
+      "artifacts": [
+        "_apollo/comp/index.html",
+        "_apollo/comp/states.html",
+        "_apollo/comp/comp.css",
+        "_apollo/comp/fonts/982ceffe7b733b3b-s.p.woff2",
+        "_apollo/comp/fonts/5611c55482296524-s.p.woff2",
+        "_apollo/comp/fonts/4b9bb515ce6d026f-s.p.woff2",
+        "_apollo/comp/fonts/e4af272ccee01ff0-s.p.woff2"
+      ],
+      "note": "DEGRADED: built and served at http://localhost:4401 and measured at all six widths, but never screenshotted — the pane would not composite. Self-contained: the site's real Archivo Black / Newsreader / Inter woff2 subsets were copied out of .next/static/media so the comp's type measurements match the site exactly. Both HTML files carry a banner comment marking them as comp, not production."
+    },
+    {
+      "n": 5,
+      "name": "Self-check",
+      "status": "complete",
+      "at": "2026-08-10T17:05:00+02:00",
+      "artifacts": [
+        "_apollo/evidence/contrast-spec.json",
+        "_apollo/evidence/contrast-report.txt",
+        "_apollo/evidence/selfcheck.json"
+      ],
+      "note": "contrast.mjs run as CLI: 15 declared pairs, 0 failures, exit 0, plus the advisory matrix. The script settled four decisions, including that cherry on noir is 1.64:1 — so the global cherry focus ring is overridden to cotton on the dark section. Overflow measured at 375/768/1024/1440/1920/2560 on the comp and 375/1920 on the states sheet: none. Two touch targets under 44px were found and fixed during the check. Console clean."
+    }
+    ,
+    {
+      "n": 6,
+      "name": "Handoff",
+      "status": "complete",
+      "at": "2026-08-10T17:25:00+02:00",
+      "artifacts": ["HANDOFF-contact-v2.md"],
+      "note": "Written after reading apollo-handoff. Covers tokens with computed ratios, layout with measured numbers at four named breakpoints plus 1024/2560 confirmations, every form state including 400/422/503/success, motion described only, every string, edge cases, an 11-step build sequence with checkable acceptance criteria, and out-of-scope. 3 open questions, listed at the foot of the document."
+    },
+    {
+      "n": 7,
+      "name": "Stop",
+      "status": "complete",
+      "at": "2026-08-10T17:30:00+02:00",
+      "artifacts": ["_apollo/run.json"],
+      "note": "One pass. No second pass started. SCOPE NOTE: my only writes were _apollo/** and HANDOFF-contact-v2.md. git status afterwards also shows next.config.ts (distDir) and tsconfig.json (.next/types include) modified. I did not edit either file; they changed during the session, most likely from a concurrent process on this repo or from `next dev`'s own tsconfig rewriting. Flagged rather than reverted, since reverting someone else's in-flight work would be worse than reporting it."
+    }
+  ],
+  "deliverables": {
+    "evidence": "_apollo/evidence/",
+    "directions": "_apollo/directions.md",
+    "comp": "_apollo/comp/index.html",
+    "handoff": "HANDOFF-contact-v2.md"
+  },
+  "endedAt": "2026-08-10T17:30:00+02:00",
+  "openQuestions": 3
+}

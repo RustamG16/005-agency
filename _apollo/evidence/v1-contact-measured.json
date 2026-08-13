@@ -1,0 +1,78 @@
+{
+  "page": "http://localhost:4328/contact",
+  "method": "getBoundingClientRect + getComputedStyle on the rendered page. No values estimated.",
+  "capturedAt": "2026-08-10T16:22:00+02:00",
+  "screenshots": "UNAVAILABLE — the Browser pane was not compositing frames in this session, so every computer{action:'screenshot'} call timed out. All geometry below is measured from the live DOM instead.",
+  "structure": [
+    { "component": "ContactIntro", "headerZone": "light", "bg": "--color-cotton", "padTop": "clamp(120px,18vh,200px)", "padBottom": "--space-5 (48px)" },
+    { "component": "ContactMain",  "headerZone": "light", "bg": "--color-cotton", "padBottom": "--space-7 (120px)", "grid": "5fr 7fr above 900px, gap --space-6" },
+    { "component": "ProjectFit",   "headerZone": "dark",  "bg": "--color-noir",   "padY": "--space-7 (120px)", "grid": "1fr 1fr minmax(180px,220px) above 1100px" }
+  ],
+  "byWidth": {
+    "375": {
+      "layoutWidth": 375, "docHeight": 3922,
+      "h1": { "w": 343, "h": 216, "fontSize": "48px", "lines": 4 },
+      "contactMainGrid": { "w": 343, "h": 1458 },
+      "form": { "w": 343, "h": 791 },
+      "contactInfoMedia": { "w": 343, "h": 429 },
+      "email": { "w": 252, "fontSize": "20px" },
+      "submit": { "w": 185, "h": 48 },
+      "overflow": "none"
+    },
+    "768": {
+      "layoutWidth": 753, "docHeight": 3768,
+      "h1": { "w": 704, "h": 168, "fontSize": "62.38px" },
+      "contactMainGrid": { "w": 704, "h": 1315, "columns": "single — the 900px breakpoint has not fired" },
+      "form": { "w": 704, "h": 614 },
+      "input": { "w": 300, "fontSize": "19.40px" },
+      "contactInfoMedia": { "w": 380, "h": 475 },
+      "overflow": "none"
+    },
+    "1024": {
+      "layoutWidth": 1009, "docHeight": 2987,
+      "h1": { "w": 866, "h": 195, "fontSize": "72.13px" },
+      "contactMainGrid": { "w": 948, "columns": "5fr 7fr" },
+      "contactInfo": { "w": 362 }, "form": { "w": 506 },
+      "input": { "w": 201 },
+      "projectFitGrid": { "w": 948, "h": 571, "columns": "1fr 1fr, media wraps full-width — the 1100px step has not fired" },
+      "overflow": "none"
+    },
+    "1440": {
+      "layoutWidth": 1425, "docHeight": 2710,
+      "h1": { "w": 1056, "h": 238, "fontSize": "87.98px", "lines": 3 },
+      "contactMainGrid": { "w": 1345 }, "contactInfo": { "w": 527 }, "form": { "w": 738 },
+      "input": { "w": 317, "h": 43 },
+      "projectFitGrid": { "w": 1345, "h": 275 },
+      "overflow": "none",
+      "note": "This is the width the token set was designed for. Everything here is correct."
+    },
+    "1920": {
+      "layoutWidth": 1905, "docHeight": 2923,
+      "h1": { "w": 1057, "h": 238, "fontSize": "88px", "deadSpaceToRight": 768 },
+      "contactMainGrid": { "w": 1825 }, "contactInfo": { "w": 727 }, "form": { "w": 1018, "x": 847 },
+      "input_name": { "w": 457 }, "input_company": { "w": 938 },
+      "textLineMeasures": { "availability": 449, "infoStatement": 499, "projectFitText": 573 },
+      "overflow": "none (only the cursor disc, which is fixed and intended)",
+      "verdict": "FAILS. Nothing is clipped, but nothing is composed either. A 938px-wide single-line Company input, a 1018px paper card, and 768px of empty cotton to the right of the H1. This is a 1440 layout stretched, not a 1920 layout."
+    },
+    "2560": {
+      "layoutWidth": 2545, "docHeight": 2923,
+      "h1": { "w": 1057, "fontSize": "88px", "deadSpaceToRight": 1408 },
+      "contactMainGrid": { "w": 2465 }, "contactInfo": { "w": 994 }, "form": { "w": 1391, "x": 1114 },
+      "input": { "w": 644 },
+      "overflow": "none",
+      "verdict": "FAILS harder. 644px inputs, a 1391px form card. Same cause: no container ceiling."
+    }
+  },
+  "consoleErrors": "none observed on /contact at 1920",
+  "v1WeaknessesToBeatIn_v2": [
+    "No container ceiling. This is the primary defect and the reason the brief's 1920 target is unmet today.",
+    "The error style is `color: var(--color-noir)` with a `— ` pseudo-element prefix. An error is visually a slightly bolder caption. Nothing in the red family is spent on the one moment that needs it.",
+    "The 503 DELIVERY_NOT_CONFIGURED response — the state every real visitor hits today — renders as a generic bordered box appended below the consent checkbox, above the submit button, carrying the server's own sentence and an underlined mailto. It is the page's most likely outcome and its least designed one.",
+    "The form is a paper card floated in a cotton field: --color-paper on --color-cotton is a 1.06:1 separation. The card reads as a printing artifact, not a surface.",
+    "Six fields with identical hairline underlines, no rhythm, no sequence. Nothing tells the visitor how long this will take.",
+    "Two 4:5 stills (still-columns-15, still-team-55) placed as decoration. On mobile the ContactInfo still alone is 429px tall — a full thumb-scroll of nothing.",
+    "Submit hover is translateY(-2px) only; no colour move, and --color-accent-deep (maroon) — which exists precisely to be the hover depth step on a cherry field — is unused on the whole page.",
+    "The H1 'All progress starts with a conversation.' is generic and could sit on any studio's contact page. The site's own narrative (the elevator, floors, the ascent) is absent from /contact entirely."
+  ]
+}

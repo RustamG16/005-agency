@@ -205,10 +205,19 @@ export function dcArtifactCanvas(kind: number, s = 1024) {
   return canvas;
 }
 
-/** Backdrop wall — a perfectly static plate behind the object, never a child of `group`. */
+/**
+ * Backdrop wall — a perfectly static plate behind the object, never a child of `group`.
+ *
+ * Fills with noir, NOT ink. It filled with ink until this pass, which is the same hex as
+ * `bodyMat.color` — so the object and the plate directly behind it rendered at the same
+ * base value and the monolith flattened into its own backdrop (worst at chapter 1, where
+ * the framing is near-frontal). Noir matches `scene.background`, so the wall stops being a
+ * visible slab and becomes what it was meant to be: a carrier for its hairline rules.
+ * Tonal ladder restored — noir ground/wall → lit ink body.
+ */
 export function dcWallCanvas(w = 1024, h = 1324) {
   const { canvas, g } = ctx2d(w, h);
-  g.fillStyle = TOKEN.ink;
+  g.fillStyle = TOKEN.noir;
   g.fillRect(0, 0, w, h);
   g.strokeStyle = TOKEN.hairline;
   g.lineWidth = 1;
@@ -224,6 +233,82 @@ export function dcWallCanvas(w = 1024, h = 1324) {
   g.lineTo(w, 662.5);
   g.stroke();
   g.globalAlpha = 1;
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
+/* ── Chapter-1 arrival surfaces ───────────────────────────────────────────────
+   The three concepts share one colour discipline: cherry is a *light source*, kept
+   deep and dim, never a flood. Chapter 6's seam is the page's bright red payoff and
+   must still spike against anything drawn here — so peak values below stay well under
+   the seam's `accentOnNoir`. All are drawn on transparent grounds and composited with
+   normal blending; additive blows the oxblood out to pink immediately. */
+
+/** Radial oxblood bloom — Concept 1's backlight, Concept 3's wash. */
+export function dcGlowCanvas(s = 512) {
+  const { canvas, g } = ctx2d(s, s);
+  const grad = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+  // Deep, desaturated oxblood at the core. Not `accent` itself — that reads too hot
+  // once it is a light rather than a fill.
+  grad.addColorStop(0, "rgba(129, 1, 0, 0.92)");
+  grad.addColorStop(0.42, "rgba(99, 0, 0, 0.46)");
+  grad.addColorStop(1, "rgba(99, 0, 0, 0)");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, s, s);
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
+/** Concept 1's floor — a dark plane carrying a soft reflected smear of the bloom. */
+export function dcFloorCanvas(w = 512, h = 512) {
+  const { canvas, g } = ctx2d(w, h);
+
+  // Orientation matters here. After `rotation.x = -π/2`, the plane's local +Y (texture
+  // v=1, canvas y=0) points AWAY from the camera — so canvas top is the far edge, which
+  // projects onto the horizon line. Any alpha there smears a full-width band straight
+  // across the middle of the frame. The far edge must therefore be fully transparent.
+  //
+  // The object stands at z=0; with the plane centred at z=-1.4 and 6 deep, that is ~73%
+  // of the way from the far edge to the near one. Peak the reflection there so it pools
+  // under the monolith and falls off in both directions.
+  const grad = g.createLinearGradient(0, 0, 0, h);
+  grad.addColorStop(0, "rgba(99, 0, 0, 0)");
+  grad.addColorStop(0.45, "rgba(99, 0, 0, 0.05)");
+  grad.addColorStop(0.73, "rgba(129, 1, 0, 0.34)");
+  grad.addColorStop(1, "rgba(99, 0, 0, 0.08)");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, w, h);
+
+  // Narrow the smear horizontally so it sits under the object rather than washing the
+  // full width — a reflection has the footprint of the thing casting it.
+  const mask = g.createLinearGradient(0, 0, w, 0);
+  mask.addColorStop(0, "rgba(0,0,0,1)");
+  mask.addColorStop(0.3, "rgba(0,0,0,0)");
+  mask.addColorStop(0.7, "rgba(0,0,0,0)");
+  mask.addColorStop(1, "rgba(0,0,0,1)");
+  g.globalCompositeOperation = "destination-out";
+  g.fillStyle = mask;
+  g.fillRect(0, 0, w, h);
+  g.globalCompositeOperation = "source-over";
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
+/** Concept 1's motes — one soft round dot, instanced across a `THREE.Points` field. */
+export function dcMoteCanvas(s = 64) {
+  const { canvas, g } = ctx2d(s, s);
+  const grad = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+  grad.addColorStop(0, "rgba(237, 235, 221, 1)");
+  grad.addColorStop(0.5, "rgba(237, 235, 221, 0.34)");
+  grad.addColorStop(1, "rgba(237, 235, 221, 0)");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, s, s);
 
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;

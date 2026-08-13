@@ -19,6 +19,9 @@ import {
   ARTIFACT_COUNT,
   TOKEN_HEX,
   dcArtifactCanvas,
+  dcFloorCanvas,
+  dcGlowCanvas,
+  dcMoteCanvas,
   dcScreenCanvas,
   dcSurfaceCanvas,
   dcWallCanvas,
@@ -40,6 +43,58 @@ const EZ = 5.2;
 
 /** Chapter-5 screen window on master progress — used to gate the optional loop video. */
 export const SCREEN_WINDOW: [number, number] = [0.72, 0.9];
+
+/**
+ * Chapter-1 arrival window on master progress. Full opacity through chapter 1 (0→.12),
+ * then out across chapter 2 so nothing survives into the .28 fracture.
+ *
+ * Driven from the ScrollTrigger's `onUpdate` in `MonolithScene.tsx`, exactly like
+ * `SCREEN_WINDOW` gates the loop video — deliberately NOT a tween on the master
+ * timeline, so `buildObjectTimeline` stays untouched.
+ */
+export const ARRIVAL_WINDOW: [number, number] = [0.12, 0.28];
+
+/** The three chapter-1 concepts, selectable at runtime. See `buildArrival`. */
+export type ArrivalConcept = 1 | 2 | 3;
+
+/** Live-tunable knobs, per concept. Driven by `window.__ch1Tune` in development. */
+export type ArrivalTune = Partial<{
+  /** C1 backlight peak alpha · C3 wash peak alpha */
+  glow: number;
+  /** C1 floor reflection strength */
+  floor: number;
+  /** C1 mote field opacity */
+  motes: number;
+  /** C1 glow breath period, seconds */
+  breath: number;
+  /** C2 ring opacity */
+  rings: number;
+  /** C2 satellite cube scale */
+  satellites: number;
+  /** C2 seconds per revolution (primary ring) */
+  spin: number;
+  /** C2 cherry edge alpha */
+  edge: number;
+  /** C3 cherry wash peak alpha (`glow` is accepted as an alias) */
+  wash: number;
+  /** C3 strata hairline opacity */
+  strata: number;
+  /** C3 seconds per ascent cycle */
+  rise: number;
+  /** C3 shaft rule opacity */
+  rules: number;
+}>;
+
+export type ArrivalHandles = {
+  concept: ArrivalConcept;
+  root: THREE.Group;
+  /** Master opacity multiplier, 0–1, applied over each element's own base alpha. */
+  setOpacity: (t: number) => void;
+  tune: (next: ArrivalTune) => void;
+  /** Ambient loops belonging to this concept — killed when the concept is swapped out. */
+  tweens: gsap.core.Tween[];
+  dispose: () => void;
+};
 
 /** Optional media. Absent files fall back to the canvas-drawn surfaces, silently. */
 const MANIFEST_SRC = "/images/about/manifest.json";
@@ -64,6 +119,8 @@ export type MonolithHandles = {
   screenMat: THREE.MeshBasicMaterial;
   seam: THREE.Mesh;
   seamMat: THREE.MeshBasicMaterial;
+  /** The body's micro-tooth map — shared so arrival satellites light like the object. */
+  surfaceTex: THREE.Texture;
   resize: () => void;
   render: () => void;
   setVideosActive: (active: boolean) => void;
@@ -379,12 +436,350 @@ export function buildMonolith(canvas: HTMLCanvasElement, stage: HTMLElement): Mo
     screenMat,
     seam,
     seamMat,
+    surfaceTex,
     resize,
     render,
     setVideosActive,
     loadOptionalMedia,
     dispose,
   };
+}
+
+/**
+ * Chapter-1 arrival decoration — three interchangeable concepts.
+ *
+ * Everything built here is additive and lives on its own `THREE.Group` added straight to
+ * the scene (never to `group`, which rotates and floats). Only the requested concept is
+ * instantiated; the other two cost nothing. Ambient motion is a set of independent
+ * looping tweens — the same pattern as the existing idle float — so the scrubbed master
+ * timeline is never involved.
+ *
+ * `setOpacity` is the single fade channel: every material's own base alpha is stored and
+ * multiplied by `t`, so the concepts fade out together across chapter 2 and are gone
+ * before the fracture.
+ */
+export function buildArrival(
+  concept: ArrivalConcept,
+  renderer: THREE.WebGLRenderer,
+  surfaceTex: THREE.Texture
+): ArrivalHandles {
+  const root = new THREE.Group();
+  const disposables: Array<{ dispose: () => void }> = [];
+  const tweens: gsap.core.Tween[] = [];
+  /** material → base alpha, so `setOpacity` scales rather than overwrites. */
+  const bases = new Map<THREE.Material & { opacity: number }, number>();
+
+  const track = <T extends THREE.Material & { opacity: number }>(mat: T, base: number) => {
+    mat.opacity = base;
+    bases.set(mat, base);
+    return mat;
+  };
+  const rebase = (mat: THREE.Material & { opacity: number }, base: number) => {
+    bases.set(mat, base);
+  };
+
+  let master = 1;
+  const setOpacity = (t: number) => {
+    master = Math.max(0, Math.min(1, t));
+    for (const [mat, base] of bases) {
+      mat.opacity = base * master;
+      // Skip the draw entirely once invisible — cheaper than blending a transparent quad.
+      mat.visible = mat.opacity > 0.001;
+    }
+  };
+
+  const anisotropy = renderer.capabilities.getMaxAnisotropy();
+  let tune: (next: ArrivalTune) => void = () => {};
+
+  if (concept === 1) {
+    // ── Threshold: a doorway of light, a reflective floor, dust in the beam. ──────
+    const glowTex = dcGlowCanvas();
+    glowTex.anisotropy = anisotropy;
+    const glowMat = track(
+      new THREE.MeshBasicMaterial({
+        map: glowTex,
+        transparent: true,
+        toneMapped: false,
+        depthWrite: false,
+      }),
+      0.55
+    );
+    const glowGeo = new THREE.PlaneGeometry(3.2, 4.6);
+    const glow = new THREE.Mesh(glowGeo, glowMat);
+    glow.position.set(0, 0.1, -1.6);
+    glow.renderOrder = -1;
+    root.add(glow);
+    disposables.push(glowGeo, glowMat, glowTex);
+
+    const floorTex = dcFloorCanvas();
+    floorTex.anisotropy = anisotropy;
+    const floorMat = track(
+      new THREE.MeshBasicMaterial({
+        map: floorTex,
+        transparent: true,
+        toneMapped: false,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      }),
+      0.85
+    );
+    const floorGeo = new THREE.PlaneGeometry(8, 6);
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.set(0, -1.0, -1.4);
+    floor.renderOrder = -1;
+    root.add(floor);
+    disposables.push(floorGeo, floorMat, floorTex);
+
+    const MOTES = 240;
+    const positions = new Float32Array(MOTES * 3);
+    const rand = (n: number) => (Math.random() - 0.5) * n;
+    for (let i = 0; i < MOTES; i++) {
+      positions[i * 3] = rand(4);
+      positions[i * 3 + 1] = rand(3);
+      positions[i * 3 + 2] = rand(2);
+    }
+    const moteGeo = new THREE.BufferGeometry();
+    moteGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    const moteTex = dcMoteCanvas();
+    const moteMat = track(
+      new THREE.PointsMaterial({
+        map: moteTex,
+        size: 0.012,
+        transparent: true,
+        depthWrite: false,
+        sizeAttenuation: true,
+        toneMapped: false,
+      }),
+      0.35
+    );
+    const motes = new THREE.Points(moteGeo, moteMat);
+    root.add(motes);
+    disposables.push(moteGeo, moteMat, moteTex);
+
+    // Ambient: the bloom breathes; the mote field turns slowly enough to read as drift.
+    tweens.push(
+      gsap.to(glow.scale, {
+        x: 1.03,
+        y: 1.03,
+        duration: 9,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      }),
+      gsap.to(motes.rotation, { y: Math.PI * 2, duration: 240, ease: "none", repeat: -1 })
+    );
+
+    tune = (n) => {
+      if (n.glow !== undefined) rebase(glowMat, n.glow);
+      if (n.floor !== undefined) rebase(floorMat, n.floor);
+      if (n.motes !== undefined) rebase(moteMat, n.motes);
+      if (n.breath !== undefined) tweens[0].duration(n.breath);
+      setOpacity(master);
+    };
+  } else if (concept === 2) {
+    // ── Orbit: hairline rings and shards-in-waiting, foreshadowing the fracture. ──
+    const ringOf = (radius: number, tilt: number, alpha: number) => {
+      const pts: THREE.Vector3[] = [];
+      for (let i = 0; i <= 128; i++) {
+        const a = (i / 128) * Math.PI * 2;
+        pts.push(new THREE.Vector3(Math.cos(a) * radius, 0, Math.sin(a) * radius));
+      }
+      const geo = new THREE.BufferGeometry().setFromPoints(pts);
+      const mat = track(
+        new THREE.LineBasicMaterial({
+          color: TOKEN_HEX.bone,
+          transparent: true,
+          toneMapped: false,
+        }),
+        alpha
+      );
+      const loop = new THREE.LineLoop(geo, mat);
+      loop.rotation.x = tilt;
+      disposables.push(geo, mat);
+      return { loop, mat };
+    };
+
+    // ~72° off flat reads as a shallow ellipse from the chapter-1 camera.
+    const primary = ringOf(1.55, THREE.MathUtils.degToRad(72), 0.28);
+    const counter = ringOf(1.12, THREE.MathUtils.degToRad(-64), 0.18);
+    root.add(primary.loop, counter.loop);
+
+    // Satellites share the body's tooth map, so they catch the key light like the object.
+    const satGeo = new THREE.BoxGeometry(0.05, 0.05, 0.05);
+    const satMat = new THREE.MeshStandardMaterial({
+      color: TOKEN_HEX.ink,
+      roughness: 1.0,
+      roughnessMap: surfaceTex,
+      metalness: 0.02,
+      transparent: true,
+    });
+    track(satMat, 1);
+    disposables.push(satGeo, satMat);
+    const SATS = 12;
+    for (let i = 0; i < SATS; i++) {
+      const a = (i / SATS) * Math.PI * 2;
+      const cube = new THREE.Mesh(satGeo, satMat);
+      cube.position.set(Math.cos(a) * 1.55, 0, Math.sin(a) * 1.55);
+      cube.rotation.set(a, a * 0.5, 0);
+      primary.loop.add(cube);
+    }
+
+    // A dim, soft pre-echo of chapter 6's seam — wide and low where that one is thin
+    // and bright, so it never competes with the payoff.
+    const edgeTex = dcGlowCanvas();
+    const edgeMat = track(
+      new THREE.MeshBasicMaterial({
+        map: edgeTex,
+        transparent: true,
+        toneMapped: false,
+        depthWrite: false,
+      }),
+      0.3
+    );
+    const edgeGeo = new THREE.PlaneGeometry(0.9, 2.9);
+    const edge = new THREE.Mesh(edgeGeo, edgeMat);
+    edge.position.set(FACE_W / 2 + 0.16, 0, -0.4);
+    edge.renderOrder = -1;
+    root.add(edge);
+    disposables.push(edgeGeo, edgeMat, edgeTex);
+
+    tweens.push(
+      gsap.to(primary.loop.rotation, { y: Math.PI * 2, duration: 60, ease: "none", repeat: -1 }),
+      gsap.to(counter.loop.rotation, { y: -Math.PI * 2, duration: 90, ease: "none", repeat: -1 })
+    );
+
+    tune = (n) => {
+      if (n.rings !== undefined) {
+        rebase(primary.mat, n.rings);
+        rebase(counter.mat, n.rings * 0.64);
+      }
+      if (n.satellites !== undefined) {
+        primary.loop.children.forEach((c) => c.scale.setScalar(n.satellites!));
+      }
+      if (n.spin !== undefined) {
+        tweens[0].duration(n.spin);
+        tweens[1].duration(n.spin * 1.5);
+      }
+      if (n.edge !== undefined) rebase(edgeMat, n.edge);
+      setOpacity(master);
+    };
+  } else {
+    // ── Strata: lit floor-plates in a shaft, drifting down to imply rising. ───────
+    const washTex = dcGlowCanvas();
+    washTex.anisotropy = anisotropy;
+    const washMat = track(
+      new THREE.MeshBasicMaterial({
+        map: washTex,
+        transparent: true,
+        toneMapped: false,
+        depthWrite: false,
+      }),
+      0.35
+    );
+    const washGeo = new THREE.PlaneGeometry(6.4, 5.2);
+    const wash = new THREE.Mesh(washGeo, washMat);
+    wash.position.set(0, 0, -1.9);
+    wash.renderOrder = -1;
+    root.add(wash);
+    disposables.push(washGeo, washMat, washTex);
+
+    // The strata ride their own group so the ascent drift never touches the rules.
+    const strata = new THREE.Group();
+    root.add(strata);
+    const STRATA = 7;
+    const SPAN = 4.8;
+    const step = SPAN / (STRATA - 1);
+    const strataMats: THREE.MeshBasicMaterial[] = [];
+    const strataGeo = new THREE.PlaneGeometry(5.5, 0.012);
+    disposables.push(strataGeo);
+    for (let i = 0; i < STRATA; i++) {
+      const y = -SPAN / 2 + i * step;
+      // Dimmer with distance from the centre line — the shaft recedes rather than stripes.
+      const falloff = 1 - Math.abs(y) / (SPAN / 2 + 0.6);
+      const mat = track(
+        new THREE.MeshBasicMaterial({
+          color: TOKEN_HEX.bone,
+          transparent: true,
+          toneMapped: false,
+          depthWrite: false,
+          side: THREE.DoubleSide,
+        }),
+        0.22 * falloff
+      );
+      const plate = new THREE.Mesh(strataGeo, mat);
+      plate.position.set(0, y, -1.2);
+      plate.renderOrder = -1;
+      strata.add(plate);
+      strataMats.push(mat);
+      disposables.push(mat);
+    }
+
+    const ruleGeo = new THREE.PlaneGeometry(0.01, 7);
+    disposables.push(ruleGeo);
+    const ruleMats: THREE.MeshBasicMaterial[] = [];
+    for (const x of [-2.1, 2.1]) {
+      const mat = track(
+        new THREE.MeshBasicMaterial({
+          color: TOKEN_HEX.bone,
+          transparent: true,
+          toneMapped: false,
+          depthWrite: false,
+          side: THREE.DoubleSide,
+        }),
+        0.12
+      );
+      const rule = new THREE.Mesh(ruleGeo, mat);
+      rule.position.set(x, 0, -1.2);
+      rule.renderOrder = -1;
+      root.add(rule);
+      ruleMats.push(mat);
+      disposables.push(mat);
+    }
+
+    // Drift down by exactly one gap, then snap back — the wrap is invisible because
+    // every stratum is identical, so the ascent reads as continuous.
+    const drift = gsap.fromTo(
+      strata.position,
+      { y: 0 },
+      { y: -step, duration: 30, ease: "none", repeat: -1 }
+    );
+    tweens.push(
+      drift,
+      gsap.to(wash.scale, {
+        x: 1.02,
+        y: 1.02,
+        duration: 11,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      })
+    );
+
+    tune = (n) => {
+      if (n.wash !== undefined) rebase(washMat, n.wash);
+      if (n.glow !== undefined) rebase(washMat, n.glow);
+      if (n.strata !== undefined) {
+        strataMats.forEach((m, i) => {
+          const y = -SPAN / 2 + i * step;
+          rebase(m, n.strata! * (1 - Math.abs(y) / (SPAN / 2 + 0.6)));
+        });
+      }
+      if (n.rise !== undefined) drift.duration(n.rise);
+      if (n.rules !== undefined) ruleMats.forEach((m) => rebase(m, n.rules!));
+      setOpacity(master);
+    };
+  }
+
+  const dispose = () => {
+    for (const t of tweens) t.kill();
+    tweens.length = 0;
+    root.removeFromParent();
+    root.clear();
+    for (const d of disposables) d.dispose();
+  };
+
+  return { concept, root, setOpacity, tune, tweens, dispose };
 }
 
 /**

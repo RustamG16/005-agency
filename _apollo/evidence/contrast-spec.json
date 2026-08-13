@@ -1,0 +1,42 @@
+{
+  "name": "contact-v2",
+  "note": "Every colour pair that actually occurs on /contact-v2, declared so it is enforced rather than assumed. Values transcribed from styles/tokens.css.",
+  "tokens": {
+    "color": {
+      "noir": { "value": "#1b1717", "role": "ground of section 2" },
+      "cotton": { "value": "#edebdd", "role": "ground of sections 1 and 3; all text on noir" },
+      "ink": { "value": "#241f1f", "role": "body text on cotton" },
+      "gray": { "value": "#6e6963", "role": "secondary text on cotton — not used by this page" },
+      "grayOnNoir": { "value": "#a8a29a", "role": "eyebrows, field labels, resting field rules on noir" },
+      "hairline": { "value": "#d6d2c2", "role": "rules on cotton — non-text" },
+      "cherry": { "value": "#810100", "role": "the one solid field; accent text on cotton" },
+      "maroon": { "value": "#630000", "role": "hover/active depth step under cotton text" },
+      "chili": { "value": "#d73b3e", "role": "graphic only on noir — seam, step numbers, invalid rule" },
+      "chili300": { "value": "#e5595c", "role": "error text at 13px on noir" },
+      "paper": { "value": "#f5f3e8", "role": "declared but deliberately unused by this page" }
+    }
+  },
+  "contrastPairs": [
+    { "fg": "ink", "bg": "cotton", "type": "normal", "where": "s1 deck, s3 note" },
+    { "fg": "ink", "bg": "cotton", "type": "large", "where": "s1 eyebrow at 12px/500 — treated as normal above; listed to keep the pair explicit" },
+    { "fg": "noir", "bg": "cotton", "type": "large", "where": "s1 H1 at 42-104px; s3 email at 20-56px" },
+    { "fg": "cotton", "bg": "noir", "type": "normal", "where": "s2 input values, step durations, fit statement, consent text, handover body, preview" },
+    { "fg": "cotton", "bg": "noir", "type": "large", "where": "s2 step labels 22-28px, handover title 28px" },
+    { "fg": "grayOnNoir", "bg": "noir", "type": "normal", "where": "s2 eyebrows, field labels 11-12px, responseStatement 15px, handover note 13px" },
+    { "fg": "grayOnNoir", "bg": "noir", "type": "ui", "where": "resting 1px field rule, preview border, quiet-button rule" },
+    { "fg": "chili300", "bg": "noir", "type": "normal", "where": "field error messages at 13px/500; invalid field label at 11-12px" },
+    { "fg": "chili", "bg": "noir", "type": "large", "where": "step numbers at 32px display" },
+    { "fg": "chili", "bg": "noir", "type": "ui", "where": "the seam hairline, the 2px invalid rule, the 2px handover rule, the consent link underline" },
+    { "fg": "cotton", "bg": "cherry", "type": "normal", "where": "SEND INQUIRY / COPY INQUIRY label at 13px/600 on the cherry field" },
+    { "fg": "cotton", "bg": "maroon", "type": "normal", "where": "the same label during hover, active and pending" },
+    { "fg": "cherry", "bg": "cotton", "type": "ui", "where": "s3 email 2px underline; the global :focus-visible ring on cotton grounds" },
+    { "fg": "cotton", "bg": "noir", "type": "ui", "where": "the focus ring on noir — this page's override of the global cherry ring" },
+    { "fg": "noir", "bg": "cotton", "type": "ui", "where": "the check mark inside the consent box, which is a cotton field" }
+  ],
+  "mustFail": [
+    { "fg": "cherry", "bg": "noir", "type": "ui", "why": "This is why the global :focus-visible cherry ring is overridden to cotton inside section 2. If this pair PASSES, the override is unnecessary and the spec should be revisited." },
+    { "fg": "chili", "bg": "noir", "type": "normal", "why": "This is why body-size accent text on noir uses chili300, not chili. If it passes at normal size, DESIGN.md's red rule is wrong." },
+    { "fg": "paper", "bg": "cotton", "type": "ui", "why": "This is why the v1 paper form card reads as a printing artifact and why this page does not use paper." },
+    { "fg": "hairline", "bg": "cotton", "type": "ui", "why": "Measured 1.26:1. Sections 1 and 3 therefore draw no hairline rules on cotton — the page separates blocks with space and with the noir band, not with a line nobody can see. Moved out of contrastPairs because the pair does not occur; a declared pair that never renders produces a false failure." }
+  ]
+}

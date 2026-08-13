@@ -86,15 +86,36 @@ export function MonolithScene() {
       // Reduced motion: copy reveals are wired above; the WebGL stage never mounts.
       if (reduced) return;
 
-      const { buildMonolith, buildObjectTimeline, SCREEN_WINDOW } = await import("./monolith");
+      const { buildMonolith, buildObjectTimeline, buildArrival, SCREEN_WINDOW, ARRIVAL_WINDOW } =
+        await import("./monolith");
       if (disposed) return;
 
       const m = buildMonolith(canvas, stage);
       handles = m;
       stage.dataset.ready = "true";
 
+      // Chapter-1 arrival decoration. Concept is selectable so the three can be compared
+      // on the real page; `?ch1=` wins, otherwise the default below.
+      const param = Number(new URLSearchParams(window.location.search).get("ch1"));
+      const initialConcept = param === 1 || param === 2 || param === 3 ? param : 1;
+
+      let arrival = buildArrival(initialConcept, m.renderer, m.surfaceTex);
+      m.scene.add(arrival.root);
+      cleanups.push(() => arrival.dispose());
+
       const tl = buildObjectTimeline(m);
       const [screenStart, screenEnd] = SCREEN_WINDOW;
+      const [arriveFadeStart, arriveFadeEnd] = ARRIVAL_WINDOW;
+
+      // Arrival elements hold through chapter 1, then fade across chapter 2 so nothing
+      // survives into the .28 fracture. Driven here rather than as a timeline tween —
+      // same approach as the screen-video gate, and it leaves `buildObjectTimeline` alone.
+      const applyArrival = (p: number) => {
+        const t = 1 - gsap.utils.clamp(0, 1, (p - arriveFadeStart) / (arriveFadeEnd - arriveFadeStart));
+        arrival.setOpacity(t);
+      };
+      applyArrival(0);
+
       const trigger = ScrollTrigger.create({
         trigger: root,
         start: "top top",
@@ -103,6 +124,7 @@ export function MonolithScene() {
         animation: tl,
         onUpdate: (self) => {
           m.setVideosActive(self.progress >= screenStart && self.progress < screenEnd);
+          applyArrival(self.progress);
         },
       });
       cleanups.push(() => trigger.kill());
@@ -120,14 +142,39 @@ export function MonolithScene() {
       // Dev-only deterministic stepper for QA capture — mirrors the .dc reference's
       // `__mono.probe`. Stripped by NODE_ENV in production.
       if (process.env.NODE_ENV !== "production") {
-        const w = window as typeof window & { __monolithProgress?: (p: number) => void };
+        const w = window as typeof window & {
+          __monolithProgress?: (p: number) => void;
+          __ch1?: (n: 1 | 2 | 3) => string;
+          __ch1Tune?: (next: Record<string, number>) => void;
+        };
         w.__monolithProgress = (p: number) => {
           float.pause();
           tl.progress(gsap.utils.clamp(0, 1, p));
           m.render();
         };
+
+        // Swap chapter-1 concepts live, without a reload. Tears the old one down first,
+        // so only the active concept is ever in the scene graph.
+        w.__ch1 = (n) => {
+          if (n !== 1 && n !== 2 && n !== 3) return "ch1: pass 1, 2 or 3";
+          arrival.dispose();
+          arrival = buildArrival(n, m.renderer, m.surfaceTex);
+          m.scene.add(arrival.root);
+          applyArrival(tl.progress());
+          m.render();
+          return `ch1: concept ${n}`;
+        };
+
+        // Dial values in live, e.g. __ch1Tune({ glow: 0.7, motes: 0.5 }).
+        w.__ch1Tune = (next) => {
+          arrival.tune(next);
+          m.render();
+        };
+
         cleanups.push(() => {
           delete w.__monolithProgress;
+          delete w.__ch1;
+          delete w.__ch1Tune;
         });
       }
 

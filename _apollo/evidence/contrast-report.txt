@@ -1,0 +1,78 @@
+
+Contrast — C:/Users/Rustam Gurbanov/Desktop/DigitalAgency_Saas/lab/005-agency/_apollo/evidence/contrast-spec.json
+  colors: 11  declared pairs: 15
+
+  Declared pairs (enforced)
+    PASS  13.58:1  need 4.5  ink on cotton
+    PASS  13.58:1  need 3  ink on cotton
+    PASS  14.84:1  need 3  noir on cotton
+    PASS  14.84:1  need 4.5  cotton on noir
+    PASS  14.84:1  need 3  cotton on noir
+    PASS   7.02:1  need 4.5  grayOnNoir on noir
+    PASS   7.02:1  need 3  grayOnNoir on noir
+    PASS   5.01:1  need 4.5  chili300 on noir
+    PASS   3.88:1  need 3  chili on noir
+    PASS   3.88:1  need 3  chili on noir
+    PASS   9.05:1  need 4.5  cotton on cherry
+    PASS  11.45:1  need 4.5  cotton on maroon
+    PASS   9.05:1  need 3  cherry on cotton
+    PASS  14.84:1  need 3  cotton on noir
+    PASS  14.84:1  need 3  noir on cotton
+
+  Full matrix (advisory — most of these never co-occur)
+    !   1.08:1  cotton / paper
+    !   1.09:1  noir / ink
+    !   1.19:1  ink / maroon
+    !   1.19:1  gray / chili
+    !   1.26:1  cotton / hairline
+    !   1.27:1  cherry / maroon
+    !   1.29:1  chili / chili300
+    !    1.3:1  noir / maroon
+    !   1.36:1  hairline / paper
+    !    1.4:1  grayOnNoir / chili300
+    !    1.5:1  ink / cherry
+    !   1.53:1  gray / chili300
+    !   1.64:1  noir / cherry
+    !   1.67:1  grayOnNoir / hairline
+    !   1.81:1  grayOnNoir / chili
+    !   1.99:1  gray / cherry
+    !   2.11:1  cotton / grayOnNoir
+    !   2.15:1  gray / grayOnNoir
+    !   2.27:1  grayOnNoir / paper
+    !   2.34:1  hairline / chili300
+    !   2.37:1  cherry / chili
+    !   2.52:1  gray / maroon
+    !   2.96:1  cotton / chili300
+    !   2.99:1  ink / gray
+    !      3:1  maroon / chili
+    !   3.02:1  hairline / chili
+    !   3.05:1  cherry / chili300
+    !   3.19:1  chili300 / paper
+    !   3.27:1  noir / gray
+    !   3.55:1  ink / chili
+    !   3.59:1  gray / hairline
+    !   3.82:1  cotton / chili
+    !   3.86:1  maroon / chili300
+    !   3.88:1  noir / chili
+    !   4.12:1  chili / paper
+    !   4.28:1  grayOnNoir / cherry
+        4.54:1  cotton / gray
+        4.58:1  ink / chili300
+        4.88:1  gray / paper
+        5.01:1  noir / chili300
+        5.42:1  grayOnNoir / maroon
+        6.43:1  ink / grayOnNoir
+        7.02:1  noir / grayOnNoir
+        7.15:1  hairline / cherry
+        9.05:1  cotton / cherry
+        9.05:1  hairline / maroon
+        9.74:1  cherry / paper
+       10.74:1  ink / hairline
+       11.45:1  cotton / maroon
+       11.73:1  noir / hairline
+       12.33:1  maroon / paper
+       13.58:1  cotton / ink
+       14.62:1  ink / paper
+       14.84:1  noir / cotton
+       15.97:1  noir / paper
+

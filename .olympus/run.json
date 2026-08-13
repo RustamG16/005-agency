@@ -1,0 +1,38 @@
+{
+  "system": "olympus-designer-system1",
+  "target_project": "C:/Users/Rustam Gurbanov/Desktop/DigitalAgency_Saas/lab/005-agency",
+  "target_route": "/about-v2",
+  "audit_source_route": "/about",
+  "mode": "concept-and-implementation",
+  "phase": "gate-c",
+  "gate_a": "approved",
+  "gate_b": "approved",
+  "gate_c": "pending",
+  "approved_concept": "Concept 1 — The Material Monolith",
+  "constraints": [
+    "Preserve the existing /about route",
+    "Build the selected direction as a separate /about-v2 page",
+    "Retain the current color and typography system",
+    "Keep the redesign visually coherent with the existing site",
+    "Do not generate media before Gate B",
+    "Limit QA repair/review to two cycles"
+  ],
+  "references": [
+    "User-supplied screenshots of the current /about design"
+  ],
+  "assets": [
+    "Two founder portrait originals reported available but not yet supplied",
+    "Existing project brand, font, and interface assets to be inventoried"
+  ],
+  "audit_evidence": [
+    ".olympus/evidence/about-desktop-top.png",
+    ".olympus/evidence/about-desktop-web.png",
+    ".olympus/evidence/about-desktop-studio.png",
+    ".olympus/evidence/about-mobile-top.png",
+    ".olympus/evidence/about-mobile-studio.png",
+    ".olympus/evidence/about-mobile-menu.png"
+  ],
+  "qa_cycles_used": 2,
+  "implementation_route": "/about-v2",
+  "last_updated": "2026-08-09"
+}

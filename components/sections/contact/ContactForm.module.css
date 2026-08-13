@@ -7,6 +7,52 @@
   padding: var(--space-4);
 }
 
+.compact {
+  padding: 0;
+  background: transparent;
+  color: var(--color-bone);
+}
+
+.compact .label,
+.compact .optional,
+.compact .consentLabel {
+  color: var(--color-bone);
+}
+
+.compact .input,
+.compact .select,
+.compact .textarea {
+  color: var(--color-bone);
+  border-bottom-color: rgba(238, 237, 232, 0.34);
+}
+
+.compact .input:focus,
+.compact .select:focus,
+.compact .textarea:focus {
+  border-bottom-color: var(--color-bone);
+}
+
+.compact .select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23EDEBDD' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");
+}
+
+.compact .select option {
+  color: var(--color-noir);
+}
+
+.compact .textarea::placeholder {
+  color: var(--color-gray-on-noir);
+  opacity: 1;
+}
+
+.compact .error {
+  color: var(--color-accent-on-noir);
+}
+
+.compact .privacyLink {
+  color: var(--color-accent-on-noir);
+}
+
 .row {
   display: grid;
   grid-template-columns: 1fr;
@@ -156,6 +202,48 @@
   transform: translateY(-2px);
 }
 
+.compact .submit {
+  background: var(--color-bone);
+  color: var(--color-noir);
+}
+
+.status {
+  display: grid;
+  gap: 8px;
+  padding: var(--space-2);
+  border: 1px solid var(--color-hairline);
+  font-family: var(--font-family-ui);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.statusError {
+  border-color: var(--color-accent);
+}
+
+.compact .status {
+  border-color: rgba(238, 237, 232, 0.34);
+}
+
+.compact .statusError {
+  border-color: var(--color-accent-graphic);
+}
+
+.status a {
+  width: fit-content;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 .success {
   background: var(--color-paper);
   border-radius: var(--radius-card);
@@ -177,4 +265,8 @@
   font-size: var(--font-body);
   color: var(--color-ink);
   max-width: 40ch;
+}
+
+.compactSuccess {
+  color: var(--color-noir);
 }

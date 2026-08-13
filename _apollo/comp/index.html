@@ -1,0 +1,159 @@
+<!doctype html>
+<!--
+  =====================================================================
+  APOLLO COMP — NOT PRODUCTION CODE.
+  A static drawing of /contact-v2 for Convenium Studio. No React, no
+  validation, no fetch. The markup here exists to be measured and
+  looked at; the real page is built as CSS Modules under
+  components/sections/contact-v2/ per HANDOFF-contact-v2.md.
+  Form states are drawn separately in states.html.
+  =====================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>COMP — contact-v2</title>
+<link rel="stylesheet" href="comp.css" />
+</head>
+<body>
+<div class="comp-nav">nav zone — 480 × 40, fixed, top 20</div>
+<div class="comp-flag">Apollo comp — not production</div>
+
+<main>
+
+  <!-- ===== SECTION 1 — THRESHOLD · HeaderZone theme="light" ===== -->
+  <section class="threshold" aria-labelledby="cv2-h1">
+    <div class="cv2-container">
+      <p class="eyebrow">Currently booking projects starting Q4 2026.</p>
+      <h1 class="threshold-h1" id="cv2-h1"><span class="line">Tell us </span><span class="line">what is </span><span class="line">not working </span><span class="line">yet.</span></h1>
+      <p class="threshold-deck">One paragraph is enough. The brief comes after the call, not before it.</p>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2 — ASCENT + FORM · HeaderZone theme="dark" ===== -->
+  <section class="ascent" aria-label="What happens next, and the inquiry form">
+    <div class="cv2-container">
+      <div class="ascent-grid">
+
+        <div class="ledger">
+          <h2 class="eyebrow">What happens next</h2>
+          <ol class="steps">
+            <li class="step">
+              <span class="step-n" aria-hidden="true">01</span>
+              <span>
+                <span class="step-label">You send</span>
+                <span class="step-when">Now — this form, or straight to the mailbox below.</span>
+              </span>
+            </li>
+            <li class="step">
+              <span class="step-n" aria-hidden="true">02</span>
+              <span>
+                <span class="step-label">We reply</span>
+                <span class="step-when">Within two business days.</span>
+              </span>
+            </li>
+            <li class="step">
+              <span class="step-n" aria-hidden="true">03</span>
+              <span>
+                <span class="step-label">First call</span>
+                <span class="step-when">Within the week.</span>
+              </span>
+            </li>
+            <li class="step">
+              <span class="step-n" aria-hidden="true">04</span>
+              <span>
+                <span class="step-label">Scoped proposal</span>
+                <span class="step-when">Within five business days of that call.</span>
+              </span>
+            </li>
+          </ol>
+          <p class="ledger-source">We reply to every inquiry within two business days. A first call typically follows within the week, and a scoped proposal within five business days of that call.</p>
+
+          <div class="fit">
+            <h2 class="eyebrow">Who this is for</h2>
+            <p class="fit-body">Convenium is the right fit for founder-led and mid-market companies with a clear commercial thesis, ready to invest in a system that will outlast a single campaign. We are not set up for one-off logo requests or same-week turnarounds.</p>
+          </div>
+        </div>
+
+        <div class="form-track">
+          <h2 class="eyebrow">Project inquiry</h2>
+          <form class="form" novalidate>
+            <div class="field">
+              <label class="label" for="f-name">Name</label>
+              <input class="control" id="f-name" name="name" type="text" autocomplete="name" />
+            </div>
+            <div class="field">
+              <label class="label" for="f-email">Email</label>
+              <input class="control" id="f-email" name="email" type="email" autocomplete="email" />
+            </div>
+            <div class="field">
+              <label class="label" for="f-company">Company <span class="optional">(optional)</span></label>
+              <input class="control" id="f-company" name="company" type="text" autocomplete="organization" />
+            </div>
+            <div class="field">
+              <label class="label" for="f-type">Project type</label>
+              <span class="select-shell">
+                <select class="control" id="f-type" name="projectType">
+                  <option value="" disabled selected>Select one</option>
+                  <option>Brand identity</option>
+                  <option>Digital experience</option>
+                  <option>Campaign</option>
+                  <option>Full rebrand</option>
+                  <option>Not sure yet</option>
+                </select>
+              </span>
+            </div>
+            <div class="field">
+              <label class="label" for="f-budget">Budget range <span class="optional">(optional)</span></label>
+              <span class="select-shell">
+                <select class="control" id="f-budget" name="budget">
+                  <option value="" selected>Prefer not to say</option>
+                  <option>Under $25k</option>
+                  <option>$25k – $75k</option>
+                  <option>$75k – $150k</option>
+                  <option>$150k+</option>
+                  <option>Prefer to discuss</option>
+                </select>
+              </span>
+            </div>
+            <div class="field span2">
+              <label class="label" for="f-message">Message</label>
+              <textarea class="control" id="f-message" name="message" rows="5" placeholder="What is not working yet — one paragraph is enough."></textarea>
+            </div>
+
+            <div class="honeypot" aria-hidden="true">
+              <label for="f-website">Website</label>
+              <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <label class="consent span2">
+              <input type="checkbox" name="consent" />
+              <span class="box" aria-hidden="true">
+                <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="#1b1717" stroke-width="1.8" stroke-linecap="square"/></svg>
+              </span>
+              <span class="consent-text">I agree to be contacted about this inquiry. See our <a href="/privacy">privacy policy</a>.</span>
+            </label>
+
+            <div class="actions span2">
+              <button class="btn" type="submit">Send inquiry</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3 — DIRECT LINE · HeaderZone theme="light" ===== -->
+  <section class="direct" aria-labelledby="cv2-direct">
+    <div class="cv2-container">
+      <h2 class="eyebrow" id="cv2-direct">The direct line</h2>
+      <a class="direct-email" href="mailto:hello@convenium.studio">hello@convenium.studio</a>
+      <p class="direct-note">Email reaches us whatever the form is doing, and the same reply window applies.</p>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

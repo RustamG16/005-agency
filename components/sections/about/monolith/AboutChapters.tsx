@@ -60,6 +60,27 @@ function ChapterMark({
   );
 }
 
+/**
+ * Chapter-1 floor gauge — six ticks reading up toward a filled one, set in the right
+ * margin opposite the `01` folio. The elevator is this site's organising metaphor
+ * (`DESIGN.md`), and arrival is the ground floor: the marked tick sits at the bottom.
+ *
+ * Same contract as `ChapterMark` — absolutely positioned, `aria-hidden`, and carrying
+ * no `data-head`/`data-body`, so it takes no grid track and the reveal pass skips it.
+ */
+function FloorGauge() {
+  return (
+    <div className={`${styles.mark} ${styles.markRight} ${styles.gauge}`} aria-hidden="true">
+      {[5, 4, 3, 2, 1, 0].map((i) => (
+        <span
+          key={i}
+          className={`${styles.gaugeTick} ${i === 0 ? styles.gaugeTickOn : ""}`}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function AboutChapters() {
   return (
     <>
@@ -69,6 +90,8 @@ export function AboutChapters() {
             <h1 className={`${styles.hero} ${styles.heroPlacement}`} data-head>
               Convenium is two people.
             </h1>
+            <ChapterMark side="left" num="01" caption="Arrival" />
+            <FloorGauge />
           </div>
         </div>
       </section>

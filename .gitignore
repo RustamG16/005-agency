@@ -44,6 +44,8 @@ _unused/generated/
 .next-build/
 .next-guide/
 .next-live/
+.next-check/
+.next-devsrv/
 
 # scratch scripts
 scripts/_*.mjs

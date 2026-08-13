@@ -1,0 +1,155 @@
+<!doctype html>
+<!--
+  =====================================================================
+  APOLLO COMP — NOT PRODUCTION CODE.
+  Form-state drawings for /contact-v2. Each block is a static picture
+  of one state, not a working control. Focus rings are forced with a
+  .force-focus class because :focus-visible cannot be screenshotted on
+  six elements at once.
+  =====================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>COMP — contact-v2 form states</title>
+<link rel="stylesheet" href="comp.css" />
+<style>
+  /* comp-only apparatus */
+  .state { border-top: 1px dashed var(--color-gray); padding-block: var(--space-5); }
+  .state:first-of-type { border-top: 0; }
+  .state-name { font-family: var(--font-family-ui); font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--color-gray-on-noir); margin-bottom: var(--space-3); }
+  .state-note { font-family: var(--font-family-ui); font-size: 12px; line-height: 1.6; color: var(--color-gray-on-noir); max-width: 70ch; margin-top: var(--space-2); }
+  .force-focus { outline: 2px solid var(--color-cotton); outline-offset: 4px; border-bottom-color: var(--color-cotton); box-shadow: 0 1px 0 0 var(--color-cotton); }
+  .rail { max-width: var(--cv2-form-max); }
+</style>
+</head>
+<body>
+<div class="comp-flag">Apollo comp — not production</div>
+
+<main class="ascent" style="padding-block: var(--space-5)">
+  <div class="cv2-container">
+    <div class="rail">
+
+      <div class="state">
+        <p class="state-name">01 · idle</p>
+        <div class="field"><label class="label" for="s1">Email</label>
+          <input class="control" id="s1" type="email" /></div>
+        <p class="state-note">1px rule in --color-gray-on-noir (7.02:1 on noir). Value type is Newsreader at --font-body. Control height 53px at desktop, above the 44px touch minimum.</p>
+      </div>
+
+      <div class="state">
+        <p class="state-name">02 · hover</p>
+        <div class="field"><label class="label" for="s2">Email</label>
+          <input class="control" id="s2" type="email" style="border-bottom-color: var(--color-cotton)" /></div>
+        <p class="state-note">Rule lifts to --color-cotton. 180ms, --ease-out-sharp. Nothing moves.</p>
+      </div>
+
+      <div class="state">
+        <p class="state-name">03 · focus-visible</p>
+        <div class="field"><label class="label" for="s3">Email</label>
+          <input class="control force-focus" id="s3" type="email" value="marija@studio.example" /></div>
+        <p class="state-note">2px COTTON ring, 4px offset — NOT the global cherry ring, which is 1.19:1 against noir and would be close to invisible here. Rule doubles via box-shadow so nothing reflows.</p>
+      </div>
+
+      <div class="state">
+        <p class="state-name">04 · filled (blurred)</p>
+        <div class="field"><label class="label" for="s4">Email</label>
+          <input class="control" id="s4" type="email" value="marija@studio.example" data-filled="true" /></div>
+        <p class="state-note">Rule stays cotton once the field holds a value, so a completed form reads as a column of solid rules and an incomplete one does not.</p>
+      </div>
+
+      <div class="state">
+        <p class="state-name">05 · invalid</p>
+        <div class="field" data-invalid="true">
+          <label class="label" for="s5">Email</label>
+          <input class="control" id="s5" type="email" value="marija@" aria-invalid="true" aria-describedby="s5-error" data-filled="true" />
+          <p class="error" id="s5-error">Enter a valid email address.</p>
+        </div>
+        <p class="state-note">Rule and its 1px shadow go to --color-accent-graphic (chili, graphic use on noir). Label goes to --color-accent-on-noir (chili-300, 4.97:1 — legal at 12px). Message sits below the control in chili-300 at 13px/500, wired by aria-describedby. Message text is validateInquiry()'s own string, verbatim.</p>
+      </div>
+
+      <div class="state">
+        <p class="state-name">06 · consent invalid</p>
+        <label class="consent" data-invalid="true">
+          <input type="checkbox" />
+          <span class="box" aria-hidden="true"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="#1b1717" stroke-width="1.8" stroke-linecap="square"/></svg></span>
+          <span class="consent-text">I agree to be contacted about this inquiry. See our <a href="/privacy">privacy policy</a>.</span>
+        </label>
+        <p class="error" style="margin-top:8px">Consent is required to send this inquiry.</p>
+      </div>
+
+      <div class="state">
+        <p class="state-name">07 · consent checked</p>
+        <label class="consent">
+          <input type="checkbox" checked />
+          <span class="box" aria-hidden="true"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="#1b1717" stroke-width="1.8" stroke-linecap="square"/></svg></span>
+          <span class="consent-text">I agree to be contacted about this inquiry. See our <a href="/privacy">privacy policy</a>.</span>
+        </label>
+        <p class="state-note">Checked box is a COTTON field with a noir mark — cherry is not spent here. Cherry appears as a solid field exactly once on the page.</p>
+      </div>
+
+      <div class="state">
+        <p class="state-name">08 · submit idle / hover / pending</p>
+        <div class="actions">
+          <button class="btn" type="button">Send inquiry</button>
+          <button class="btn" type="button" style="background: var(--color-accent-deep)">Send inquiry — hover</button>
+          <button class="btn" type="button" disabled aria-busy="true"><span class="pending-dot" aria-hidden="true"></span>Sending</button>
+        </div>
+        <p class="state-note">Cherry field / cotton text, 9.03:1. Hover and active go to --color-accent-deep (maroon) — the depth step maroon exists for, and the only place it is allowed. Pending: maroon fill, cursor wait, a static cotton square, label "Sending". The square does not spin under prefers-reduced-motion.</p>
+      </div>
+
+      <div class="state">
+        <p class="state-name">09 · 422 VALIDATION_ERROR — status line</p>
+        <p class="status" role="alert">Check the highlighted fields and try again.</p>
+        <p class="state-note">Server-returned errors are merged into the same per-field treatment as state 05. The status line sits directly above the actions row, role="alert", and focus moves to the first invalid control.</p>
+      </div>
+
+      <div class="state">
+        <p class="state-name">10 · 503 DELIVERY_NOT_CONFIGURED — the signature</p>
+        <div class="actions">
+          <button class="btn" type="button">Copy inquiry</button>
+          <button class="btn-quiet" type="button">Try sending again</button>
+        </div>
+        <div class="handover">
+          <p class="handover-title">Delivery isn’t live yet.</p>
+          <p class="handover-body">The form is built; the mailbox behind it is not connected yet. Nothing you wrote has been lost — copy it below and send it to us directly. It reaches us the same way, on the same reply window.</p>
+          <div class="preview">Name: Marija Stipanović
+Email: marija@studio.example
+Company: Acme Industries
+Project type: Full rebrand
+Budget range: $75k – $150k
+
+Message:
+Our positioning stopped matching what we actually sell about two years ago, and every new campaign has to re-explain the company from scratch.</div>
+          <div class="actions">
+            <a class="mail-link" href="mailto:hello@convenium.studio?subject=New%20project%20inquiry">Open hello@convenium.studio</a>
+          </div>
+          <p class="handover-note">Paste the inquiry into the email body. Nothing above has been sent anywhere.</p>
+        </div>
+        <p class="state-note">THE MOVE: cherry leaves Send and lands on Copy inquiry. Send demotes to a quiet ruled text button. A 2px chili rule opens the block. The composed inquiry is shown back intact so the visitor can see their words survived. The mailto carries a generic subject only — no name, email or message is ever placed in a URL.</p>
+      </div>
+
+      <div class="state">
+        <p class="state-name">11 · 400 REJECTED — same handover, different first line</p>
+        <div class="handover">
+          <p class="handover-title">This one didn’t go through.</p>
+          <p class="handover-body">The inquiry was not accepted. Nothing you wrote has been lost — copy it below and send it to us directly.</p>
+        </div>
+        <p class="state-note">400 is the honeypot rejection. A real visitor can hit it if a password manager fills the hidden website field, so the copy never accuses anyone and the direct path is identical to the 503. A dead end here would cost a real client.</p>
+      </div>
+
+      <div class="state">
+        <p class="state-name">12 · success — only when response.ok && result.delivered === true</p>
+        <div class="success">
+          <p class="success-title">Inquiry delivered.</p>
+          <p class="success-body">It is with us. You will hear back within two business days, from a person who has read it.</p>
+        </div>
+        <p class="state-note">Replaces the form in place, role="status", focus moved to the heading. Unreachable against today's API — it exists so the page is correct the day delivery is wired up.</p>
+      </div>
+
+    </div>
+  </div>
+</main>
+</body>
+</html>

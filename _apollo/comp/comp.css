@@ -1,0 +1,270 @@
+/* =====================================================================
+   APOLLO COMP — NOT PRODUCTION CODE.
+   Static visual comp for /contact-v2. Class names, markup and structure
+   here are a drawing, not an implementation. The build is CSS Modules
+   under components/sections/contact-v2/. Do not copy this file.
+   Tokens below are transcribed verbatim from styles/tokens.css so the
+   comp can stand alone; the real page must consume the tokens, not
+   redeclare them.
+   ===================================================================== */
+
+@font-face { font-family: "Archivo Black"; src: url("fonts/982ceffe7b733b3b-s.p.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Newsreader"; src: url("fonts/5611c55482296524-s.p.woff2") format("woff2"); font-weight: 400 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Newsreader"; src: url("fonts/4b9bb515ce6d026f-s.p.woff2") format("woff2"); font-weight: 400 500; font-style: italic; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("fonts/e4af272ccee01ff0-s.p.woff2") format("woff2"); font-weight: 400 600; font-style: normal; font-display: swap; }
+
+:root {
+  --font-family-display: "Archivo Black", Arial Black, sans-serif;
+  --font-family-serif: "Newsreader", Georgia, serif;
+  --font-family-ui: "Inter", Inter, sans-serif;
+
+  --color-noir: #1b1717;
+  --color-cotton: #edebdd;
+  --color-paper: #f5f3e8;
+  --color-ink: #241f1f;
+  --color-gray: #6e6963;
+  --color-hairline: #d6d2c2;
+  --red-cherry: #810100;
+  --red-maroon: #630000;
+  --red-chili: #d73b3e;
+  --red-chili-300: #e5595c;
+  --color-accent: var(--red-cherry);
+  --color-accent-on-noir: var(--red-chili-300);
+  --color-accent-graphic: var(--red-chili);
+  --color-accent-deep: var(--red-maroon);
+  --color-gray-on-noir: #a8a29a;
+
+  --font-body: clamp(1.125rem, 1.03rem + 0.38vw, 1.375rem);
+  --font-label: clamp(0.6875rem, 0.664rem + 0.095vw, 0.75rem);
+  --space-1: 8px; --space-2: 16px; --space-3: 24px; --space-4: 40px;
+  --space-5: 48px; --space-6: 80px; --space-7: 120px;
+  --space-container: clamp(1rem, 0.443rem + 2.286vw, 2.5rem);
+  --radius-control: 8px;
+  --ease-out-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-nav-hover: 180ms;
+  --duration-reveal: 320ms;
+
+  /* ---- page-local, declared by /contact-v2 only ------------------- */
+  /* --font-hero freezes at 88px at 1440. Same slope, same 375 and 1440
+     values, ceiling raised to 104px so the page keeps composing past
+     the width the token set stopped thinking about. */
+  --cv2-h1: clamp(3rem, 2.07rem + 3.81vw, 6.5rem);
+  --cv2-step-label: clamp(1.375rem, 1.19rem + 0.76vw, 1.75rem);
+  --cv2-email: clamp(1.25rem, 0.4rem + 3.4vw, 3.5rem);
+  --cv2-ledger-max: 560px;
+  --cv2-form-max: 760px;
+  --cv2-control-max: 376px;
+  --cv2-comp-max: 1920px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--color-cotton); color: var(--color-noir); font-family: var(--font-family-ui); overflow-x: hidden; }
+h1, h2, h3, p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+img, video { max-width: 100%; display: block; }
+
+/* comp-only apparatus ------------------------------------------------ */
+.comp-flag { position: fixed; z-index: 999; right: 8px; bottom: 8px; background: var(--color-noir); color: var(--color-cotton); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: 6px 10px; }
+.comp-nav { position: fixed; z-index: 998; top: 20px; left: 50%; transform: translateX(-50%); width: 480px; height: 40px; border: 1px dashed var(--color-gray); border-radius: var(--radius-control); display: grid; place-items: center; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--color-gray); pointer-events: none; }
+@media (max-width: 767px) { .comp-nav { display: none; } }
+
+/* container ---------------------------------------------------------- */
+.cv2-container {
+  width: 100%;
+  max-width: var(--cv2-comp-max);
+  margin-inline: auto;
+  padding-inline: var(--space-container);
+}
+
+/* ==== SECTION 1 — THRESHOLD (HeaderZone light, cotton) ============== */
+.threshold { background: var(--color-cotton); padding-top: clamp(120px, 18vh, 200px); padding-bottom: clamp(56px, 7vh, 96px); }
+.eyebrow { font-family: var(--font-family-ui); font-size: var(--font-label); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-ink); }
+.threshold-h1 {
+  margin-top: var(--space-3);
+  font-family: var(--font-family-display);
+  font-weight: 400;
+  font-size: var(--cv2-h1);
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-noir);
+  max-width: 11em;
+}
+/* Below 640 the natural wrap puts "NOT" alone on a line (measured at 375:
+   5 lines, "not / working / yet."). Explicit line units at 42px give the
+   intended 4-line composition with "NOT WORKING" intact at 334px inside
+   a 343px column. Above 640 the units go inline and max-width:11em wraps. */
+/* Below 768 the four line units are hard blocks and the size is capped so the
+   longest unit, "NOT WORKING", always fits the column. 7.96 is the measured
+   advance width of that string in Archivo Black at -0.02em, in ems; 8 is it
+   with a hair of slack. Without this cap the natural wrap puts "NOT" alone on
+   a line at 375 (measured: 5 lines). 8.2 leaves ~8px of slack at 375 so the
+   Arial Black fallback shown before the webfont swaps in does not overflow. */
+.threshold-h1 .line { display: block; }
+.threshold-h1 { font-size: min(var(--cv2-h1), calc((100vw - 2 * var(--space-container)) / 8.2)); }
+@media (min-width: 768px) {
+  .threshold-h1 { font-size: var(--cv2-h1); }
+  .threshold-h1 .line { display: inline; }
+}
+.threshold-deck {
+  margin-top: var(--space-3);
+  font-family: var(--font-family-serif);
+  font-size: var(--font-body);
+  line-height: 1.3;
+  color: var(--color-ink);
+  max-width: 700px;
+}
+
+/* ==== SECTION 2 — ASCENT + FORM (HeaderZone dark, noir) ============= */
+.ascent { background: var(--color-noir); padding-block: clamp(72px, 9vh, 120px); }
+.ascent-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); row-gap: clamp(48px, 6vw, 72px); }
+
+.ledger { max-width: var(--cv2-ledger-max); }
+.ledger .eyebrow, .form-track .eyebrow { color: var(--color-gray-on-noir); }
+
+.steps { margin: var(--space-4) 0 0; padding: 0; list-style: none; display: grid; row-gap: clamp(24px, 3vw, 32px); }
+.step { display: grid; grid-template-columns: 48px minmax(0, 1fr); column-gap: var(--space-3); align-items: start; }
+.step-n { display: block; font-family: var(--font-family-display); font-weight: 400; font-size: 32px; line-height: 0.9; letter-spacing: -0.02em; color: var(--color-accent-graphic); }
+.step-label { display: block; font-family: var(--font-family-display); font-weight: 400; font-size: var(--cv2-step-label); line-height: 0.92; letter-spacing: -0.01em; text-transform: uppercase; color: var(--color-cotton); }
+.step-when { display: block; margin-top: 10px; font-family: var(--font-family-serif); font-size: var(--font-body); line-height: 1.3; color: var(--color-cotton); }
+
+.ledger-source { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--color-gray-on-noir); font-family: var(--font-family-ui); font-size: 15px; line-height: 1.5; color: var(--color-gray-on-noir); }
+.fit { margin-top: var(--space-5); }
+.fit-body { margin-top: var(--space-2); font-family: var(--font-family-serif); font-size: 1.125rem; line-height: 1.35; color: var(--color-cotton); }
+
+/* form --------------------------------------------------------------- */
+.form-track { max-width: var(--cv2-form-max); border-top: 1px solid var(--color-accent-graphic); padding-top: clamp(48px, 6vw, 72px); }
+.form { margin-top: var(--space-4); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3) var(--space-3); }
+@media (min-width: 640px) { .form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px var(--space-3); } .span2 { grid-column: 1 / -1; } }
+
+.field { display: grid; gap: var(--space-1); }
+.label { font-family: var(--font-family-ui); font-size: var(--font-label); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-gray-on-noir); }
+.label .optional { text-transform: none; letter-spacing: normal; font-weight: 400; }
+
+.control {
+  width: 100%;
+  max-width: var(--cv2-control-max);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-gray-on-noir);
+  border-radius: 0;
+  padding: 12px 2px;
+  font-family: var(--font-family-serif);
+  font-size: var(--font-body);
+  line-height: 1.3;
+  color: var(--color-cotton);
+  transition: border-color var(--duration-nav-hover) var(--ease-out-sharp), box-shadow var(--duration-nav-hover) var(--ease-out-sharp);
+}
+.control::placeholder { color: var(--color-gray-on-noir); opacity: 1; }
+textarea.control { max-width: none; min-height: 150px; resize: vertical; }
+select.control { appearance: none; padding-right: 32px; cursor: pointer; background-image: none; }
+select.control option { color: var(--color-noir); }
+
+.select-shell { position: relative; max-width: var(--cv2-control-max); }
+.select-shell::after {
+  content: ""; position: absolute; right: 6px; top: 50%; width: 12px; height: 8px;
+  transform: translateY(-50%); pointer-events: none;
+  background-color: var(--color-cotton);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1L6 6L11 1' stroke='black' stroke-width='1.6' fill='none'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1L6 6L11 1' stroke='black' stroke-width='1.6' fill='none'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+
+.control:hover { border-bottom-color: var(--color-cotton); }
+.control:focus { outline: none; }
+.control:focus-visible {
+  outline: 2px solid var(--color-cotton);
+  outline-offset: 4px;
+  border-bottom-color: var(--color-cotton);
+  box-shadow: 0 1px 0 0 var(--color-cotton);
+}
+.control[data-filled="true"] { border-bottom-color: var(--color-cotton); }
+.control[aria-invalid="true"] { border-bottom-color: var(--color-accent-graphic); box-shadow: 0 1px 0 0 var(--color-accent-graphic); }
+.field[data-invalid="true"] .label { color: var(--color-accent-on-noir); }
+.error { font-family: var(--font-family-ui); font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--color-accent-on-noir); }
+
+/* honeypot: visually hidden, never display:none */
+.honeypot { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+.consent { position: relative; display: grid; grid-template-columns: 20px minmax(0, 1fr); column-gap: 12px; align-items: start; }
+.consent input { position: absolute; opacity: 0; width: 20px; height: 20px; margin: 0; }
+.consent .box { width: 20px; height: 20px; margin-top: 3px; border: 1px solid var(--color-gray-on-noir); display: grid; place-items: center; transition: border-color var(--duration-nav-hover) var(--ease-out-sharp), background-color var(--duration-nav-hover) var(--ease-out-sharp); }
+.consent .box svg { opacity: 0; }
+.consent input:checked + .box { background: var(--color-cotton); border-color: var(--color-cotton); }
+.consent input:checked + .box svg { opacity: 1; }
+.consent input:focus-visible + .box { outline: 2px solid var(--color-cotton); outline-offset: 3px; }
+.consent-text { font-family: var(--font-family-ui); font-size: 14px; line-height: 1.5; color: var(--color-cotton); }
+.consent-text a { border-bottom: 1px solid var(--color-accent-graphic); }
+.consent[data-invalid="true"] .box { border-color: var(--color-accent-graphic); }
+
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-4); margin-top: var(--space-2); }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  height: 52px; padding: 0 var(--space-4);
+  background: var(--color-accent); color: var(--color-cotton);
+  border-radius: var(--radius-control);
+  font-family: var(--font-family-ui); font-size: 13px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  transition: background-color var(--duration-nav-hover) var(--ease-out-sharp);
+}
+.btn:hover, .btn:active { background: var(--color-accent-deep); }
+.btn:focus-visible { outline: 2px solid var(--color-cotton); outline-offset: 3px; }
+.btn[disabled] { cursor: wait; background: var(--color-accent-deep); }
+.btn-quiet {
+  height: 52px; padding: 0; background: none; color: var(--color-cotton);
+  font-family: var(--font-family-ui); font-size: 13px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--color-gray-on-noir);
+  border-radius: 0; align-self: center; line-height: 52px;
+}
+.btn-quiet:hover { border-bottom-color: var(--color-cotton); }
+.btn-quiet:focus-visible { outline: 2px solid var(--color-cotton); outline-offset: 3px; }
+
+.status { font-family: var(--font-family-ui); font-size: 14px; line-height: 1.5; color: var(--color-cotton); }
+.pending-dot { display: inline-block; width: 8px; height: 8px; background: var(--color-cotton); }
+
+/* handover — the 503 / 400 signature -------------------------------- */
+.handover { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 2px solid var(--color-accent-graphic); display: grid; gap: var(--space-3); }
+.handover-title { font-family: var(--font-family-display); font-weight: 400; font-size: 28px; line-height: 0.92; letter-spacing: -0.01em; text-transform: uppercase; color: var(--color-cotton); }
+.handover-body { font-family: var(--font-family-serif); font-size: 1.125rem; line-height: 1.35; color: var(--color-cotton); max-width: 52ch; }
+.preview { border: 1px solid var(--color-gray-on-noir); padding: var(--space-2); font-family: var(--font-family-ui); font-size: 14px; line-height: 1.65; color: var(--color-cotton); white-space: pre-wrap; max-height: 260px; overflow: auto; }
+.mail-link { display: inline-block; font-family: var(--font-family-ui); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--color-cotton); border-bottom: 1px solid var(--color-accent-graphic); padding-block: 12px 10px; }
+.mail-link:focus-visible { outline: 2px solid var(--color-cotton); outline-offset: 3px; }
+.mail-link:hover { border-bottom-color: var(--color-cotton); }
+.handover-note { font-family: var(--font-family-ui); font-size: 13px; line-height: 1.5; color: var(--color-gray-on-noir); }
+
+/* success ------------------------------------------------------------ */
+.success { display: grid; gap: var(--space-2); border-top: 2px solid var(--color-accent-graphic); padding-top: var(--space-3); }
+.success-title { font-family: var(--font-family-display); font-weight: 400; font-size: 28px; line-height: 0.92; text-transform: uppercase; color: var(--color-cotton); }
+.success-body { font-family: var(--font-family-serif); font-size: 1.125rem; line-height: 1.35; color: var(--color-cotton); max-width: 46ch; }
+
+/* ==== SECTION 3 — DIRECT LINE (HeaderZone light, cotton) =========== */
+.direct { background: var(--color-cotton); padding-block: clamp(72px, 9vh, 120px); }
+.direct-email {
+  display: inline-block; margin-top: var(--space-3);
+  font-family: var(--font-family-display); font-weight: 400;
+  font-size: var(--cv2-email); line-height: 1.05; letter-spacing: -0.02em;
+  color: var(--color-noir);
+  border-bottom: 2px solid var(--color-accent);
+  /* padding-block, not just padding-bottom: at 375 the link box is 29px tall
+     without it, under the 44px target minimum. 12px/12px takes it to 47px. */
+  padding-block: 12px;
+  overflow-wrap: anywhere;
+  transition: color var(--duration-reveal) var(--ease-out-sharp);
+}
+.direct-email:hover { color: var(--color-accent); }
+.direct-email:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 6px; }
+.direct-note { margin-top: var(--space-3); font-family: var(--font-family-serif); font-size: var(--font-body); line-height: 1.3; color: var(--color-ink); max-width: 46ch; }
+
+/* ==== split — the seam ============================================== */
+@media (min-width: 1280px) {
+  .ascent-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(64px, 7vw, 160px); align-items: start; }
+  .ascent-grid::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--color-accent-graphic); }
+  .form-track { border-top: 0; padding-top: 0; }
+  .form { margin-top: var(--space-4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

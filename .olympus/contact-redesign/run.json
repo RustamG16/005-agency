@@ -1,0 +1,29 @@
+{
+  "system": "olympus-designer-system1",
+  "target_project": "C:\\Users\\Rustam Gurbanov\\Desktop\\DigitalAgency_Saas\\lab\\005-agency",
+  "target_route": "/contact",
+  "mode": "concept-and-implementation",
+  "phase": "gate-a-review",
+  "gate_a": "pending",
+  "gate_b": "pending",
+  "gate_c": "pending",
+  "approved_concept": null,
+  "constraints": [
+    "Preserve identity",
+    "Preserve fonts",
+    "Preserve colors",
+    "No asset generation or purchase before concept approval"
+  ],
+  "references": [
+    "https://www.symbolstudio.pl/en/contact",
+    "codex-clipboard-40c21f9f-74ae-482c-adcd-e6fdbccf4d77.png",
+    "codex-clipboard-55da8636-3cc3-43a8-8968-1d09be94ccbe.png"
+  ],
+  "assets": [
+    "marija_task/03_logo/57ad9d6a-3649-4736-949a-4c5a0b4eb9b4.png",
+    "marija_task/03_logo/aae9d682-35b6-4c42-8017-b39d22e78581.png",
+    "marija_task/03_logo/b8d21c14-85bf-4e6e-9ef4-f4ff51390e5f.png",
+    "marija_task/03_logo/e41c5342-1f93-481d-acdf-d6306b154227.png"
+  ],
+  "last_updated": "2026-08-10"
+}

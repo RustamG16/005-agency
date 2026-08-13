@@ -10,7 +10,9 @@ const nextConfig: NextConfig = {
   // crashing `next dev` with EPERM. Redirect the build cache to a fresh, less-contended name.
   // NEXT_BUILD_DIR lets a one-off `next build`/`next start` (e.g. for verification) target its
   // own directory instead of fighting a live `next dev` process over `.next-dev`.
-  distDir: process.env.NEXT_BUILD_DIR || ".next-dev",
+  distDir:
+    process.env.NEXT_BUILD_DIR ||
+    (process.env.NODE_ENV === "development" ? ".next-dev" : ".next"),
 };
 
 export default nextConfig;

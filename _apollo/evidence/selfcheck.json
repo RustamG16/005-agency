@@ -1,0 +1,68 @@
+{
+  "stage": 5,
+  "at": "2026-08-10T17:05:00+02:00",
+  "subject": "_apollo/comp/index.html + states.html, served at http://localhost:4401",
+  "screenshots": "UNAVAILABLE for the whole run — the Browser pane was not compositing frames, so every screenshot call timed out. Overflow and geometry were settled by measuring the rendered DOM at each width instead. No claim in this run rests on having looked at a picture.",
+
+  "contrast": {
+    "tool": "node lib/contrast.mjs _apollo/evidence/contrast-spec.json --matrix",
+    "report": "_apollo/evidence/contrast-report.txt",
+    "declaredPairs": 15,
+    "failures": 0,
+    "exitCode": 0,
+    "tightestPassingPair": "chili300 on noir — 5.01:1 against a 4.5 requirement (the 13px error message)",
+    "decisionsTheScriptSettled": [
+      "cherry on noir measures 1.64:1 against a 3.0 UI requirement. The global :focus-visible cherry ring from globals.css:62-65 would be close to invisible on the dark section, so section 2 overrides it to a 2px cotton ring at 14.84:1. This was a guess before the script ran and is now a fact.",
+      "chili on noir measures 3.88:1 — passes the 3.0 graphic/large threshold, fails the 4.5 normal-text one. Confirms chili for the seam, the 32px step numbers and the invalid rules, and chili300 for the 13px error text.",
+      "paper on cotton measures 1.08:1 and hairline on cotton 1.26:1. The page therefore uses neither: no paper card, and no hairline rules on the cotton sections.",
+      "cotton on maroon measures 11.45:1, so the button label stays legible through hover, active and pending."
+    ]
+  },
+
+  "overflow": {
+    "method": "every element under <main> whose rect crossed the layout viewport edge, at each width. Layout width is window width minus a 15px scrollbar.",
+    "results": [
+      { "window": 375,  "layout": 375,  "overflow": [], "docHeight": 2626, "note": "H1 4 lines at 41.83px; split off; chili rule horizontal" },
+      { "window": 768,  "layout": 753,  "overflow": [], "docHeight": 2409, "note": "H1 2 lines at 62.38px; split off; fields two-up at 340px" },
+      { "window": 1024, "layout": 1009, "overflow": [], "docHeight": 2415, "note": "still stacked; nothing breaks" },
+      { "window": 1440, "layout": 1425, "overflow": [], "docHeight": 1688, "note": "split on; seam at 713 vs viewport centre 712.5; inputs 299px" },
+      { "window": 1920, "layout": 1905, "overflow": [], "docHeight": 1845, "note": "PRIMARY. seam at 953 vs centre 952.5; ledger 560; form 760; inputs 368; H1 104px, 2 lines, 1144px" },
+      { "window": 2560, "layout": 2545, "overflow": [], "docHeight": 1845, "note": "composition capped at 1920 and centred; grounds still full bleed; seam at 1273 vs centre 1272.5; every inner measurement identical to 1920" }
+    ],
+    "statesSheet": [
+      { "window": 1920, "overflow": [], "docHeight": 3892, "states": 12 },
+      { "window": 375,  "overflow": [], "docHeight": 4562, "scrollWidth": 375 }
+    ]
+  },
+
+  "targetSize": {
+    "threshold": "44px",
+    "belowThresholdAfterFixes": [
+      { "element": "consent checkbox input", "height": 20, "verdict": "acceptable — the input is wrapped by its <label>, whose hit area measures the full row (~48px tall, full column width). The 20px box is the visual mark, not the target." },
+      { "element": "inline privacy-policy link inside the consent sentence", "height": 18, "verdict": "acceptable — WCAG 2.2 SC 2.5.8 exempts targets in a sentence of text." }
+    ],
+    "fixedDuringSelfCheck": [
+      "the section-3 email link measured 29px tall at 375; padding-block:12px took it to 47px",
+      "the handover mailto link measured ~22px; padding-block:12px 10px took it to 44px"
+    ]
+  },
+
+  "typography": {
+    "method": "measured with the site's real woff2 subsets copied out of .next/static/media, not estimated",
+    "findings": [
+      "H1 'TELL US WHAT IS NOT WORKING YET.' at 104px sets 2 lines, longest 1102px, inside a 1600px content field at 1920.",
+      "At 375 the natural wrap produced 5 lines with 'not' alone on one ('Tell us / what is / not / working / yet.'). Fixed with four explicit line units plus a size cap of (100vw - 2*container)/8.2, which resolves to 41.83px at 375 and yields the intended 4 lines. 'NOT WORKING' measures 7.96em in Archivo Black at -0.02em; 8.2 leaves ~8px of slack for the Arial Black fallback shown before the webfont swaps.",
+      "fitStatement at 18px sets 4 lines in the 560px ledger, 5 at 432px, 6 at 343px — the ledger's 560px cap is what buys the 4-line setting.",
+      "responseStatement at 15px Inter sets 2 lines at 560px.",
+      "'Within five business days of the call' measures 331px at 22px Newsreader, which is why each ledger step stacks its duration under its label instead of right-aligning it: a single-line row needs 734px and the ledger never gets more than 560."
+    ]
+  },
+
+  "consoleErrors": "none, on the comp at 1920 and 375, and none on the live /contact at 1920",
+
+  "notResolved": [
+    "No image of either the comp or /contact was ever rendered to a screenshot. Composition is verified numerically and by construction, not visually. The implementer should look at it at 1920 before trusting the balance of the ledger column against the form column.",
+    "prefers-reduced-motion was not exercised as a live media query; the fallback is specified rather than observed.",
+    "The comp is static: no state machine, no fetch, no validation. The 12 form states are drawn, not driven."
+  ]
+}
