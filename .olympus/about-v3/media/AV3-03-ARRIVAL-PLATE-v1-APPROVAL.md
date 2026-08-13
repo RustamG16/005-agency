@@ -1,7 +1,16 @@
 # AV3-03-ARRIVAL-PLATE v1 — pre-generation approval
 
-Status: **awaiting exact user approval**
+Status: **approved; provider submission failed before job confirmation**
 Prepared: 2026-08-13
+
+## Attempt record — 2026-08-13
+
+- Exact approval phrase received: `approve AV3-03-ARRIVAL-PLATE v1`.
+- One submission was attempted with the approved provider, model, references, prompt, constraints, aspect ratio, resolution, quality and candidate count.
+- Higgsfield returned HTTP 503: `user status lookup failed`.
+- No candidate URL or confirmed job record was returned.
+- A read-only account-status verification returned the same HTTP 503, so the post-attempt balance and charge state could not be independently confirmed.
+- No retry was submitted. Before any resubmission, re-check provider availability, current balance and a fresh quote, then obtain renewed explicit approval if the approval card changes.
 
 ## Placement and role
 

@@ -35,7 +35,7 @@
     "one_candidate_default": true,
     "automatic_retry": false
   },
-  "active_batch": "AV3-03-ARRIVAL-PLATE-v1-awaiting-exact-approval",
+  "active_batch": "AV3-03-ARRIVAL-PLATE-v1-provider-503-no-job-confirmation",
   "archive": ".olympus/about-v3/_archive/pre-unified-2026-08-13/",
   "last_updated": "2026-08-13"
 }
