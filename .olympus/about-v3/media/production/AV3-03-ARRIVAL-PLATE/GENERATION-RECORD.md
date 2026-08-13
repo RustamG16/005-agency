@@ -1,6 +1,6 @@
 # AV3-03 Arrival Plate — generation record
 
-Status: **candidate generated; awaiting human selection lock**
+Status: **LOCKED BY USER**
 Generated: 2026-08-13
 Provider: authenticated Higgsfield
 Model: GPT Image 2 (`gpt_image_2`)
@@ -18,7 +18,7 @@ Model: GPT Image 2 (`gpt_image_2`)
 
 ## Output
 
-- File: `AV3-03-arrival-plate-candidate-v1.png`
+- File: `AV3-03-arrival-plate-v1.png`
 - Dimensions: 3840×2160, 16:9.
 - File size: 9,359,058 bytes.
 - SHA-256: `C259D1A1A7AAFF8AC77D05A074A1BADD5F1758DE383E029F19EBC612E73E2B76`.
@@ -41,5 +41,6 @@ The verbatim approved prompt, constraints, placement, browser relationship, trut
 - Pass: quiet left-side copy field and subject placement suitable for an art-directed mobile crop.
 - Pass: acrylic intake surface, controlled editorial light and safe/non-medical tone.
 - Pass: no people, hands, readable text, logo, watermark, office furniture or founder-stage blend.
-- Pending: human visual selection and production lock.
-- Pending after lock: locally derived optimized delivery formats and mobile crop.
+- User selection lock: `lock AV3-03-ARRIVAL-PLATE v1`.
+- This file is the production authority for Section 03.
+- Pending zero-credit preparation: locally derived optimized delivery formats and art-directed mobile crop.

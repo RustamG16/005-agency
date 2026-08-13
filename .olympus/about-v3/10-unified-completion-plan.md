@@ -16,6 +16,7 @@ This plan does not itself authorize generation, page edits, cleanup, publication
 ### Locked production authorities
 
 - `AV3-03-COMPANION-MASTER`: companion identity and four recovery states.
+- `AV3-03-ARRIVAL-PLATE`: identity-free Section 03 arrival environment and locked deconstructed companion composition.
 - `AV3-04-LAB-CLEAN-PLATE`: Section 04 clean lab, companion analysis state, and mobile composition.
 - `AV3-05-PROGRAM-PROJECTIONS`: Restore, Adapt, Evolve, shared scene, and reduced-motion state.
 - `AV3-06-APOLLO-MASTER`: Apollo identity and public-safe poses.

@@ -3,7 +3,7 @@
   "target_project": "C:/Users/Rustam Gurbanov/Desktop/DigitalAgency_Saas/lab/005-agency",
   "target_route": "/about-v3",
   "mode": "unified-media-and-implementation",
-  "phase": "slice-b-media-first-preparation",
+  "phase": "slice-b-local-preparation-arrival-locked",
   "gate_a": "approved",
   "gate_b": "approved-direction-under-unified-ten-section-narrative",
   "gate_c": "not_started",
@@ -15,6 +15,7 @@
   "external_generation_authorized": false,
   "locked_media": [
     "AV3-03-COMPANION-MASTER",
+    "AV3-03-ARRIVAL-PLATE",
     "AV3-04-LAB-CLEAN-PLATE",
     "AV3-05-PROGRAM-PROJECTIONS",
     "AV3-06-APOLLO-MASTER",
@@ -35,7 +36,7 @@
     "one_candidate_default": true,
     "automatic_retry": false
   },
-  "active_batch": "AV3-03-ARRIVAL-PLATE-v1-generated-awaiting-human-lock",
+  "active_batch": null,
   "archive": ".olympus/about-v3/_archive/pre-unified-2026-08-13/",
   "last_updated": "2026-08-13"
 }

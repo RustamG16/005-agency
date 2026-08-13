@@ -47,7 +47,7 @@ When statements conflict, use this order:
 - The revised founder-walk opening remains a candidate and still needs explicit lock.
 - The browser—not a video model—builds the final-frame duplication, 50/50 profile masks, container movement, divider, and video-to-still crossfade.
 - Physical generated video plays forward at normal speed. No scroll scrub, reverse, camera zoom, or automatic replay on upward scroll.
-- Companion, lab, programs, Apollo, orchestration, and Section 08 stills are locked production authorities.
+- Companion, Section 03 arrival, lab, programs, Apollo, orchestration, and Section 08 stills are locked production authorities.
 - `AV3-08-V01` is generated but not locked. It is an 8-second 1920×1080 Seedance 2.0 candidate that cost 72 credits.
 - Sonnwerk and Meridian are proposal/negotiation-stage proof. Do not invent launch, approval, result, metric, or testimonial claims.
 - Marija work-example files exist, but their authorship, context, client/privacy status, and public-use permission are unverified. They are not an identity pack.
@@ -59,6 +59,7 @@ When statements conflict, use this order:
 ## Locked production folders
 
 - `media/production/AV3-03-COMPANION-MASTER/`
+- `media/production/AV3-03-ARRIVAL-PLATE/`
 - `media/production/AV3-04-LAB-CLEAN-PLATE/`
 - `media/production/AV3-05-PROGRAM-PROJECTIONS/`
 - `media/production/AV3-06-APOLLO-MASTER/`
