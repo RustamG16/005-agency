@@ -3,13 +3,15 @@
   "target_project": "C:/Users/Rustam Gurbanov/Desktop/DigitalAgency_Saas/lab/005-agency",
   "target_route": "/about-v3",
   "mode": "unified-media-and-implementation",
-  "phase": "unified-plan-ready-slice-a-decisions-pending",
+  "phase": "slice-b-media-first-preparation",
   "gate_a": "approved",
   "gate_b": "approved-direction-under-unified-ten-section-narrative",
   "gate_c": "not_started",
   "authoritative_entrypoint": ".olympus/about-v3/NEXT-CHAT-START.md",
   "authoritative_plan": ".olympus/about-v3/10-unified-completion-plan.md",
-  "implementation_authorized": false,
+  "implementation_authorized": true,
+  "development_placeholders_authorized": true,
+  "opening_strategy": "defer-founder-walk-and-hero-media-until-marija-media-phase",
   "external_generation_authorized": false,
   "locked_media": [
     "AV3-03-COMPANION-MASTER",
@@ -19,21 +21,21 @@
     "AV3-07-ORCHESTRATION-MEDIA-SET",
     "AV3-08-RECOVERY-ENDPOINT-STILLS"
   ],
-  "pending_media_review": [
+  "development_media_candidates": [
     "AV3-08-V01"
   ],
-  "pending_slice_a_decisions": [
-    "lock_or_revise_founder_walk_opening",
-    "allow_or_forbid_development_placeholders",
-    "lock_reject_or_retain_AV3-08-V01",
-    "confirm_quote_before_submit_and_credit_ceilings"
-  ],
+  "pending_slice_a_decisions": [],
   "provider": {
     "remaining_external_generation": "Higgsfield",
     "image_fallback_when_Sora_unavailable": "GPT Image 2",
     "default_video": "Seedance 2.0",
-    "prompt_level_approval_required": true
+    "prompt_level_approval_required": true,
+    "small_video_credit_ceiling": 18,
+    "half_width_video_credit_ceiling": 27,
+    "one_candidate_default": true,
+    "automatic_retry": false
   },
+  "active_batch": "AV3-03-ARRIVAL-PLATE-v1-awaiting-exact-approval",
   "archive": ".olympus/about-v3/_archive/pre-unified-2026-08-13/",
   "last_updated": "2026-08-13"
 }

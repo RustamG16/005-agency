@@ -1,6 +1,6 @@
 # About V3 — Apollo Unified Completion Plan
 
-Status: `PROPOSED — AWAITING USER APPROVAL`  
+Status: `APPROVED — SLICE A RECORDED IN 11-slice-a-decision.md`  
 Owner: Olympus Design Director / Apollo  
 Created: 2026-08-13  
 Target: `/about-v3`
