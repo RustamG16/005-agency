@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { TwoLensesPage } from "@/components/sections/about-v3/TwoLensesPage";
 
 export const metadata: Metadata = {
-  title: "About the Studio",
+  title: "About Convenium Studio",
   description:
-    "Meet the two founders behind Convenium Studio and see how two perspectives become one accountable project direction.",
+    "Meet the founders behind Convenium and follow how an unfinished idea becomes one accountable digital direction.",
 };
 
 export default function AboutV3Page() {

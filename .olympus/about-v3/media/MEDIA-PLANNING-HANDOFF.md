@@ -558,6 +558,19 @@ Locked by user on 2026-08-13.
 - This lock authorizes these five stills as Section 08 recovery authorities. It does not authorize video generation or `/about-v3` implementation.
 - Any 8–10-second forward recovery reveal remains a separate Higgsfield-only batch requiring its exact outputs to be restated before generation. The next non-video phase is `AV3-09` proof-source preparation.
 
+## 9G. Implementation candidates — AV3-06 Rustam / Apollo handoff
+
+Generated and integrated on 2026-08-13 under the user's explicit instruction to skip intermediate approval and polish later.
+
+- The two 4K master keyframes are saved under `media/production/AV3-06-RUSTAM-APOLLO-HANDOFF/`.
+- Start: Rustam presents the same compact companion and one thin approved-plan tablet to empty-handed Apollo.
+- Endpoint: Apollo carefully holds the same companion and plan while Rustam remains present at the left.
+- Both generations included the original neutral Rustam full-body, front-face and facial-detail references; the locked Apollo and companion authorities were supplied beside them.
+- One candidate per state was generated with GPT Image 2 at 12 credits each. Balance moved from 732 to 708 credits. No retry and no additional video job occurred.
+- `/about-v3` uses a user-controlled browser-native crossfade between optimized WebP derivatives. This satisfies the handoff narrative at lower cost than the optional S06 video.
+- The two stills are implementation candidates, not user-locked final authorities. Identity detail, wardrobe/tattoo treatment and crop may be polished later as requested.
+- Exact prompts, URLs, hashes, reference roles, cost and review notes are recorded in `media/production/AV3-06-RUSTAM-APOLLO-HANDOFF/GENERATION-RECORD.md`.
+
 ## 10. Approval boundary
 
 This document does not approve a new media generation, page implementation, dependency, or destructive cleanup. Follow `../10-unified-completion-plan.md` and `../NEXT-CHAT-START.md`: resolve the four Slice A decisions first, use the mandatory prompt/role/placement/reference/output/quote card before every Higgsfield submission, and prefer locked stills plus browser-native motion. Only explicit implementation authorization permits editing `/about-v3`.

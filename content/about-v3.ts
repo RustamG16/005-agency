@@ -1,110 +1,114 @@
 export const aboutV3 = {
   hero: {
-    title: "Two perspectives. One accountable direction.",
-    support:
-      "We keep the studio deliberately small so the people in the first conversation remain responsible for the final work.",
+    eyebrow: "About Convenium / Two founders",
+    title: "Different disciplines. One accountable direction.",
+    body:
+      "Convenium is a deliberately small studio. The people in the first conversation stay close to the final work, so intent does not disappear between strategy, design and implementation.",
     location: "Klagenfurt, Austria / working internationally",
-    founders: [
-      {
-        key: "rustam",
-        name: "Rustam",
-        statement: "We build the system.",
-        detail: "Experience, interaction and implementation are considered as one connected decision.",
-      },
-      {
-        key: "marija",
-        name: "Marija",
-        statement: "We protect how it is understood.",
-        detail: "Language, context and visual meaning stay present as the work takes shape.",
-      },
-    ],
   },
-  origins: {
-    title: "Individual experience, brought together under one name.",
-    intro:
-      "Convenium is a new studio built from founder experience. Career work and independent work are labelled by their real provenance; neither is presented as historic Convenium client work.",
-    rustam: [
-      {
-        provenance: "Founder career",
-        title: "10+ years in software and digital production",
-        body: "Experience spanning engineering, design and motion, including a verified career role at Infineon.",
-      },
-      {
-        provenance: "Independent work",
-        title: "20+ projects shipped",
-        body: "The currently supported public figure. Project names and outcomes remain outside this page unless their provenance is confirmed.",
-      },
-      {
-        provenance: "Convenium",
-        title: "One connected delivery line",
-        body: "System decisions stay close to design and implementation instead of passing between departments.",
-      },
-    ],
-  },
-  briefReadings: [
+  founders: [
     {
-      phrase: "Exclusive, but not cold.",
-      rustam:
-        "Use restraint in the system, then let interaction and material detail create welcome rather than distance.",
-      marija:
-        "Clarify whether ‘exclusive’ means selective, private or simply distinctive—and who must still feel invited.",
-      decision:
-        "Build a disciplined frame with human warmth at the moments where trust is formed.",
-      visual: "warmth",
+      key: "rustam",
+      name: "Rustam Gurbanov",
+      role: "Design, systems & engineering",
+      statement: "Turns ambiguity into a system that can be designed, built and maintained.",
+      detail:
+        "His public record spans engineering, digital design and motion. Work shown on this page keeps its real provenance visible.",
     },
     {
-      phrase: "Modern, but it still has to feel established.",
-      rustam:
-        "Keep the interaction current while anchoring navigation, rhythm and hierarchy in patterns people already trust.",
-      marija:
-        "Separate the desire for freshness from the fear of looking temporary or trend-dependent.",
-      decision:
-        "Pair contemporary behavior with a stable editorial structure and durable material cues.",
-      visual: "continuity",
-    },
-    {
-      phrase: "Memorable without becoming loud.",
-      rustam:
-        "Concentrate motion and contrast around one recognisable behavior instead of raising the volume everywhere.",
-      marija:
-        "Find the detail the audience should remember, then remove signals that compete with it.",
-      decision:
-        "Let proportion, pacing and one signature transition carry recognition.",
-      visual: "memory",
+      key: "marija",
+      name: "Marija",
+      role: "Communication & visual continuity",
+      statement: "Protects how the work is understood while its form is taking shape.",
+      detail:
+        "Biography, selected work and contribution details remain intentionally unpublished until her production record is confirmed.",
     },
   ],
-  decisionRows: [
+  dossier: [
+    { label: "Core", value: "What must remain recognisable?" },
+    { label: "Audience", value: "Who needs to understand and trust it?" },
+    { label: "Feeling", value: "What should change in the room?" },
+    { label: "Tension", value: "What cannot be solved by appearance alone?" },
+  ],
+  programs: [
     {
-      title: "Discovery",
-      rustam: "Maps system constraints and technical realities.",
-      marija: "Surfaces language, context and the motive beneath the brief.",
-      shared: "Confirm the actual decision the project needs to make.",
+      key: "restore",
+      index: "01",
+      title: "Restore",
+      short: "Recover what was always valuable.",
+      body:
+        "Clarify the strongest existing signals, repair the experience around them and remove the friction hiding their value.",
+      image: "/images/about-v3/program-restore.webp",
     },
     {
-      title: "Direction",
-      rustam: "Shapes the experience and technical logic.",
-      marija: "Shapes visual and content continuity.",
-      shared: "Lock one principle before the work expands.",
+      key: "adapt",
+      index: "02",
+      title: "Adapt",
+      short: "Keep the core. Change the fit.",
+      body:
+        "Preserve recognisable equity while reshaping the system for a different audience, context or level of ambition.",
+      image: "/images/about-v3/program-adapt.webp",
     },
     {
-      title: "Making",
-      rustam: "Owns design-engineering execution within the agreed scope.",
-      marija: "Owns communication and visual-content work within the agreed scope.",
-      shared: "Review the expression as one connected system.",
+      key: "evolve",
+      index: "03",
+      title: "Evolve",
+      short: "Build the next expression deliberately.",
+      body:
+        "When the current form can no longer carry the strategy, establish a more capable visual and technical language.",
+      image: "/images/about-v3/program-evolve.webp",
+    },
+  ],
+  lanes: [
+    {
+      key: "visual",
+      title: "Visual direction",
+      skill: "Identity, hierarchy, art direction",
+      image: "/images/about-v3/specialist-visual.webp",
     },
     {
-      title: "Review",
-      rustam: "Translates feedback into implementable change.",
-      marija: "Maintains clarity across the conversation.",
-      shared: "Document decisions so intent survives every revision.",
+      key: "content",
+      title: "Content",
+      skill: "Structure, message, editorial continuity",
+      image: "/images/about-v3/specialist-content.webp",
     },
     {
-      title: "Activation",
-      rustam: "Keeps the digital system maintainable.",
-      marija: "Maintains continuity where ongoing communication is in scope.",
-      shared: "Bring in a trusted specialist only for a bounded question while founder accountability remains intact.",
+      key: "engineering",
+      title: "Design engineering",
+      skill: "Interaction, components, implementation",
+      image: "/images/about-v3/specialist-engineering.webp",
+    },
+    {
+      key: "motion",
+      title: "Motion",
+      skill: "Sequence, transition, restraint",
+      image: "/images/about-v3/specialist-motion.webp",
+    },
+    {
+      key: "quality",
+      title: "Quality",
+      skill: "Accessibility, runtime, release confidence",
+      image: "/images/about-v3/specialist-quality.webp",
+    },
+  ],
+  proof: [
+    {
+      key: "sonnwerk",
+      title: "Sonnwerk",
+      type: "Proposal-stage digital direction",
+      image: "/works/sonnwerk/cover.jpg",
+      href: "/works",
+      note: "Shown as a direction proposal, not as a published outcome or performance claim.",
+    },
+    {
+      key: "meridian",
+      title: "Meridian",
+      type: "Proposal-stage digital expression",
+      image: "/works/meridian/cover.jpg",
+      href: "/works",
+      note: "Shown to demonstrate craft and framing; no testimonial or result is implied.",
     },
   ],
 } as const;
 
-export type BriefReading = (typeof aboutV3.briefReadings)[number];
+export type AboutProgram = (typeof aboutV3.programs)[number];

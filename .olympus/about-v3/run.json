@@ -3,16 +3,16 @@
   "target_project": "C:/Users/Rustam Gurbanov/Desktop/DigitalAgency_Saas/lab/005-agency",
   "target_route": "/about-v3",
   "mode": "unified-media-and-implementation",
-  "phase": "slice-b-local-preparation-arrival-locked",
+  "phase": "ten-section-implementation-qa-complete",
   "gate_a": "approved",
   "gate_b": "approved-direction-under-unified-ten-section-narrative",
-  "gate_c": "not_started",
+  "gate_c": "awaiting_user_review",
   "authoritative_entrypoint": ".olympus/about-v3/NEXT-CHAT-START.md",
   "authoritative_plan": ".olympus/about-v3/10-unified-completion-plan.md",
   "implementation_authorized": true,
   "development_placeholders_authorized": true,
   "opening_strategy": "defer-founder-walk-and-hero-media-until-marija-media-phase",
-  "external_generation_authorized": false,
+  "external_generation_authorized": "bounded-session-override-completed",
   "locked_media": [
     "AV3-03-COMPANION-MASTER",
     "AV3-03-ARRIVAL-PLATE",
@@ -23,6 +23,8 @@
     "AV3-08-RECOVERY-ENDPOINT-STILLS"
   ],
   "development_media_candidates": [
+    "AV3-06-RUSTAM-APOLLO-HANDOFF-START",
+    "AV3-06-RUSTAM-APOLLO-HANDOFF-END",
     "AV3-08-V01"
   ],
   "pending_slice_a_decisions": [],
@@ -30,13 +32,25 @@
     "remaining_external_generation": "Higgsfield",
     "image_fallback_when_Sora_unavailable": "GPT Image 2",
     "default_video": "Seedance 2.0",
-    "prompt_level_approval_required": true,
+    "prompt_level_approval_required": "default; explicitly waived for the completed 2026-08-13 eligible-media batch",
     "small_video_credit_ceiling": 18,
     "half_width_video_credit_ceiling": 27,
     "one_candidate_default": true,
     "automatic_retry": false
   },
   "active_batch": null,
+  "implementation": {
+    "status": "complete-awaiting-gate-c",
+    "sections": 10,
+    "marija_and_joint_media": "honest-placeholders",
+    "hero_media": "deferred",
+    "browser_qa": "desktop-fhd-mobile-reduced-motion-interactions-pass",
+    "production_build": "pass",
+    "finish_review": "ship-5-of-5-resolved",
+    "qa_record": ".olympus/about-v3/12-implementation-qa.md",
+    "external_generation_spend": 24,
+    "post_generation_balance": 708
+  },
   "archive": ".olympus/about-v3/_archive/pre-unified-2026-08-13/",
   "last_updated": "2026-08-13"
 }

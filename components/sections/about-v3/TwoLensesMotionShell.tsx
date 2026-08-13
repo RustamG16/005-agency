@@ -17,161 +17,75 @@ export function TwoLensesMotionShell({ children }: { children: ReactNode }) {
       const media = gsap.matchMedia();
       media.add(
         {
-          desktop: "(min-width: 1100px)",
-          tablet: "(min-width: 768px) and (max-width: 1099px)",
+          desktop: "(min-width: 768px)",
           mobile: "(max-width: 767px)",
           reduce: "(prefers-reduced-motion: reduce)",
         },
         (context) => {
-          const conditions = context.conditions as {
-            desktop: boolean;
-            tablet: boolean;
-            mobile: boolean;
-            reduce: boolean;
-          };
+          const conditions = context.conditions as { desktop: boolean; mobile: boolean; reduce: boolean };
+          const animated = "[data-hero-line], [data-hero-stage], [data-hero-copy], [data-about-arrival] [data-reveal-media], [data-dossier-reveal]";
 
           if (conditions.reduce) {
-            gsap.set("[data-about-seam], [data-founder-opening], [data-shared-thesis], [data-origin-milestone], [data-brief-reading], [data-duet-row], [data-inquiry-column]", {
-              clearProps: "all",
-            });
+            gsap.set(animated, { clearProps: "all" });
             return;
           }
 
-          const entry = gsap.timeline({ defaults: { overwrite: "auto" } });
-          entry
-            .from("[data-about-seam]", { scaleY: 0, transformOrigin: "top", duration: 0.65, ease: "power4.out" })
-            .from(
-              "[data-founder-opening='rustam']",
-              { x: conditions.mobile ? 0 : -24, autoAlpha: 0, duration: 0.56 },
-              0.08
-            )
-            .from(
-              "[data-founder-opening='marija']",
-              { x: conditions.mobile ? 0 : 24, autoAlpha: 0, duration: 0.56 },
-              conditions.mobile ? 0.22 : 0.16
-            )
-            .from("[data-shared-thesis]", { y: 20, autoAlpha: 0, duration: 0.5 }, 0.3);
+          const hero = gsap.timeline({ defaults: { ease: "power4.out", overwrite: "auto" } });
+          hero
+            .from("[data-hero-line]", { y: -10, autoAlpha: 0, duration: 0.45 })
+            .from("[data-hero-stage]", { scale: 1.025, autoAlpha: 0, duration: 0.9 }, 0.05)
+            .from("[data-hero-copy] h1", { yPercent: 9, autoAlpha: 0, duration: 0.72 }, 0.3)
+            .from("[data-hero-copy] > div", { y: 14, autoAlpha: 0, duration: 0.5 }, 0.46);
 
-          if (conditions.desktop || conditions.tablet) {
-            gsap.fromTo(
-              "[data-shared-thesis] h1",
-              { xPercent: -2 },
-              {
-                xPercent: 2,
-                ease: "none",
-                scrollTrigger: {
-                  id: "about-v3-thesis-convergence",
-                  trigger: "[data-about-hero]",
-                  start: "65% top",
-                  end: "bottom top",
-                  scrub: 0.5,
-                  invalidateOnRefresh: true,
-                },
-              }
-            );
-          }
-
-          ScrollTrigger.batch("[data-origin-milestone]", {
-            start: "top 78%",
-            once: true,
-            batchMax: 3,
-            onEnter: (elements) =>
-              gsap.from(elements, {
-                y: conditions.mobile ? 8 : 12,
-                autoAlpha: 0,
-                duration: conditions.mobile ? 0.26 : 0.34,
-                stagger: 0.07,
-                overwrite: "auto",
-              }),
-          });
-
-          const reel = root.querySelector<HTMLElement>("[data-showreel]");
-          if (reel) {
-            gsap.from(reel, {
-              scale: 0.985,
-              autoAlpha: 0,
-              duration: 0.5,
+          if (conditions.desktop) {
+            gsap.to("[data-hero-stage]", {
+              yPercent: 7,
+              ease: "none",
               scrollTrigger: {
-                id: "about-v3-reel-reveal",
-                trigger: reel,
-                start: "top 78%",
-                once: true,
+                id: "about-v3-hero-depth",
+                trigger: "[data-about-hero]",
+                start: "top top",
+                end: "bottom top",
+                scrub: 0.7,
               },
             });
           }
 
-          const readings = gsap.utils.toArray<HTMLElement>("[data-brief-reading]");
-          readings.forEach((reading, index) => {
-            const voices = reading.querySelectorAll(":scope > div:last-child > div");
-            gsap.from(voices, {
-              x: conditions.mobile ? 0 : index % 2 === 0 ? 16 : -16,
-              y: conditions.mobile ? 10 : 0,
+          const arrival = root.querySelector<HTMLElement>("[data-about-arrival]");
+          if (arrival) {
+            const arrivalMedia = arrival.querySelector<HTMLElement>("[data-reveal-media]");
+            const arrivalCopy = arrival.querySelector<HTMLElement>("h2");
+            const arrivalTimeline = gsap.timeline({
+              defaults: { ease: "power4.out", overwrite: "auto" },
+              scrollTrigger: {
+                id: "about-v3-arrival-registration",
+                trigger: arrival,
+                start: conditions.mobile ? "top 86%" : "top 72%",
+                once: true,
+              },
+            });
+            if (arrivalMedia) {
+              arrivalTimeline.from(arrivalMedia, {
+                clipPath: conditions.mobile ? "inset(0 0 42% 0)" : "inset(0 46% 0 0)",
+                scale: 1.025,
+                duration: 0.86,
+              });
+            }
+            if (arrivalCopy) arrivalTimeline.from(arrivalCopy, { y: 22, autoAlpha: 0, duration: 0.5 }, 0.34);
+          }
+
+          const dossierRows = gsap.utils.toArray<HTMLElement>("[data-dossier-reveal]");
+          if (dossierRows.length) {
+            gsap.from(dossierRows, {
+              x: conditions.mobile ? 0 : 18,
+              y: conditions.mobile ? 12 : 0,
               autoAlpha: 0,
-              duration: 0.36,
+              duration: 0.42,
               stagger: 0.08,
               scrollTrigger: {
-                id: `about-v3-reading-${index}`,
-                trigger: reading,
-                start: "top 72%",
-                once: true,
-              },
-            });
-          });
-
-          if (!conditions.mobile) {
-            const languagePaths = gsap.utils.toArray<SVGPathElement>("[data-language-path]");
-            gsap.fromTo(
-              languagePaths,
-              { strokeDasharray: 1000, strokeDashoffset: 1000 },
-              {
-                strokeDashoffset: 0,
-                duration: 0.7,
-                stagger: 0.06,
-                ease: "power2.out",
-                scrollTrigger: {
-                  id: "about-v3-language-paths",
-                  trigger: languagePaths[0],
-                  start: "top 65%",
-                  once: true,
-                },
-              }
-            );
-          }
-
-          ScrollTrigger.batch("[data-duet-row]", {
-            start: "top 80%",
-            once: true,
-            batchMax: 3,
-            onEnter: (elements) =>
-              gsap.from(elements, {
-                y: 12,
-                autoAlpha: 0,
-                duration: 0.3,
-                stagger: 0.06,
-                overwrite: "auto",
-              }),
-          });
-
-          if (!conditions.mobile) {
-            gsap.from("[data-inquiry-column='left']", {
-              x: -24,
-              autoAlpha: 0,
-              duration: 0.5,
-              scrollTrigger: {
-                id: "about-v3-inquiry-left",
-                trigger: "[data-inquiry-column='left']",
-                start: "top 76%",
-                once: true,
-              },
-            });
-            gsap.from("[data-inquiry-column='right']", {
-              x: 24,
-              autoAlpha: 0,
-              duration: 0.5,
-              scrollTrigger: {
-                id: "about-v3-inquiry-right",
-                trigger: "[data-inquiry-column='right']",
-                start: "top 76%",
+                id: "about-v3-dossier-registration",
+                trigger: dossierRows[0],
+                start: "top 82%",
                 once: true,
               },
             });

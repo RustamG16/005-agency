@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-13T23:15:00+02:00",
+  "title": "Design System: Convenium Studio",
+  "extensions": {
+    "colorMeta": {
+      "noir": { "role": "neutral", "displayName": "Warm Noir", "canonical": "#1b1717", "tonalRamp": ["oklch(15% 0.012 20)", "oklch(26% 0.012 20)", "oklch(37% 0.012 20)", "oklch(48% 0.012 20)", "oklch(60% 0.012 20)", "oklch(72% 0.012 20)", "oklch(84% 0.012 20)", "oklch(95% 0.012 20)"] },
+      "cotton": { "role": "neutral", "displayName": "Warm Cotton", "canonical": "#edebdd", "tonalRamp": ["oklch(15% 0.02 95)", "oklch(26% 0.02 95)", "oklch(37% 0.02 95)", "oklch(48% 0.02 95)", "oklch(60% 0.02 95)", "oklch(72% 0.02 95)", "oklch(84% 0.02 95)", "oklch(95% 0.02 95)"] },
+      "paper": { "role": "neutral", "displayName": "Lifted Paper", "canonical": "#f5f3e8", "tonalRamp": ["oklch(15% 0.016 95)", "oklch(26% 0.016 95)", "oklch(37% 0.016 95)", "oklch(48% 0.016 95)", "oklch(60% 0.016 95)", "oklch(72% 0.016 95)", "oklch(84% 0.016 95)", "oklch(95% 0.016 95)"] },
+      "ink": { "role": "neutral", "displayName": "Warm Ink", "canonical": "#241f1f", "tonalRamp": ["oklch(15% 0.014 20)", "oklch(26% 0.014 20)", "oklch(37% 0.014 20)", "oklch(48% 0.014 20)", "oklch(60% 0.014 20)", "oklch(72% 0.014 20)", "oklch(84% 0.014 20)", "oklch(95% 0.014 20)"] },
+      "gray": { "role": "neutral", "displayName": "Editorial Gray", "canonical": "#6e6963", "tonalRamp": ["oklch(15% 0.015 60)", "oklch(26% 0.015 60)", "oklch(37% 0.015 60)", "oklch(48% 0.015 60)", "oklch(60% 0.015 60)", "oklch(72% 0.015 60)", "oklch(84% 0.015 60)", "oklch(95% 0.015 60)"] },
+      "gray-on-noir": { "role": "neutral", "displayName": "Noir-Safe Gray", "canonical": "#a8a29a", "tonalRamp": ["oklch(15% 0.014 65)", "oklch(26% 0.014 65)", "oklch(37% 0.014 65)", "oklch(48% 0.014 65)", "oklch(60% 0.014 65)", "oklch(72% 0.014 65)", "oklch(84% 0.014 65)", "oklch(95% 0.014 65)"] },
+      "hairline": { "role": "neutral", "displayName": "Cotton Hairline", "canonical": "#d6d2c2", "tonalRamp": ["oklch(15% 0.022 90)", "oklch(26% 0.022 90)", "oklch(37% 0.022 90)", "oklch(48% 0.022 90)", "oklch(60% 0.022 90)", "oklch(72% 0.022 90)", "oklch(84% 0.022 90)", "oklch(95% 0.022 90)"] },
+      "cherry": { "role": "primary", "displayName": "Decision Cherry", "canonical": "#810100", "tonalRamp": ["oklch(15% 0.174 29)", "oklch(26% 0.174 29)", "oklch(37% 0.174 29)", "oklch(48% 0.174 29)", "oklch(60% 0.174 29)", "oklch(72% 0.174 29)", "oklch(84% 0.174 29)", "oklch(95% 0.174 29)"] },
+      "maroon": { "role": "primary", "displayName": "Depth Maroon", "canonical": "#630000", "tonalRamp": ["oklch(15% 0.16 29)", "oklch(26% 0.16 29)", "oklch(37% 0.16 29)", "oklch(48% 0.16 29)", "oklch(60% 0.16 29)", "oklch(72% 0.16 29)", "oklch(84% 0.16 29)", "oklch(95% 0.16 29)"] },
+      "chili": { "role": "primary", "displayName": "Graphic Chili", "canonical": "#d73b3e", "tonalRamp": ["oklch(15% 0.2 25)", "oklch(26% 0.2 25)", "oklch(37% 0.2 25)", "oklch(48% 0.2 25)", "oklch(60% 0.2 25)", "oklch(72% 0.2 25)", "oklch(84% 0.2 25)", "oklch(95% 0.2 25)"] },
+      "chili-soft": { "role": "primary", "displayName": "Accessible Chili", "canonical": "#e5595c", "tonalRamp": ["oklch(15% 0.16 24)", "oklch(26% 0.16 24)", "oklch(37% 0.16 24)", "oklch(48% 0.16 24)", "oklch(60% 0.16 24)", "oklch(72% 0.16 24)", "oklch(84% 0.16 24)", "oklch(95% 0.16 24)"] },
+      "wordmark": { "role": "neutral", "displayName": "Quiet Wordmark", "canonical": "#2a2424", "tonalRamp": ["oklch(15% 0.014 20)", "oklch(26% 0.014 20)", "oklch(37% 0.014 20)", "oklch(48% 0.014 20)", "oklch(60% 0.014 20)", "oklch(72% 0.014 20)", "oklch(84% 0.014 20)", "oklch(95% 0.014 20)"] }
+    },
+    "typographyMeta": {
+      "hero": { "displayName": "Hero", "purpose": "Opening claims with a short measure and architectural impact." },
+      "display": { "displayName": "Display", "purpose": "Section headings and decisive component titles." },
+      "manifesto": { "displayName": "Manifesto", "purpose": "Rare full-field statements and oversized signatures." },
+      "title": { "displayName": "Title", "purpose": "Card, program, founder, and specialist titles." },
+      "body": { "displayName": "Editorial Body", "purpose": "Reflective explanation held to a readable measure." },
+      "label": { "displayName": "UI Label", "purpose": "Functional controls, indices, provenance, and status." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-out-sharp", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Selections, hover responses, and concise reveals that settle firmly." },
+      { "name": "ease-inout-soft", "value": "cubic-bezier(0.65, 0, 0.35, 1)", "purpose": "Handoff frame transitions where responsibility changes state." },
+      { "name": "nav-hover", "value": "180ms", "purpose": "Fast navigation and control hover response." },
+      { "name": "nav-active", "value": "260ms", "purpose": "Active navigation state movement." },
+      { "name": "reveal", "value": "320ms", "purpose": "Standard section and media reveal." },
+      { "name": "manifesto", "value": "420ms", "purpose": "Decisive display and program-panel arrival." },
+      { "name": "menu", "value": "450ms", "purpose": "Mobile menu transition." },
+      { "name": "slow", "value": "700ms", "purpose": "Large media settling and restrained emphasis." }
+    ],
+    "breakpoints": [
+      { "name": "tablet", "value": "1000px" },
+      { "name": "mobile", "value": "767px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Editorial Link",
+      "kind": "button",
+      "refersTo": "editorial-link",
+      "description": "A restrained underlined route for anchors and evidence links.",
+      "html": "<a class=\"ds-editorial-link\" href=\"#\">Review the current work index</a>",
+      "css": ".ds-editorial-link { display:inline-flex; align-items:center; gap:24px; padding-bottom:6px; color:var(--color-accent, #810100); border-bottom:1px solid currentColor; font-family:var(--font-family-ui, Inter, sans-serif); font-size:12px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; } .ds-editorial-link::after { content:\"\"; width:8px; height:8px; border-top:1px solid currentColor; border-right:1px solid currentColor; transform:rotate(45deg); transition:transform 180ms cubic-bezier(.16,1,.3,1); } .ds-editorial-link:hover::after { transform:translateX(3px) rotate(45deg); } .ds-editorial-link:focus-visible { outline:2px solid var(--color-accent, #810100); outline-offset:5px; } .ds-editorial-link:active { opacity:.72; }"
+    },
+    {
+      "name": "Program Tab",
+      "kind": "button",
+      "refersTo": "program-tab",
+      "description": "A large ruled choice showing index, direction, and short rationale.",
+      "html": "<button class=\"ds-program-tab\" type=\"button\" role=\"tab\" aria-selected=\"false\"><span>01</span><strong>Restore</strong><small>Clarify what already works.</small></button>",
+      "css": ".ds-program-tab { display:grid; grid-template-columns:38px 1fr; align-content:center; gap:7px 16px; width:100%; min-height:150px; padding:24px clamp(20px, 3vw, 42px); color:var(--color-ink, #241f1f); background:var(--color-cotton, #edebdd); border:0; border-bottom:1px solid var(--color-hairline, #d6d2c2); text-align:left; transition:color 220ms cubic-bezier(.16,1,.3,1), background 220ms cubic-bezier(.16,1,.3,1); } .ds-program-tab > span { grid-row:1 / span 2; font:500 12px/1 var(--font-family-ui, Inter, sans-serif); } .ds-program-tab strong { font:400 clamp(1.7rem,3vw,3rem)/.9 var(--font-family-display, Arial Black, sans-serif); text-transform:uppercase; } .ds-program-tab small { grid-column:2; font:400 .98rem/1.3 var(--font-family-serif, Georgia, serif); } .ds-program-tab:hover, .ds-program-tab:focus-visible, .ds-program-tab[aria-selected=\"true\"] { color:var(--color-cotton, #edebdd); background:var(--red-cherry, #810100); } .ds-program-tab:focus-visible { outline:2px solid var(--red-chili-300, #e5595c); outline-offset:-4px; } .ds-program-tab:active { background:var(--red-maroon, #630000); }"
+    },
+    {
+      "name": "Active Program Tab",
+      "kind": "button",
+      "refersTo": "program-tab-active",
+      "description": "The selected state for a bounded direction.",
+      "html": "<button class=\"ds-program-tab-active\" type=\"button\" role=\"tab\" aria-selected=\"true\"><span>02</span><strong>Reframe</strong><small>Change the lens, not the core.</small></button>",
+      "css": ".ds-program-tab-active { display:grid; grid-template-columns:38px 1fr; align-content:center; gap:7px 16px; width:100%; min-height:150px; padding:24px clamp(20px, 3vw, 42px); color:var(--color-cotton, #edebdd); background:var(--red-cherry, #810100); border:0; text-align:left; transition:background 220ms cubic-bezier(.16,1,.3,1); } .ds-program-tab-active > span { grid-row:1 / span 2; font:500 12px/1 var(--font-family-ui, Inter, sans-serif); } .ds-program-tab-active strong { font:400 clamp(1.7rem,3vw,3rem)/.9 var(--font-family-display, Arial Black, sans-serif); text-transform:uppercase; } .ds-program-tab-active small { grid-column:2; font:400 .98rem/1.3 var(--font-family-serif, Georgia, serif); } .ds-program-tab-active:hover, .ds-program-tab-active:active { background:var(--red-maroon, #630000); } .ds-program-tab-active:focus-visible { outline:2px solid var(--red-chili-300, #e5595c); outline-offset:-4px; }"
+    },
+    {
+      "name": "Dossier Row",
+      "kind": "custom",
+      "description": "A numbered diagnostic question and live-record answer on a dark field.",
+      "html": "<div class=\"ds-dossier-row\"><span>01</span><div><strong>What is intact?</strong><p>The core idea and its compact scale.</p></div></div>",
+      "css": ".ds-dossier-row { display:grid; grid-template-columns:34px 1fr; gap:18px; padding:30px 0; color:var(--color-cotton, #edebdd); background:#121010; border-bottom:1px solid rgba(237,235,221,.15); } .ds-dossier-row > span, .ds-dossier-row strong { font:500 12px/1 var(--font-family-ui, Inter, sans-serif); letter-spacing:.08em; text-transform:uppercase; } .ds-dossier-row > span { color:var(--red-chili-300, #e5595c); } .ds-dossier-row p { max-width:38ch; margin:9px 0 0; color:rgba(237,235,221,.72); font:400 clamp(1.1rem,1.6vw,1.55rem)/1.25 var(--font-family-serif, Georgia, serif); }"
+    },
+    {
+      "name": "Handoff Control",
+      "kind": "button",
+      "refersTo": "handoff-control",
+      "description": "A full-width stateful action that accepts or returns responsibility.",
+      "html": "<button class=\"ds-handoff-control\" type=\"button\" aria-pressed=\"false\"><span>Complete the handoff</span></button>",
+      "css": ".ds-handoff-control { display:flex; width:100%; justify-content:space-between; align-items:center; padding:22px 26px; color:var(--color-cotton, #edebdd); background:var(--color-noir, #1b1717); border:0; border-top:1px solid rgba(237,235,221,.18); font:500 12px/1 var(--font-family-ui, Inter, sans-serif); letter-spacing:.08em; text-transform:uppercase; transition:background 180ms cubic-bezier(.16,1,.3,1); } .ds-handoff-control::after { content:\"\"; width:9px; height:9px; border-top:1px solid currentColor; border-right:1px solid currentColor; transform:rotate(45deg); } .ds-handoff-control:hover, .ds-handoff-control:active { background:var(--red-maroon, #630000); } .ds-handoff-control[aria-pressed=\"true\"]::after { transform:rotate(-135deg); } .ds-handoff-control:focus-visible { outline:2px solid var(--red-chili-300, #e5595c); outline-offset:-4px; }"
+    },
+    {
+      "name": "Evidence Card",
+      "kind": "card",
+      "refersTo": "evidence-card",
+      "description": "A media-led proposal card with explicit evidence status and a restrained image response.",
+      "html": "<a class=\"ds-evidence-card\" href=\"#\"><span class=\"ds-evidence-media\"><span>01 / Proposal evidence</span></span><span class=\"ds-evidence-copy\"><span><small>Digital proposal</small><strong>Controlled craft</strong></span><p>Demonstrates proposed capability, not a shipped client outcome.</p></span></a>",
+      "css": ".ds-evidence-card { display:grid; color:var(--color-ink, #241f1f); text-decoration:none; } .ds-evidence-media { position:relative; display:block; aspect-ratio:4 / 3; overflow:hidden; background:linear-gradient(145deg, #291516, #0b0909); transition:filter 650ms cubic-bezier(.16,1,.3,1), transform 650ms cubic-bezier(.16,1,.3,1); } .ds-evidence-media > span { position:absolute; left:18px; bottom:16px; color:var(--color-cotton, #edebdd); font:500 10px/1 var(--font-family-ui, Inter, sans-serif); letter-spacing:.09em; text-transform:uppercase; } .ds-evidence-copy { display:grid; grid-template-columns:1fr minmax(180px,.7fr); gap:22px; padding-top:22px; border-top:1px solid var(--color-hairline, #d6d2c2); } .ds-evidence-copy small { color:var(--color-gray, #6e6963); font:500 10px/1 var(--font-family-ui, Inter, sans-serif); letter-spacing:.08em; text-transform:uppercase; } .ds-evidence-copy strong { display:block; margin-top:8px; font:400 clamp(2rem,4vw,4rem)/.9 var(--font-family-display, Arial Black, sans-serif); text-transform:uppercase; } .ds-evidence-copy p { margin:0; color:var(--color-gray, #6e6963); font:400 .84rem/1.45 var(--font-family-ui, Inter, sans-serif); } .ds-evidence-card:hover .ds-evidence-media { filter:saturate(1); transform:scale(1.012); } .ds-evidence-card:focus-visible { outline:2px solid var(--color-accent, #810100); outline-offset:5px; } .ds-evidence-card:active { opacity:.78; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Accountable Atelier",
+    "overview": "Convenium is a warm editorial studio, not a technology showroom. Warm ivory paper, near-black rooms, cherry interventions, tactile campaign media, and thin registration geometry give unfinished ideas a place to be examined with care. Compressed Archivo Black makes the decisive claims; Newsreader slows the explanatory voice; Inter keeps controls and metadata exact.\n\nThe system expresses one durable thesis: unfinished ideas deserve careful diagnosis, bounded direction, accountable coordination, and a coherent result. `/about-v3` makes that thesis visible through ten chapters: thesis, founders, arrival, diagnosis, three futures, system intake, orchestration, recovery, proof, and inquiry. Its first viewport is a dark editorial stage with an oversized thesis, an honest founder-film production hold, compact supporting copy, and a single anchor into the story.\n\nThis record describes the shipped, code-led Olympus direction. No concept-roll seed key applies. The build's world and tokens are authoritative; production gaps and unverified evidence stay visibly disclosed rather than being disguised as polish.",
+    "keyCharacteristics": [
+      "Warm cotton and noir chapter fields interrupted by disciplined cherry, never a rainbow palette.",
+      "Monumental compressed display type paired with reflective serif prose and compact neutral UI text.",
+      "Thin rules, registration marks, asymmetric editorial grids, and large protected media fields.",
+      "Tactile generated or supplied media with explicit provenance and honest production-status language.",
+      "Restrained, forward motion that clarifies state, handoff, selection, or reveal.",
+      "Founder accountability and public process boundaries embedded in the interface."
+    ],
+    "rules": [
+      { "name": "The Three-Red Rule", "body": "Cherry selects, maroon deepens, and chili signals; the roles are not interchangeable.", "section": "colors" },
+      { "name": "The Cotton-on-Red Rule", "body": "Cotton is the text color on every cherry or maroon field; never place noir text on those reds.", "section": "colors" },
+      { "name": "The One-Signal Rule", "body": "Keep interface accents inside the red family. Cyan may appear only when it is intrinsic to the supplied Apollo imagery, never as a competing UI accent.", "section": "colors" },
+      { "name": "The Three-Voice Rule", "body": "Archivo Black decides, Newsreader explains, and Inter operates; do not swap their responsibilities for novelty.", "section": "typography" },
+      { "name": "The Short-Display Rule", "body": "Oversized uppercase display copy stays concise enough to remain a composed shape, not a dense paragraph.", "section": "typography" },
+      { "name": "The Bounded-Process Rule", "body": "Make the public route, roles, states, and review points legible; do not expose private prompts or hidden internal routing.", "section": "layout" },
+      { "name": "The Protected-Media Rule", "body": "Place critical copy in deliberate negative space or under a controlled overlay, never across an uncontrolled focal subject.", "section": "layout" },
+      { "name": "The Tonal-Depth Rule", "body": "Separate layers with field color, hairlines, crop, and light before considering shadow.", "section": "elevation" },
+      { "name": "The Registration Rule", "body": "Thin geometric marks may clarify alignment, capture, state, or sequence; every mark needs a structural reading.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do alternate cotton and noir chapter fields to pace long stories and make transitions legible.",
+      "Do use cherry for decisions and selected states, maroon for depth, and Soft Chili for small red text on noir.",
+      "Do keep tactile media provenance, proposal status, production holds, and public process boundaries visible in the interface.",
+      "Do preserve keyboard semantics, readable mobile order, WCAG AA text contrast, poster fallbacks, and coherent reduced-motion behavior.",
+      "Do let generated or supplied media carry material texture while interface typography remains real, selectable text."
+    ],
+    "donts": [
+      "Don't fabricate testimonials, outcomes, client evidence, founder material, or hidden process detail to make a section feel complete.",
+      "Don't introduce gold, orange, generic cyan UI, glass blobs, glossy science-fiction surfaces, or decorative 3D icons into this warm editorial world.",
+      "Don't repeat kicker or eyebrow labels as a default pre-heading device; use compact metadata only when it communicates orientation, status, provenance, or action.",
+      "Don't use Unicode glyphs as interface icons; draw simple geometry in CSS or use an intentional inline SVG when an icon is necessary.",
+      "Don't add procedural SVG grain. Texture belongs to authored raster media and controlled photographic treatment, not a universal noise layer.",
+      "Don't use Chili for body-size text on noir or place noir text on cherry or maroon."
+    ]
+  }
+}

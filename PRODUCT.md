@@ -26,7 +26,7 @@ Visitors typically compare premium studios based on taste, clarity, proof, techn
 
 - Existing stack: Next.js, React, TypeScript, CSS Modules, GSAP/ScrollTrigger, Lenis, and Three.js.
 - Preserve the established route structure and the existing `/about` page.
-- The new About direction lives at `/about-v2`.
+- The current gated About redesign lives at `/about-v3`; `/about` and `/about-v2` remain intact as earlier routes.
 - Existing colors, fonts, navigation, footer, and interaction language remain authoritative.
 - New media may be generated, but it must have recorded provenance and cannot imply unverified client work.
 - WebGL must remain an enhancement with mobile, reduced-motion, loading, and unsupported-device fallbacks.
@@ -42,8 +42,8 @@ Visitors typically compare premium studios based on taste, clarity, proof, techn
 
 - Existing live Homepage, Services, Work, About, and Contact pages.
 - Existing public project imagery and video assets.
-- Existing About WebGL implementation and procedural textures.
-- Placeholder portrait cards exist, but the real founder portraits have not been supplied.
+- Locked companion, laboratory, program, Apollo, orchestration and recovery media recorded under `.olympus/about-v3/`.
+- Original Rustam identity references and two generated handoff keyframes are available; the joint founder film, paired portraits and Marija evidence remain explicit production placeholders.
 - No analytics baseline, testimonials, verified luxury client list, or project outcome data was supplied; future work must not fabricate them.
 
 ## Product Principles
