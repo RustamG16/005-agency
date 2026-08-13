@@ -1,6 +1,6 @@
 # AV3-03-ARRIVAL-PLATE v1 — pre-generation approval
 
-Status: **approved; provider submission failed before job confirmation**
+Status: **generated on approved retry; awaiting human selection lock**
 Prepared: 2026-08-13
 
 ## Attempt record — 2026-08-13
@@ -11,6 +11,17 @@ Prepared: 2026-08-13
 - No candidate URL or confirmed job record was returned.
 - A read-only account-status verification returned the same HTTP 503, so the post-attempt balance and charge state could not be independently confirmed.
 - No retry was submitted. Before any resubmission, re-check provider availability, current balance and a fresh quote, then obtain renewed explicit approval if the approval card changes.
+
+## Approved retry record — 2026-08-13
+
+- Provider recovered; refreshed balance was 744 credits and the unchanged quote was 12 credits.
+- Renewed exact approval phrase received: `approve AV3-03-ARRIVAL-PLATE v1 retry`.
+- Exactly one retry was submitted with the unchanged references, prompt, constraints, model and output settings.
+- Higgsfield completed one 3840×2160 GPT Image 2 candidate.
+- Post-generation balance: 732 credits, confirming a 12-credit charge.
+- Candidate: `media/production/AV3-03-ARRIVAL-PLATE/AV3-03-arrival-plate-candidate-v1.png`.
+- Initial technical review passed companion continuity, one-subject count, copy-safe space, identity-free content, absence of generated text, and mobile-crop viability.
+- Production selection remains pending explicit human review. No optimized delivery derivatives are created before lock.
 
 ## Placement and role
 
