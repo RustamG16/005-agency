@@ -1,0 +1,1904 @@
+/* =============================================================================
+   /about-v3 — route-scoped editorial system
+
+   Built against the confirmed lockups in
+   `.olympus/about-v3/media/confirmed-ui-lockups/`, not against
+   `assets/design/`. Everything here is scoped to `.page`, so no other route
+   inherits it.
+
+   The system in one paragraph: one continuous warm-ivory canvas with contained
+   noir media stages cut into it; a hairline burgundy spine down the centre;
+   printer's registration crosses at the corners; oversized condensed headings
+   with a deliberate ragged right edge; Newsreader for anything explanatory;
+   Inter for every label, index, control and provenance line. Square corners.
+   No cards, no shadows, no gradients, no glass.
+   ========================================================================== */
+
+.page {
+  /* Route-scoped condensed display face. See `app/fonts.ts` for why Anton. */
+  --av3-display: var(--font-anton), "Arial Narrow", "Archivo Narrow", sans-serif;
+
+  --av3-inset: clamp(16px, 2.4vw, 40px);
+  --av3-gutter: clamp(20px, 2.8vw, 56px);
+  --av3-band: clamp(56px, 6.4vw, 108px);
+
+  --av3-rule: rgba(129, 1, 0, 0.26);
+  --av3-rule-strong: rgba(129, 1, 0, 0.55);
+  --av3-rule-light: rgba(237, 235, 221, 0.22);
+  --av3-hairline: var(--color-hairline);
+
+  /* Section 01's clip geometry, measured off `01b-opening-split-transition`:
+     windows centred at 33% and 67% of the stage, 20% of its width, 85% of its
+     height. With the stage fixed at 16:7 that lands on a 27:50 portrait — the
+     lockup's proportion — at every viewport, so these percentages never need a
+     breakpoint. `FounderSilhouette.tsx` places the figures on the same
+     numbers; change one and you must change the other. */
+  --av3-window-top: 7.5%;
+  --av3-window-l: inset(7.5% 57% 7.5% 23%);
+  --av3-window-r: inset(7.5% 23% 7.5% 57%);
+
+  position: relative;
+  background: var(--color-cotton);
+  color: var(--color-ink);
+  overflow-x: clip;
+}
+
+/* --- primitives ----------------------------------------------------------- */
+
+.sectionIndex {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.sectionIndex[data-tone="cotton"] {
+  color: var(--color-accent-on-noir);
+}
+
+.registration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.registration i {
+  position: absolute;
+  width: 19px;
+  height: 19px;
+}
+
+.registration i::before,
+.registration i::after {
+  content: "";
+  position: absolute;
+  background: var(--av3-rule-strong);
+}
+
+.registration[data-tone="cotton"] i::before,
+.registration[data-tone="cotton"] i::after {
+  background: var(--color-accent-graphic);
+}
+
+.registration i::before {
+  top: 9px;
+  left: 0;
+  width: 19px;
+  height: 1px;
+}
+
+.registration i::after {
+  top: 0;
+  left: 9px;
+  width: 1px;
+  height: 19px;
+}
+
+.registration i[data-corner="tl"] { top: 0; left: 0; }
+.registration i[data-corner="tr"] { top: 0; right: 0; }
+.registration i[data-corner="bl"] { bottom: 0; left: 0; }
+.registration i[data-corner="br"] { bottom: 0; right: 0; }
+
+.centralAxis {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: var(--av3-rule);
+  pointer-events: none;
+}
+
+.centralAxis[data-tone="cotton"] {
+  background: var(--av3-rule-light);
+}
+
+/* Anton carries a tall line box, so the lockups' near-touching leading lands
+   at 0.92 here — 0.86 collides the caps of one line with the periods of the
+   line above. The line breaks are authored in the content file, so no wrap
+   balancing: each `<span>` is a deliberate line. */
+.heading {
+  font-family: var(--av3-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: 0.004em;
+  color: var(--color-ink);
+}
+
+.heading[data-tone="cotton"] { color: var(--color-cotton); }
+.heading[data-accent="true"] { color: var(--color-accent); }
+
+/* Sizes measured off the confirmed lockups at their native 1680 width:
+   the hero thesis runs ~5.5vw, Sections 03–04 ~4.8vw, the standard section
+   heading ~3.7vw, and the atlas — which shares its band with prose, media and
+   a list — ~2.6vw. */
+.heading[data-size="hero"] { font-size: clamp(2.2rem, 5.4vw, 5.5rem); }
+.heading[data-size="tall"] { font-size: clamp(2.1rem, 4.75vw, 4.9rem); }
+.heading[data-size="section"] { font-size: clamp(1.9rem, 3.7vw, 3.9rem); }
+.heading[data-size="compact"] { font-size: clamp(1.6rem, 2.6vw, 2.8rem); }
+
+.prose {
+  max-width: 42ch;
+  font-family: var(--font-family-serif);
+  font-size: clamp(1rem, 0.93rem + 0.3vw, 1.2rem);
+  line-height: 1.52;
+  color: var(--color-ink);
+}
+
+.prose[data-tone="cotton"] { color: var(--color-cotton); }
+
+.mediaFrame {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-noir);
+  border-radius: 0;
+}
+
+.mediaFrame img,
+.mediaFrame video,
+.mediaFrame svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.metaStrip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.metaStrip[data-tone="cotton"] { color: var(--color-gray-on-noir); }
+
+.metaStrip i {
+  margin-right: 6px;
+  font-style: normal;
+  color: var(--av3-rule-strong);
+}
+
+.metaStrip[data-tone="cotton"] i { color: var(--color-accent-on-noir); }
+
+.ruledRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--av3-rule);
+  font-family: var(--font-family-ui);
+  font-size: 12px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.ruledRow[data-tone="cotton"] { border-bottom-color: var(--av3-rule-light); }
+.ruledRow:not(:has(.ruledIndex)) { grid-template-columns: 1fr auto; }
+
+.ruledIndex {
+  min-width: 20px;
+  font-size: 11px;
+  color: var(--color-accent);
+}
+
+.ruledRow[data-tone="cotton"] .ruledIndex { color: var(--color-accent-on-noir); }
+
+.ruledTerm {
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+.ruledRow[data-tone="cotton"] .ruledTerm { color: var(--color-cotton); }
+
+.ruledValue {
+  font-family: var(--font-family-serif);
+  font-size: 15px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-ink);
+}
+
+.ruledRow[data-tone="cotton"] .ruledValue { color: var(--color-gray-on-noir); }
+
+/* Shared small label + shared section shell -------------------------------- */
+
+.label {
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.labelMuted {
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.section {
+  position: relative;
+  padding: var(--av3-band) var(--av3-inset);
+  border-top: 1px solid var(--av3-hairline);
+}
+
+.section:first-of-type { border-top: 0; }
+
+/* =============================================================================
+   01 — Founder opening + the transition into the profile pair
+   ========================================================================== */
+
+.opening {
+  position: relative;
+  padding: clamp(76px, 6.4vw, 96px) var(--av3-inset) clamp(28px, 3vw, 44px);
+}
+
+.openingStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+}
+
+.openingLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.openingLayer svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Resting state = the completed pair. The wide film state is applied by the
+   timeline (and by `data-state="wide"` before it runs), so with no JS, no GSAP
+   and reduced motion the section already shows the endpoint the contract asks
+   for. */
+.openingLayer[data-role="wide"] { opacity: 0; }
+.openingLayer[data-role="left"] { clip-path: var(--av3-window-l); }
+.openingLayer[data-role="right"] { clip-path: var(--av3-window-r); }
+
+.openingStage[data-state="wide"] .openingLayer[data-role="wide"] { opacity: 1; }
+.openingStage[data-state="wide"] .openingLayer[data-role="left"],
+.openingStage[data-state="wide"] .openingLayer[data-role="right"] {
+  clip-path: inset(0 0 0 0);
+}
+
+.openingStageAxis {
+  position: absolute;
+  top: var(--av3-window-top);
+  bottom: var(--av3-window-top);
+  left: 50%;
+  width: 1px;
+  background: var(--av3-rule-strong);
+  transform-origin: 50% 0;
+}
+
+.openingStage[data-state="wide"] .openingStageAxis { transform: scaleY(0); }
+
+.openingBand {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--av3-gutter);
+  padding: clamp(20px, 2.4vw, 34px) 0 clamp(18px, 2vw, 28px);
+}
+
+.openingSide {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.openingSide[data-side="right"] { text-align: right; }
+
+.openingName {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--av3-rule);
+  font-family: var(--font-family-ui);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.openingDiscipline {
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.openingThesis {
+  text-align: center;
+}
+
+.openingFoot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--av3-gutter);
+  padding-top: clamp(14px, 1.6vw, 22px);
+  border-top: 1px solid var(--av3-rule);
+}
+
+.openingCue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--av3-rule-strong);
+  border-radius: 50%;
+  color: var(--color-accent);
+  transition: transform 220ms var(--ease-out-sharp), background-color 220ms var(--ease-out-sharp);
+}
+
+.openingCue:hover,
+.openingCue:focus-visible {
+  transform: translateY(2px);
+  background: rgba(129, 1, 0, 0.07);
+}
+
+.openingSkip {
+  justify-self: end;
+  min-height: 44px;
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.openingSkip:hover,
+.openingSkip:focus-visible { color: var(--color-accent); }
+
+/* =============================================================================
+   02 — Founder profiles
+   ========================================================================== */
+
+/* Three rows — heading, identity, detail — with the portraits spanning all of
+   them. The source order is per-founder (name, portrait, detail); this grid is
+   what puts the two copy columns outside and the two portraits in the middle. */
+.founders {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) minmax(0, 0.72fr) minmax(0, 0.72fr) minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
+  column-gap: var(--av3-gutter);
+  row-gap: clamp(20px, 2.4vw, 34px);
+  align-items: start;
+}
+
+/* The lockup lets this heading run one gutter past its own column — it stops
+   short of the portrait, so the overhang costs nothing and keeps the two
+   authored lines on two lines. Reset at mobile, where the column is the page. */
+.foundersHead {
+  grid-column: 1 / 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-right: calc(var(--av3-gutter) * -1);
+}
+
+.founderPortrait {
+  grid-row: 1 / 4;
+  align-self: center;
+  /* The lockups' founder portraits are markedly narrower than 4:5. */
+  aspect-ratio: 27 / 50;
+}
+
+.founderPortrait[data-side="left"] { grid-column: 2; }
+.founderPortrait[data-side="right"] { grid-column: 3; }
+
+.founderIdent {
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.founderDetail {
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.founderIdent[data-side="left"],
+.founderDetail[data-side="left"] { grid-column: 1; }
+
+.founderIdent[data-side="right"],
+.founderDetail[data-side="right"] {
+  grid-column: 4;
+  text-align: right;
+}
+
+.founderName {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--av3-rule);
+  font-family: var(--av3-display);
+  font-size: clamp(1.5rem, 1.9vw, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.founderRole {
+  font-family: var(--font-family-ui);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.founderRows {
+  margin-top: 4px;
+}
+
+/* The right column mirrors the left's alignment, but the row index stays on
+   the left in both — that is how the lockup reads them: 01, 02, 03 down the
+   same edge, with the responsibility ranged to the outside. */
+.founderDetail[data-side="right"] .ruledTerm { text-align: right; }
+
+.founderStatement {
+  margin-top: auto;
+  padding-top: 8px;
+  font-family: var(--font-family-serif);
+  font-size: clamp(1.25rem, 1.72vw, 1.85rem);
+  line-height: 1.3;
+  color: var(--color-ink);
+}
+
+.founderNote {
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+/* Inline text links get a real hit area rather than just their glyph box:
+   24px minimum on a pointer, 44px at touch widths (see the 900px block). */
+a.founderNote {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--av3-rule);
+}
+
+a.founderNote:hover { text-decoration-color: var(--color-accent); }
+
+/* =============================================================================
+   03 — Your idea is enough
+   ========================================================================== */
+
+.arrival {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.32fr);
+  column-gap: var(--av3-gutter);
+  align-items: start;
+}
+
+.arrivalCopy {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2vw, 28px);
+  padding-top: clamp(8px, 1.6vw, 26px);
+}
+
+/* The cherry connector running from the heading block to the media edge. */
+.arrivalCopy::after {
+  content: "";
+  position: absolute;
+  top: 46%;
+  left: 100%;
+  width: var(--av3-gutter);
+  height: 1px;
+  background: var(--av3-rule-strong);
+}
+
+.arrivalCopy { position: relative; }
+
+.arrivalMedia {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.arrivalFoot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--av3-gutter);
+}
+
+.arrivalCaption {
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* =============================================================================
+   04 — Analysis
+   ========================================================================== */
+
+.analysisTop {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1fr) minmax(0, 1.1fr);
+  column-gap: var(--av3-gutter);
+  align-items: start;
+  padding-bottom: clamp(28px, 3.2vw, 48px);
+}
+
+.analysisHead {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.analysisProse { padding-top: clamp(6px, 1.2vw, 20px); }
+
+.analysisBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  column-gap: var(--av3-gutter);
+  align-items: start;
+}
+
+.analysisMedia {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dossier {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: clamp(4px, 1vw, 14px);
+}
+
+.dossierRows { margin-bottom: 10px; }
+
+.dossierRow .ruledTerm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--color-ink);
+}
+
+.dossierRow .ruledTerm em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.dossierRow .ruledTerm span { color: var(--color-gray); }
+
+/* One restrained entrance: the hairline resolves left-to-right, then the
+   answer arrives. Nothing here depends on it — the rows are readable at rest. */
+.dossierRow {
+  position: relative;
+  border-bottom-color: transparent;
+}
+
+.dossierRow > i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--av3-rule);
+  transform-origin: 0 50%;
+}
+
+.dossierStatus {
+  margin-top: 6px;
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Browser-drawn supporting field. There is no generated asset for this panel
+   and the handoff forbids inventing one, so it is honest structure: the four
+   profile terms restated as a ruled sheet. */
+/* The lockup's supporting field is a folded specimen sheet. There is no
+   generated asset for it and the handoff forbids inventing one, so it is drawn
+   here as four ruled leaves — one per profile term — which is the same
+   information the dossier above carries, restated as a physical document. */
+.profileSheet {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  aspect-ratio: 16 / 7;
+  background: var(--av3-hairline);
+  border: 1px solid var(--av3-hairline);
+}
+
+.profileSheetCell {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: clamp(10px, 1.1vw, 15px);
+  background: var(--color-paper);
+}
+
+.profileSheetCell span {
+  margin-bottom: 3px;
+  font-family: var(--font-family-ui);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.profileSheetCell i {
+  height: 1px;
+  background: var(--av3-rule);
+  opacity: 0.75;
+}
+
+.profileSheetCell i:nth-of-type(2) { width: 74%; }
+.profileSheetCell i:nth-of-type(3) { width: 46%; }
+
+.profileSheetCell::after {
+  content: "";
+  margin-top: auto;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--av3-rule-strong);
+  border-radius: 50%;
+}
+
+.profileSheetCell:first-child::after { background: var(--color-accent); }
+
+/* =============================================================================
+   05 — Three ways forward
+   ========================================================================== */
+
+.programsTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  column-gap: var(--av3-gutter);
+  align-items: end;
+  padding-bottom: clamp(24px, 2.8vw, 40px);
+}
+
+.programsHead {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.programsStage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
+.programsStage img {
+  position: absolute;
+  inset: 0;
+}
+
+.programsOverlay {
+  position: absolute;
+  top: 5%;
+  right: 4%;
+  left: 4%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 1.6vw, 30px);
+}
+
+/* Flat noir at high opacity rather than a blur or a glass effect: the panel
+   has to stay legible over a lit, high-contrast plate. */
+.programCard {
+  padding: clamp(12px, 1.2vw, 20px);
+  background: rgba(15, 12, 12, 0.86);
+  border: 1px solid rgba(215, 59, 62, 0.42);
+}
+
+.programCardHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(215, 59, 62, 0.34);
+  font-family: var(--font-family-ui);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-cotton);
+}
+
+.programCardHead b {
+  font-weight: 500;
+  color: var(--color-accent-on-noir);
+}
+
+.programCard p {
+  font-family: var(--font-family-serif);
+  font-size: clamp(0.8rem, 0.72rem + 0.28vw, 0.95rem);
+  line-height: 1.45;
+  color: var(--color-cotton);
+}
+
+/* Mobile stacks the three directions under a cropped stage; no carousel, no
+   tabs, nothing preselected. */
+.programsList { display: none; }
+
+.programsFoot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--av3-gutter);
+  padding-top: 14px;
+}
+
+/* =============================================================================
+   06 — System intake
+   ========================================================================== */
+
+.intakeTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  column-gap: var(--av3-gutter);
+  align-items: end;
+  padding-bottom: clamp(24px, 2.8vw, 40px);
+}
+
+.intakeHead {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.intakeStage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
+.intakeStage img {
+  position: absolute;
+  inset: 0;
+  transition: opacity 620ms var(--ease-inout-soft);
+}
+
+.intakeStage img[data-frame="end"] { opacity: 0; }
+.intakeStage[data-accepted="true"] img[data-frame="start"] { opacity: 0; }
+.intakeStage[data-accepted="true"] img[data-frame="end"] { opacity: 1; }
+
+.intakeStageLabel {
+  position: absolute;
+  left: clamp(14px, 1.6vw, 26px);
+  bottom: clamp(14px, 1.6vw, 26px);
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-cotton);
+}
+
+.intakeFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px var(--av3-gutter);
+  padding-top: 14px;
+}
+
+.intakeControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.intakeState {
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* =============================================================================
+   Shared control
+   ========================================================================== */
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  background: var(--color-accent);
+  color: var(--color-cotton);
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background-color 180ms var(--ease-out-sharp);
+}
+
+.control:hover { background: var(--color-accent-deep); }
+
+.controlGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  background: transparent;
+  color: var(--color-ink);
+  border: 1px solid var(--av3-hairline);
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: border-color 180ms var(--ease-out-sharp), color 180ms var(--ease-out-sharp);
+}
+
+.controlGhost:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* =============================================================================
+   07 — Orchestration atlas
+   ========================================================================== */
+
+.atlas {
+  position: relative;
+  padding: 0;
+  border-top: 1px solid var(--av3-hairline);
+}
+
+.atlasHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.8fr) minmax(0, 1.1fr) minmax(0, 0.66fr);
+  align-items: center;
+  gap: var(--av3-gutter);
+  padding: clamp(28px, 3vw, 44px) var(--av3-inset);
+  background: var(--color-noir);
+}
+
+.atlasHeroHead {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.atlasHeroMedia { aspect-ratio: 16 / 9; }
+
+.atlasInside {
+  display: flex;
+  flex-direction: column;
+}
+
+.atlasInsideTitle {
+  padding-bottom: 8px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--color-accent-graphic);
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-cotton);
+}
+
+.atlasDiagramBand {
+  display: grid;
+  grid-template-columns: minmax(0, 0.62fr) minmax(0, 2.6fr);
+  gap: var(--av3-gutter);
+  padding: clamp(30px, 3.4vw, 52px) var(--av3-inset);
+  border-bottom: 1px solid var(--av3-hairline);
+}
+
+.atlasDiagramIntro {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.atlasDiagramTitle {
+  font-family: var(--av3-display);
+  font-size: clamp(1.1rem, 1.35vw, 1.4rem);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.atlasDiagramBody {
+  font-family: var(--font-family-serif);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+
+.atlasFacts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.atlasFact dt {
+  font-family: var(--font-family-ui);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.atlasFact dd {
+  font-family: var(--font-family-serif);
+  font-size: 0.95rem;
+  color: var(--color-ink);
+}
+
+.atlasDiagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.atlasNode {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 38px;
+  padding: 0 16px;
+  background: var(--color-paper);
+  border: 1px solid var(--av3-hairline);
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.atlasOrchestrator {
+  justify-self: center;
+  width: min(420px, 100%);
+  margin: 0 auto;
+  border-color: var(--av3-rule-strong);
+}
+
+.atlasBus {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: clamp(18px, 1.8vw, 26px);
+  margin: 0 auto;
+  width: 84%;
+  border-bottom: 1px dashed var(--av3-rule);
+  position: relative;
+}
+
+.atlasBus::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  border-left: 1px dashed var(--av3-rule);
+}
+
+.atlasDrops {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: clamp(14px, 1.4vw, 20px);
+}
+
+.atlasDrops i {
+  justify-self: center;
+  width: 1px;
+  height: 100%;
+  border-left: 1px dashed var(--av3-rule);
+}
+
+.atlasLanesRow {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 4fr);
+  align-items: center;
+  gap: clamp(12px, 1.4vw, 24px);
+}
+
+.atlasInput {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  padding: clamp(10px, 1.1vw, 16px);
+  background: var(--color-paper);
+  border: 1px solid var(--av3-hairline);
+}
+
+.atlasInput span {
+  font-family: var(--font-family-ui);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.atlasInputMark {
+  width: 100%;
+  height: clamp(38px, 4vw, 58px);
+  border: 1px solid var(--av3-rule);
+}
+
+.atlasLanes {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(8px, 1vw, 18px);
+}
+
+.atlasLane {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: clamp(10px, 1.05vw, 16px);
+  background: var(--color-paper);
+  border: 1px solid var(--av3-hairline);
+  transition: border-color 260ms var(--ease-out-sharp), background-color 260ms var(--ease-out-sharp);
+}
+
+.atlasLane[data-active="true"] {
+  border-color: var(--color-accent);
+  background: var(--color-cotton);
+}
+
+.atlasLaneHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-family-ui);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.atlasLaneHead b {
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+.atlasLaneSkill {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 8px;
+  border-top: 1px solid var(--av3-rule);
+  font-family: var(--font-family-ui);
+  font-size: 10px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.atlasLaneSkill span { color: var(--color-gray); }
+.atlasLaneSkill strong { font-weight: 600; color: var(--color-ink); }
+
+.atlasOut {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 24px);
+  width: 84%;
+  margin: 0 auto;
+}
+
+.atlasArrow {
+  height: 1px;
+  background: var(--av3-rule-strong);
+  position: relative;
+}
+
+.atlasArrow::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  right: 0;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid var(--av3-rule-strong);
+  border-right: 1px solid var(--av3-rule-strong);
+  transform: rotate(45deg);
+}
+
+.atlasSpecialists {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(10px, 1.2vw, 20px);
+  padding: clamp(26px, 3vw, 42px) var(--av3-inset);
+  border-bottom: 1px solid var(--av3-hairline);
+}
+
+.atlasSpecialist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.atlasSpecialistMedia { aspect-ratio: 3 / 2; }
+
+.atlasSpecialistHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.atlasSpecialistHead b {
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+.atlasSpecialist p {
+  font-family: var(--font-family-serif);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--color-gray);
+}
+
+.atlasStages {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  padding: clamp(20px, 2.2vw, 32px) var(--av3-inset);
+  background: var(--color-noir);
+}
+
+.atlasStage {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 clamp(12px, 1.4vw, 24px);
+  border-left: 1px solid var(--av3-rule-light);
+  transition: opacity 260ms var(--ease-out-sharp);
+}
+
+.atlasStage:first-child { border-left: 0; padding-left: 0; }
+
+.atlasStageHead {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-family-ui);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-cotton);
+}
+
+.atlasStageHead b {
+  font-weight: 500;
+  color: var(--color-accent-on-noir);
+}
+
+.atlasStage p {
+  font-family: var(--font-family-serif);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--color-gray-on-noir);
+}
+
+/* The scroll sequence marks the current stage. It is deliberately additive —
+   nothing is dimmed and no contrast is taken away, so all five stages stay
+   fully legible whether the sequence has run or not. */
+.atlasStage[data-active="true"] {
+  border-left-color: var(--color-accent-graphic);
+}
+
+.atlasStage[data-active="true"] .atlasStageHead b {
+  color: var(--color-cotton);
+}
+
+.atlasStage[data-active="true"] p {
+  color: var(--color-cotton);
+}
+
+.atlasIntegration {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr) minmax(0, 0.7fr);
+  align-items: center;
+  gap: var(--av3-gutter);
+  padding: clamp(26px, 3vw, 44px) var(--av3-inset);
+  border-bottom: 1px solid var(--av3-hairline);
+}
+
+.atlasIntegrationTitle {
+  font-family: var(--av3-display);
+  font-size: clamp(1.1rem, 1.5vw, 1.55rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.atlasIntegrationMedia { aspect-ratio: 21 / 9; }
+
+.atlasClaim {
+  font-family: var(--av3-display);
+  font-size: clamp(0.95rem, 1.15vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.24;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.atlasPrinciples {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.1fr);
+  gap: var(--av3-gutter);
+  padding: clamp(22px, 2.4vw, 34px) var(--av3-inset);
+}
+
+.atlasPrinciple {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: clamp(14px, 1.5vw, 22px);
+  border-left: 1px solid var(--av3-rule);
+}
+
+.atlasPrinciple h3 {
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.atlasPrinciple p {
+  font-family: var(--font-family-serif);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--color-gray);
+}
+
+.atlasBoundary {
+  align-self: center;
+  font-family: var(--font-family-ui);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+/* =============================================================================
+   08 — Delivery
+   ========================================================================== */
+
+.deliveryTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.8fr) minmax(0, 1fr);
+  column-gap: var(--av3-gutter);
+  align-items: start;
+  padding-bottom: clamp(22px, 2.6vw, 36px);
+}
+
+.deliveryHead {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.deliveryProse {
+  padding-left: var(--av3-gutter);
+  border-left: 1px solid var(--av3-hairline);
+}
+
+.deliveryState {
+  justify-self: end;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.deliveryState span {
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.deliveryState i {
+  width: 26px;
+  height: 1px;
+  background: var(--color-accent);
+}
+
+.deliveryStage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
+.deliveryStage img,
+.deliveryStage video {
+  position: absolute;
+  inset: 0;
+}
+
+.deliveryStage video { opacity: 0; }
+.deliveryStage[data-playing="true"] video { opacity: 1; }
+
+.deliveryFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px var(--av3-gutter);
+  padding-top: 14px;
+}
+
+/* =============================================================================
+   09 — Proof
+   ========================================================================== */
+
+.proofHead {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: clamp(24px, 2.8vw, 40px);
+}
+
+.proofRow {
+  display: grid;
+  grid-template-columns: minmax(0, 0.56fr) minmax(0, 2.4fr);
+  column-gap: var(--av3-gutter);
+  align-items: start;
+  padding: clamp(22px, 2.4vw, 34px) 0;
+  border-top: 1px solid var(--av3-hairline);
+}
+
+.proofMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.proofName {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--av3-display);
+  font-size: clamp(1.25rem, 1.6vw, 1.7rem);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.proofName b {
+  font-weight: 400;
+  color: var(--color-accent);
+}
+
+.proofStage {
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.proofScope {
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.proofNote {
+  padding-top: 10px;
+  border-top: 1px solid var(--av3-rule);
+  font-family: var(--font-family-serif);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
+.proofPanels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.proofPanelLabels {
+  display: grid;
+  grid-template-columns: minmax(0, 1.62fr) minmax(0, 1fr);
+  gap: 10px;
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.proofPanelLabels span:last-child { color: var(--color-gray); }
+
+.proofCompare {
+  display: grid;
+  grid-template-columns: minmax(0, 1.62fr) minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.proofProposed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-noir);
+  border-right: 2px solid var(--color-accent);
+}
+
+.proofProposed img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Honest empty state. It is a designed panel, not a broken image. */
+.proofPending {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: clamp(16px, 2vw, 28px);
+  text-align: center;
+  background: var(--color-paper);
+  border: 1px solid var(--av3-hairline);
+}
+
+.proofPendingTitle {
+  font-family: var(--av3-display);
+  font-size: clamp(1rem, 1.3vw, 1.4rem);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.proofPendingBody {
+  font-family: var(--font-family-ui);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+/* Live comparison — only rendered when both captures exist. */
+.proofSlider {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-noir);
+  touch-action: pan-y;
+  cursor: ew-resize;
+}
+
+.proofSlider img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.proofSlider img[data-layer="proposed"] {
+  clip-path: inset(0 calc(100% - var(--av3-split)) 0 0);
+}
+
+.proofHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--av3-split);
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-accent);
+}
+
+.proofHandleGrip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-cotton);
+  font-family: var(--font-family-ui);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+.proofSlider:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+
+.proofActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.proofHint {
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.proofMarks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.3fr);
+  align-items: center;
+  gap: var(--av3-gutter);
+  margin: clamp(24px, 2.8vw, 40px) calc(var(--av3-inset) * -1) 0;
+  padding: clamp(18px, 2vw, 28px) var(--av3-inset);
+  background: var(--color-noir);
+}
+
+.proofMark {
+  padding-left: clamp(12px, 1.4vw, 20px);
+  border-left: 1px solid var(--av3-rule-light);
+  font-family: var(--font-family-ui);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-cotton);
+}
+
+.proofMark:first-child { border-left: 0; padding-left: 0; }
+
+.proofFootnote {
+  font-family: var(--font-family-serif);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--color-gray-on-noir);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* =============================================================================
+   10 — CTA
+   ========================================================================== */
+
+.cta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 2.2vw, 30px);
+  padding: clamp(84px, 9vw, 148px) var(--av3-inset);
+  border-top: 1px solid var(--av3-hairline);
+  text-align: center;
+}
+
+.ctaBody {
+  max-width: 46ch;
+  font-family: var(--font-family-serif);
+  font-size: clamp(1.05rem, 0.96rem + 0.36vw, 1.3rem);
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+
+.ctaRule {
+  width: clamp(120px, 16vw, 260px);
+  height: 1px;
+  background: var(--av3-rule-strong);
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.ctaEmail {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-family-ui);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-color: var(--av3-rule);
+}
+
+.ctaEmail:hover {
+  color: var(--color-accent);
+  text-decoration-color: var(--color-accent);
+}
+
+/* =============================================================================
+   Responsive — 1180 relaxes the densest grids, 900 restacks the page
+   ========================================================================== */
+
+@media (max-width: 1180px) {
+  .atlasHero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    row-gap: clamp(18px, 2.4vw, 28px);
+  }
+
+  .atlasHeroMedia { grid-column: 1 / -1; grid-row: 2; }
+  .atlasInside { grid-column: 1 / -1; grid-row: 3; }
+
+  .atlasDiagramBand { grid-template-columns: minmax(0, 1fr); }
+  .atlasIntegration { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+  .atlasClaim { grid-column: 1 / -1; }
+  .atlasPrinciples { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .analysisTop { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .deliveryTop { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .deliveryState { grid-column: 2; justify-self: end; }
+}
+
+@media (max-width: 900px) {
+  .section { padding-top: clamp(48px, 9vw, 72px); padding-bottom: clamp(48px, 9vw, 72px); }
+
+  /* The spine is a spread device. In a single stacked column it would run
+     straight through the text instead of between two halves of a composition,
+     so it comes out. The registration crosses still mark the section bounds. */
+  .centralAxis { display: none; }
+
+  /* Touch targets. */
+  a.founderNote { min-height: 44px; }
+
+  /* 01 — a phone-width stage cannot hold two 27:50 windows side by side at any
+     readable size, so mobile keeps the wide founder stage and lets Section 02
+     carry the portrait pair. The split transition is desktop-only. */
+  /* 16:9 keeps the phone crop close to the stage's own 16:7 viewBox, so the
+     two figures stay near the thirds instead of being pushed to the edges. */
+  .openingStage { aspect-ratio: 16 / 9; }
+  .openingLayer[data-role="wide"] { opacity: 1; }
+
+  .openingLayer[data-role="left"],
+  .openingLayer[data-role="right"],
+  .openingStageAxis { display: none; }
+
+  .openingBand {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    text-align: center;
+  }
+
+  .openingSide[data-side="right"] { text-align: center; }
+  .openingSide { align-items: center; }
+  .openingName { border-bottom: 0; padding-bottom: 0; }
+  .openingFoot { grid-template-columns: minmax(0, 1fr) auto; }
+  .openingSkip { display: none; }
+
+  /* 02 — the base rules place these by `[data-side]`, so the stacking
+     overrides have to match that specificity or the portraits stay pinned to
+     columns 2 and 3 that no longer exist. */
+  .founders { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
+  .foundersHead { margin-right: 0; }
+
+  .foundersHead,
+  .founderPortrait[data-side="left"],
+  .founderPortrait[data-side="right"],
+  .founderIdent[data-side="left"],
+  .founderIdent[data-side="right"],
+  .founderDetail[data-side="left"],
+  .founderDetail[data-side="right"] {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .founderPortrait[data-side="left"],
+  .founderPortrait[data-side="right"] {
+    width: min(230px, 62%);
+    align-self: start;
+  }
+
+  .founderIdent[data-side="right"],
+  .founderDetail[data-side="right"] { text-align: left; }
+  .founderDetail[data-side="right"] .ruledTerm { text-align: left; }
+  .founderStatement { margin-top: 0; }
+
+  /* 03 */
+  .arrival { grid-template-columns: minmax(0, 1fr); row-gap: clamp(20px, 4vw, 30px); }
+  .arrivalCopy::after { display: none; }
+  .arrivalFoot { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  /* 04 */
+  .analysisTop { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
+  .analysisBody { grid-template-columns: minmax(0, 1fr); row-gap: clamp(22px, 4vw, 32px); }
+  .profileSheet { grid-template-columns: repeat(2, 1fr); aspect-ratio: 16 / 9; }
+
+  /* 05 */
+  .programsTop { grid-template-columns: minmax(0, 1fr); row-gap: 18px; align-items: start; }
+  .programsStage { aspect-ratio: 4 / 3; }
+  .programsOverlay { display: none; }
+
+  .programsList {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .programsList .programCard {
+    background: var(--color-paper);
+    border-color: var(--av3-hairline);
+  }
+
+  .programsList .programCardHead {
+    color: var(--color-ink);
+    border-bottom-color: var(--av3-rule);
+  }
+
+  .programsList .programCardHead b { color: var(--color-accent); }
+  .programsList .programCard p { color: var(--color-ink); }
+
+  .programsFoot { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  /* 06 */
+  .intakeTop { grid-template-columns: minmax(0, 1fr); row-gap: 18px; align-items: start; }
+  .intakeStage { aspect-ratio: 4 / 3; }
+  .intakeFoot { flex-direction: column; align-items: flex-start; }
+
+  /* 07 */
+  .atlasHero { grid-template-columns: minmax(0, 1fr); }
+  .atlasHeroMedia,
+  .atlasInside { grid-column: 1; grid-row: auto; }
+  .atlasLanesRow { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
+  .atlasLanes { grid-template-columns: minmax(0, 1fr); }
+  .atlasBus,
+  .atlasDrops,
+  .atlasOut { display: none; }
+  .atlasOrchestrator,
+  .atlasNode { width: 100%; }
+  .atlasDiagram { gap: 12px; }
+  .atlasSpecialists { grid-template-columns: minmax(0, 1fr); }
+  .atlasSpecialistMedia { aspect-ratio: 16 / 9; }
+  .atlasStages { grid-template-columns: minmax(0, 1fr); row-gap: 18px; }
+  .atlasStage { border-left: 0; padding: 0; }
+  .atlasStage[data-active="false"] { opacity: 1; }
+  .atlasIntegration { grid-template-columns: minmax(0, 1fr); }
+  .atlasIntegrationMedia { aspect-ratio: 16 / 9; }
+  .atlasPrinciples { grid-template-columns: minmax(0, 1fr); }
+  .atlasPrinciple { padding-left: 0; border-left: 0; border-top: 1px solid var(--av3-rule); padding-top: 12px; }
+
+  /* 08 */
+  .deliveryTop { grid-template-columns: minmax(0, 1fr); row-gap: 18px; }
+  .deliveryProse { padding-left: 0; border-left: 0; }
+  .deliveryState { grid-column: 1; justify-self: start; align-items: flex-start; }
+  .deliveryStage { aspect-ratio: 4 / 5; }
+  .deliveryFoot { flex-direction: column; align-items: flex-start; }
+
+  /* 09 */
+  .proofRow { grid-template-columns: minmax(0, 1fr); row-gap: 18px; }
+  .proofPanelLabels,
+  .proofCompare { grid-template-columns: minmax(0, 1fr); }
+  .proofProposed { border-right: 0; border-bottom: 2px solid var(--color-accent); }
+  .proofMarks { grid-template-columns: minmax(0, 1fr); row-gap: 14px; }
+  .proofMark { padding-left: 0; border-left: 0; }
+}
+
+/* =============================================================================
+   Reduced motion — every endpoint, immediately
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .openingStage[data-state="wide"] .openingLayer[data-role="wide"] { opacity: 0; }
+
+  .openingStage[data-state="wide"] .openingLayer[data-role="left"] { clip-path: var(--av3-window-l); }
+  .openingStage[data-state="wide"] .openingLayer[data-role="right"] { clip-path: var(--av3-window-r); }
+  .openingStage[data-state="wide"] .openingStageAxis { transform: none; }
+
+  .openingSkip { display: none; }
+  .atlasStage[data-active="false"] { opacity: 1; }
+  .intakeStage img { transition: none; }
+  .openingCue { transition: none; }
+}

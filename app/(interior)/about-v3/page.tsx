@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { TwoLensesPage } from "@/components/sections/about-v3/TwoLensesPage";
+import { AboutV3Page } from "@/components/sections/about-v3/AboutV3Page";
+import { aboutV3 } from "@/content/about-v3";
 
 export const metadata: Metadata = {
-  title: "About Convenium Studio",
-  description:
-    "Meet the founders behind Convenium and follow how an unfinished idea becomes one accountable digital direction.",
+  title: aboutV3.meta.title,
+  description: aboutV3.meta.description,
 };
 
-export default function AboutV3Page() {
-  return <TwoLensesPage />;
+export default function AboutV3Route() {
+  return <AboutV3Page />;
 }

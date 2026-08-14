@@ -2,7 +2,24 @@
 
 Date: 2026-08-13
 Branch: `codex/about-v3-media-first`
-Status: **implementation complete; awaiting user Gate C review**
+Status: **SUPERSEDED — this build was rejected for visual inaccuracy**
+
+> **Superseded 2026-08-14.** The user rejected this implementation on visual
+> fidelity: it carried the approved ten-section narrative but not the
+> compositions in `media/confirmed-ui-lockups/`. The route was rebuilt against
+> those lockups; see **`13-confirmed-lockup-fidelity.md`** for the current
+> implementation, QA results and Gate C status.
+>
+> The record below is kept for provenance — its media generation, spend and
+> approval history remain accurate. Its "implementation complete" and Gate C
+> readiness statements do not. Specific items now out of date:
+>
+> - the Two Lenses scaffold, the tabbed Restore/Adapt/Evolve selector and the
+>   shared inquiry form on this route are all gone;
+> - `lab.webp` has been re-derived from the locked companion plate, because the
+>   copy described here was the clean plate with no companion in it;
+> - Sonnwerk and Meridian now show the lockup's own "Existing capture required"
+>   state rather than proposal covers presented as proof.
 
 ## Delivered scope
 
