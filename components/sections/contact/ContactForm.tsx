@@ -43,34 +43,11 @@ export function ContactForm({ variant = "full" }: ContactFormProps) {
       return;
     }
 
-    setSubmitState("pending");
-    setStatusMessage("Sending your inquiry…");
-    try {
-      const response = await fetch("/api/inquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      const result = (await response.json()) as {
-        delivered?: boolean;
-        message?: string;
-        errors?: InquiryErrors;
-      };
-      if (response.ok && result.delivered === true) {
-        setSubmitState("success");
-        setStatusMessage("Your inquiry was delivered. We’ll reply personally.");
-        return;
-      }
-      if (result.errors) {
-        setErrors(result.errors);
-        focusFirstError(result.errors);
-      }
-      setSubmitState("error");
-      setStatusMessage(result.message ?? "Delivery failed. Retry, or email hello@convenium.studio directly.");
-    } catch {
-      setSubmitState("error");
-      setStatusMessage("The network request failed. Retry, or use the fallback email below.");
-    }
+    // Static hosting has no server to deliver this to; there is no configured
+    // transport yet, so route straight to the same fallback the stubbed
+    // server endpoint used to return rather than pretending to send anything.
+    setSubmitState("error");
+    setStatusMessage("Online delivery is not configured yet. Please use the fallback email.");
   }
 
   const errorFor = (key: keyof InquiryValues) =>

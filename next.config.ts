@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 import path from "path";
 
+// GitHub Pages serves this repo at rustamg16.github.io/005-agency, so every
+// asset/route needs that prefix baked in at build time (no server to rewrite it).
+const repoBasePath = process.env.GITHUB_PAGES ? "/005-agency" : "";
+
 const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
@@ -13,13 +17,14 @@ const nextConfig: NextConfig = {
   distDir:
     process.env.NEXT_BUILD_DIR ||
     (process.env.NODE_ENV === "development" ? ".next-dev" : ".next"),
-  async redirects() {
-    return [
-      // `/about-v3` was the gated redesign's working route; it replaced the
-      // Monolith `/about` outright rather than living alongside it, so any
-      // stale link or bookmark still needs to land somewhere real.
-      { source: "/about-v3", destination: "/about", permanent: true },
-    ];
+  // GitHub Pages is static hosting only: no server for route handlers, redirects(),
+  // or on-demand image optimization, so `next export` needs everything pre-rendered.
+  output: "export",
+  basePath: repoBasePath,
+  assetPrefix: repoBasePath,
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
   },
 };
 

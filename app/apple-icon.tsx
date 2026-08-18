@@ -2,6 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
+export const dynamic = "force-static";
 
 /**
  * Home-screen / touch icon. At 180px there is room for the full 12-bar ramp,
