@@ -1,14 +1,12 @@
-import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { anton } from "@/app/fonts";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
 import { aboutV3 } from "@/content/about-v3";
 import { site } from "@/content/site";
+import { AboutHero } from "./AboutHero";
 import { AtlasSequence, DeliveryStage } from "./AboutV3Interactions";
-import { FounderOpening } from "./FounderOpening";
 import { JourneySequence } from "./JourneySequence";
-import { FounderPortrait } from "./FounderSilhouette";
 import {
   CentralAxis,
   Heading,
@@ -20,98 +18,7 @@ import {
 import { ProofComparison } from "./ProofComparison";
 import styles from "./AboutV3Page.module.css";
 
-const { founders, orchestration, delivery, proof, cta } = aboutV3;
-
-/* -----------------------------------------------------------------------------
-   02 — Founder profiles
-
-   Equal authority left and right: the same rule weight, the same three
-   responsibility rows, the same statement size. Where Marija's biography has
-   not been confirmed, the gap is labelled rather than filled.
-   -------------------------------------------------------------------------- */
-
-function FoundersSection() {
-  const [rustam, marija] = founders.people;
-
-  return (
-    <section className={styles.section} id="about-v3-founders" aria-labelledby="about-v3-founders-title">
-      <CentralAxis />
-      <RegistrationCross />
-
-      <div className={styles.founders}>
-        <div className={styles.foundersHead}>
-          <SectionIndex index={founders.index} label={founders.label} />
-          <Heading id="about-v3-founders-title" lines={founders.heading} accent />
-        </div>
-
-        {/* Each founder is emitted as name → portrait → detail, and the desktop
-            lockup is reassembled by explicit grid placement. That keeps the
-            source order right for a stacked phone and a screen reader — the
-            name always precedes the portrait it belongs to — without giving up
-            the two-column composition. */}
-        {[rustam, marija].map((person, index) => {
-          const side = index === 0 ? "left" : "right";
-
-          return (
-            <Fragment key={person.key}>
-              <div className={styles.founderIdent} data-side={side}>
-                <h3 className={styles.founderName}>{person.name}</h3>
-                <p className={styles.founderRole}>
-                  {person.role.map((line) => (
-                    <span key={line}>
-                      {line}
-                      <br />
-                    </span>
-                  ))}
-                </p>
-              </div>
-
-              <MediaFrame
-                ratio="27 / 50"
-                className={styles.founderPortrait}
-                data-side={side}
-                role="img"
-                aria-label={`Drawn placeholder standing in for ${person.name}'s portrait. Founder portrait media is pending.`}
-              >
-                <FounderPortrait variant={index === 0 ? "a" : "b"} />
-              </MediaFrame>
-
-              <div className={styles.founderDetail} data-side={side}>
-                <div className={styles.founderRows}>
-                  {person.responsibilities.map((item, i) => (
-                    <RuledRow key={item} index={String(i + 1).padStart(2, "0")} term={item} />
-                  ))}
-                </div>
-
-                <p className={styles.founderStatement}>
-                  {person.statement.map((line) => (
-                    <span key={line}>
-                      {line}
-                      <br />
-                    </span>
-                  ))}
-                </p>
-
-                {person.note.href ? (
-                  <a
-                    className={styles.founderNote}
-                    href={person.note.href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {person.note.text}
-                  </a>
-                ) : (
-                  <p className={styles.founderNote}>{person.note.text}</p>
-                )}
-              </div>
-            </Fragment>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
+const { orchestration, delivery, proof, cta } = aboutV3;
 
 /* -----------------------------------------------------------------------------
    07 — Orchestration atlas
@@ -458,10 +365,12 @@ function CtaSection() {
 export function AboutV3Page() {
   return (
     <div className={`${styles.page} ${anton.variable}`}>
-      <HeaderZone theme="light">
-        <FounderOpening />
-        <FoundersSection />
-      </HeaderZone>
+      {/* The masthead, and the page's only founder section. The drawn
+          placeholder stage (01) and the founder profile pair (02) both said the
+          same thing this does — two figures, two names, two disciplines — so
+          both went when this landed. It carries its own header-theme zones
+          because it opens on a near-black film and ends on cotton. */}
+      <AboutHero />
 
       {/* Sections 03–06 are one pinned cinematic sequence rather than four
           ivory bands. It ends in darkness, and Section 07 opens dark, so the

@@ -252,17 +252,27 @@
   /* The plate is graded down on the left so type always has contrast, even if
      a take drifts brighter than its reference. The gradient is part of the
      composition, not a rescue: it is the same fall-off a practical lamp on the
-     right of the room would actually produce. */
+     right of the room would actually produce.
+
+     Re-tuned for the delivered takes. The earlier stops (0.72 at 26%, 0.18 at
+     52%) were authored against takes whose left third was near-black. Room 03
+     ends on a table of three lit website panels, the leftmost of which sits
+     directly under the heading. Measured behind the copy column at that beat,
+     the old fall-off left the brightest plate pixel at luma 109 — cotton type
+     on it is 4.35:1, under the 4.5:1 floor. These stops hold above 0.8 for the
+     full width of the copy column and only release past it, which puts the
+     same worst-case pixel at luma 56 and 9.85:1. */
   .journey[data-enhanced="true"] .plate::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(
       100deg,
-      rgba(5, 4, 6, 0.9) 0%,
-      rgba(5, 4, 6, 0.72) 26%,
-      rgba(5, 4, 6, 0.18) 52%,
-      rgba(5, 4, 6, 0) 68%
+      rgba(5, 4, 6, 0.94) 0%,
+      rgba(5, 4, 6, 0.88) 30%,
+      rgba(5, 4, 6, 0.52) 46%,
+      rgba(5, 4, 6, 0.12) 62%,
+      rgba(5, 4, 6, 0) 72%
     );
     pointer-events: none;
   }

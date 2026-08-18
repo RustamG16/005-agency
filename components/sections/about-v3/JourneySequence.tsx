@@ -6,28 +6,28 @@
 
    Sections 03, 04, 05 and 06 used to be four separate ivory bands, each with
    its own media frame. They are now one continuous pinned sequence: three
-   rooms, two orbital transitions, darkness as the cut.
+   rooms and two transitions, only the first of which is a genuine cut.
 
    The story the scroll tells:
 
-     ROOM 01 / CONSULTING   The companion arrives with its owner. Marija
-                            listens. Nothing is repaired — it is understood.
-       ↓ camera orbits left, travels behind the subject, the back fills
-         the frame, everything goes dark
-     ROOM 02 / THE LAB      The same companion on the bench. Marija and
-                            Rustam read it into a profile, then set out
+     ROOM 01 / CONSULTING   You are in the chair. A consultant sits
+                            opposite with an open notepad and listens before
+                            anything is proposed.
+       ↓ a real change of location — the veil carries the full cut
+     ROOM 02 / ANALYSIS     A lit wall board, two consultants reading what
+                            you already have in the open, then setting out
                             three ways it could go forward.
-       ↓ same orbit, same darkness
-     ROOM 03 / APOLLO       Rustam brings the approved direction to the
-                            system that will carry it out.
+       ↓ contiguous frames of the same take — a short veil, not a cut
+     ROOM 03 / DIRECTIONS   Three framed directions on the table, lit the
+                            same. None of them is ranked.
 
    Three rules govern the whole thing:
 
    1. **The camera lives in the clip, not in the DOM.** Each room is one
-      generated take that opens with the subject in the far-right of frame and
-      ends behind them in darkness. Scroll drives `currentTime`; the browser
-      does not fake a camera with transforms. That is why the orbit reads as a
-      real lens move and not as a parallax trick.
+      generated take carrying a continuous forward move that settles at the
+      end. Scroll drives `currentTime`; the browser does not fake a camera
+      with transforms. That is why the move reads as a real lens move and not
+      as a parallax trick.
 
    2. **The left column is sacred.** Every plate is art-directed so the left
       ~45% stays quiet for the whole take. Copy sits in one fixed column and
@@ -59,12 +59,20 @@ const { journey, arrival, analysis, programs, intake } = aboutV3;
    the full sequence at about six and a half screens of scrolling for four
    sections' worth of content.
 
-   `hold` is where the copy is readable and the take is essentially static.
-   `orbit` is the camera move and the fade to black. `enter` is the lift out of
-   the previous room's darkness.
+   `hold` is where the copy is readable and the camera is still travelling.
+   `orbit` is the settle at the end of a take plus the handover to the next
+   room. `enter` is the lift back out of the veil.
    -------------------------------------------------------------------------- */
 
 const UNIT_VH = 0.055;
+
+/* A beat's own fade, in the same units as the plan below. The exit is faster
+   than the entrance — things leave quicker than they arrive — and `swap` is
+   then set to exactly BEAT_OUT so the next beat starts on the frame the
+   previous one finishes. Any larger and the room reads as dead scroll; any
+   smaller and the two beats double-expose over each other. */
+const BEAT_IN = 3;
+const BEAT_OUT = 2;
 
 type RoomPlan = {
   /** Index into the rendered rooms. */
@@ -74,24 +82,46 @@ type RoomPlan = {
   enter: number;
   /** Hold length per beat. Two beats means the room holds twice as long. */
   hold: number;
-  /** Gap while one beat swaps for the next inside the same room. */
+  /**
+   * Gap while one beat swaps for the next inside the same room. Shorter than
+   * a beat's own fade on purpose, so the arriving beat overlaps the departing
+   * one rather than leaving a stretch of scroll with no copy on screen.
+   */
   swap: number;
   orbit: number;
   /**
-   * How much of the clip is the static opening hold. The remainder is the
-   * orbital move. Authored per clip because the generated takes do not all
-   * break at the same moment.
+   * How much of the clip is the forward move. The remainder is the settle at
+   * the end. Authored per clip because the delivered takes do not all stop
+   * moving at the same moment.
    */
   holdRatio: number;
+  /**
+   * How dark the veil goes as this room hands over to the next. 1 is a full
+   * cut; a low value is a blink that masks the swap between two <video>
+   * elements without inventing a fade the footage does not contain.
+   */
+  veilOut: number;
 };
 
 const PLAN: RoomPlan[] = [
-  // Hold ratios are the second the orbit begins ÷ the clip length, taken from
-  // the production guide's beat sheets: 3.5/8, 4.5/8, 3.5/8. If a delivered
-  // take breaks somewhere else, this is the only number that changes.
-  { room: 0, beats: [0], enter: 4, hold: 18, swap: 0, orbit: 14, holdRatio: 0.44 },
-  { room: 1, beats: [1, 2], enter: 4, hold: 17, swap: 5, orbit: 14, holdRatio: 0.56 },
-  { room: 2, beats: [3], enter: 4, hold: 18, swap: 0, orbit: 12, holdRatio: 0.44 },
+  // `holdRatio` is the second the forward move ends ÷ the clip length, measured
+  // from the delivered takes: 11/12, 8/8, 3/4. If a take is re-cut, this is the
+  // only number that changes.
+  //
+  // `hold` is weighted by clip length so the scrub runs at a comparable rate in
+  // every room — room 01 carries 12 s of footage and cannot be read at the same
+  // scroll cost as room 03's 4 s. 26 : 17 is exactly the 12 : 8 of the first two
+  // clips; room 03 is floored at 13 rather than the proportional 8.7 because one
+  // beat of copy needs a minimum dwell to be readable.
+  //
+  // `veilOut` is low on both room-to-room seams because the three clips are one
+  // continuous first-person take split across three files — the last frame of
+  // each is the next one's first frame. A full veil at either seam would insert
+  // a fade the camera never makes. The final veil stays at 1: that one is not a
+  // seam in the footage, it is the handover into Section 07's dark band.
+  { room: 0, beats: [0], enter: 4, hold: 26, swap: 0, orbit: 8, holdRatio: 0.92, veilOut: 0.15 },
+  { room: 1, beats: [1, 2], enter: 4, hold: 17, swap: 2, orbit: 5, holdRatio: 1.0, veilOut: 0.15 },
+  { room: 2, beats: [3], enter: 4, hold: 13, swap: 0, orbit: 12, holdRatio: 0.75, veilOut: 1 },
 ];
 
 /* -----------------------------------------------------------------------------
@@ -247,7 +277,7 @@ export function JourneySequence() {
 
             const beatStart = at + plan.enter + order * (plan.hold + plan.swap);
 
-            tl.to(beat, { autoAlpha: 1, y: 0, duration: 3, ease: "power2.out" }, beatStart);
+            tl.to(beat, { autoAlpha: 1, y: 0, duration: BEAT_IN, ease: "power2.out" }, beatStart);
 
             /* The last beat of a room hands over to the darkness; earlier ones
                hand over to the beat that follows them. */
@@ -256,7 +286,7 @@ export function JourneySequence() {
               ? at + plan.enter + holdTotal + plan.orbit * 0.3
               : beatStart + plan.hold;
 
-            tl.to(beat, { autoAlpha: 0, y: -22, duration: 3, ease: "power2.in" }, outAt);
+            tl.to(beat, { autoAlpha: 0, y: -22, duration: BEAT_OUT, ease: "power2.in" }, outAt);
           });
 
           /* --- into the dark -------------------------------------------- */
@@ -264,7 +294,7 @@ export function JourneySequence() {
           const orbitStart = at + plan.enter + holdTotal;
           tl.to(
             veil,
-            { autoAlpha: 1, duration: plan.orbit * 0.5, ease: "power2.in" },
+            { autoAlpha: plan.veilOut, duration: plan.orbit * 0.5, ease: "power2.in" },
             orbitStart + plan.orbit * 0.5
           );
 
@@ -387,10 +417,10 @@ export function JourneySequence() {
           </div>
         </article>
 
-        {/* --- Room 03 — Apollo ------------------------------------------- */}
+        {/* --- Room 03 — the three directions -------------------------- */}
 
         <article className={styles.room} data-journey-room aria-labelledby="about-v3-intake-title">
-          <Plate room={journey.rooms.apollo} />
+          <Plate room={journey.rooms.directions} />
 
           <div className={styles.copy}>
             <div className={styles.beat} data-journey-beat>
@@ -406,7 +436,7 @@ export function JourneySequence() {
                 <span>{intake.stageLabel}</span>
                 <i aria-hidden="true" />
               </p>
-              <MetaStrip items={journey.rooms.apollo.meta} tone="cotton" />
+              <MetaStrip items={journey.rooms.directions.meta} tone="cotton" />
             </div>
           </div>
         </article>
@@ -431,7 +461,6 @@ function Plate({ room }: { room: (typeof journey.rooms)[keyof typeof journey.roo
     <div className={styles.plate}>
       <picture>
         {room.mobile ? <source media="(max-width: 1023px)" srcSet={room.mobile} /> : null}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className={styles.plateStill}
           src={room.poster}

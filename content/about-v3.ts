@@ -34,6 +34,39 @@ export const aboutV3 = {
       "Two founders, one accountable direction — how Convenium takes an unfinished idea and makes it clear enough to build.",
   },
 
+  /* 00 — Hero banner ------------------------------------------------------
+   *
+   * The masthead above Section 01. It opens on an 8-second take of the two
+   * founders standing apart under red panels, then scroll dissolves everything
+   * except the two figures to cotton and rebuilds them as a pair of portrait
+   * cards with the editorial layer around them.
+   *
+   * `portraits` is the one place the photographic fill is named. Both are null
+   * until the shoot lands, which is the same honest state `journey.rooms` was
+   * in before its takes arrived: the cards hold their noir silhouette fill and
+   * the section is complete and shippable. Dropping the two files into
+   * `public/images/hero/` and setting these two strings is the entire change.
+   */
+  hero: {
+    label: "About",
+    heading: ["The studio", "is two", "people."],
+    lede:
+      "Rustam and Marija. Everything Convenium ships is designed, built and answered for by the two of them.",
+    meta: ["Convenium Studio", "About", "Two founders"],
+    media: {
+      film: "/media/hero/about-hero.mp4",
+      filmMobile: "/media/hero/about-hero-m.mp4",
+      still: "/images/hero/about-hero-last.webp",
+      stillMobile: "/images/hero/about-hero-last-mobile.webp",
+      alt:
+        "Two figures standing apart in a dark room, each lit from behind by a tall red panel.",
+    },
+    portraits: {
+      a: null as string | null, // "/images/hero/portrait-a.webp"
+      b: null as string | null, // "/images/hero/portrait-b.webp"
+    },
+  },
+
   /* 01 — Founder opening ------------------------------------------------- */
   opening: {
     index: "01",
@@ -92,31 +125,31 @@ export const aboutV3 = {
    * `.olympus/about-v3/media/AV3-JOURNEY-FLOW-PRODUCTION-GUIDE.md`
    */
   journey: {
-    label: "From your idea to the system that builds it",
+    label: "From your idea to the direction you choose",
     rooms: {
       consulting: {
-        video: null as string | null,
-        mobile: "/images/about-v3/arrival-mobile.webp" as string | null,
-        poster: "/images/about-v3/arrival.webp",
+        video: "/media/journey/consulting.mp4" as string | null,
+        mobile: "/images/about-v3/consulting-mobile.webp" as string | null,
+        poster: "/images/about-v3/consulting.webp",
         alt:
-          "A compact ivory-and-brass companion, its shell panels gently loosened, held in a seated person's lap in a quiet near-black consulting room lit by one warm lamp.",
+          "First-person view from a seated consultation chair in a dark room lit by vertical red light panels; a consultant sits opposite in a black swivel chair with an open notepad.",
         meta: ["Room 01", "Consulting", "Section 03"],
       },
       lab: {
-        video: null as string | null,
+        video: "/media/journey/lab.mp4" as string | null,
         mobile: "/images/about-v3/lab-mobile.webp" as string | null,
         poster: "/images/about-v3/lab.webp",
         alt:
-          "The same compact companion resting inside a lit acrylic observation cradle, with three thin glass measuring instruments standing behind it on a dark stone bench.",
+          "First-person view entering a dark strategy room where two consultants stand at a large illuminated wall board, studying a website analysis and talking to each other.",
         meta: ["Room 02", "Analysis", "Sections 04–05"],
       },
-      apollo: {
-        video: null as string | null,
-        mobile: null as string | null,
-        poster: "/images/about-v3/handoff-start.webp",
+      directions: {
+        video: "/media/journey/directions.mp4" as string | null,
+        mobile: "/images/about-v3/directions-mobile.webp" as string | null,
+        poster: "/images/about-v3/directions.webp",
         alt:
-          "Rustam holds out the compact companion and a thin plan tablet toward Apollo, a tall marble-and-brass figure whose hands are open and empty.",
-        meta: ["Room 03", "System intake", "Section 06"],
+          "First-person view looking down at a dark table where three framed website design directions lie side by side, equally lit.",
+        meta: ["Room 03", "Directions", "Section 06"],
       },
     },
   },
@@ -127,7 +160,7 @@ export const aboutV3 = {
     label: "Understanding",
     heading: ["Your idea", "is enough.", "We'll help you", "express it."],
     body:
-      "Bring the idea — even if you cannot explain it yet. We create the space for it to become clear enough for other people to understand.",
+      "Bring the idea — even if you cannot explain it yet. The first conversation is you talking and us taking notes. Nothing is proposed until we understand what you actually want.",
     caption: "Nothing arrives too early.",
     meta: ["Arrival plate", "Still", "Section 03"],
     media: {
@@ -142,9 +175,9 @@ export const aboutV3 = {
   analysis: {
     index: "04",
     label: "Analysis",
-    heading: ["We read", "between", "the lines."],
+    heading: ["We read", "what you", "already have."],
     body:
-      "Marija turns what you tell us into a working profile: what the idea must protect, who it needs to reach, how it should feel, and what makes it distinct.",
+      "What you already have goes up on one board — the pages, the words, the way people move through them. We read it in the open and tell you what we see, including the parts that are working.",
     meta: ["Lab plate", "Still", "Section 04"],
     media: {
       src: "/images/about-v3/lab.webp",
@@ -169,9 +202,9 @@ export const aboutV3 = {
   programs: {
     index: "05",
     label: "Direction",
-    heading: ["One diagnosis.", "Three ways forward."],
+    heading: ["One reading.", "Three directions."],
     body:
-      "Together, we turn one clear reading of the idea into three credible ways for it to recover, adapt and grow.",
+      "One reading of the work becomes three directions. They are genuinely different from one another, they are put in front of you side by side, and none of them is the one we are quietly recommending.",
     meta: ["Program study", "Three directions", "None preselected"],
     media: {
       src: "/images/about-v3/programs-shared.webp",
@@ -183,21 +216,21 @@ export const aboutV3 = {
         key: "restore",
         index: "01",
         title: "Restore",
-        body: "Preserve its original character, repair what has cracked, return it to a calm and stable form.",
+        body: "Keep the character the work already has, settle what has drifted out of line, and return it to something calm and consistent.",
         image: "/images/about-v3/program-restore.webp",
       },
       {
         key: "adapt",
         index: "02",
         title: "Adapt",
-        body: "A stronger protective structure, responsive modular features, a more capable posture.",
+        body: "Keep the core and rebuild the structure around it — clearer routes through the pages, a layout that flexes, room to add.",
         image: "/images/about-v3/program-adapt.webp",
       },
       {
         key: "evolve",
         index: "03",
         title: "Evolve",
-        body: "A bolder expressive silhouette, expanded range, a luminous and confident presence.",
+        body: "A different posture altogether — a bolder voice, a wider range, a presence that reads as new rather than revised.",
         image: "/images/about-v3/program-evolve.webp",
       },
     ],
@@ -206,27 +239,27 @@ export const aboutV3 = {
   /* 06 — System intake --------------------------------------------------- */
   intake: {
     index: "06",
-    label: "System",
-    heading: ["Meet the system", "behind the work."],
+    label: "Decision",
+    heading: ["The one you choose", "is what gets built."],
     body:
-      "Rustam brings the approved direction to Apollo — the system he built to coordinate what the idea needs next.",
-    stageLabel: "Apollo / System intake",
-    meta: ["System intake", "Approved direction"],
+      "The three lie side by side, lit the same, and the choice is yours. Whichever one you point at is the one that gets built — carried through as it was shown to you, not quietly traded for a safer version.",
+    stageLabel: "Chosen direction",
+    meta: ["Three directions", "None ranked"],
     states: {
-      idle: "Approved direction ready",
-      accepted: "Responsibility accepted",
+      idle: "Three directions on the table",
+      accepted: "Direction chosen",
     },
-    action: { start: "Complete handoff", reset: "Return to presentation" },
+    action: { start: "Choose a direction", reset: "Return to all three" },
     media: {
       start: {
-        src: "/images/about-v3/handoff-start.webp",
+        src: "/images/about-v3/directions.webp",
         alt:
-          "Rustam holds out the compact companion and a thin plan tablet toward Apollo, a seated marble-and-brass figure whose hands are open and empty.",
+          "Three framed website design directions lying side by side on a dark table, equally lit, none of them singled out.",
       },
       end: {
-        src: "/images/about-v3/handoff-end.webp",
+        src: "/images/about-v3/directions.webp",
         alt:
-          "Apollo now carefully holds the same compact companion and plan tablet, while Rustam stays at the left of the frame.",
+          "The same three framed directions on the dark table, with the chosen one lifted clear of the other two.",
       },
     },
   },
