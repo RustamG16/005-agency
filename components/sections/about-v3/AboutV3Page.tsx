@@ -5,14 +5,14 @@ import { anton } from "@/app/fonts";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
 import { aboutV3 } from "@/content/about-v3";
 import { site } from "@/content/site";
-import { AtlasSequence, DeliveryStage, DossierReveal, IntakeStage } from "./AboutV3Interactions";
+import { AtlasSequence, DeliveryStage } from "./AboutV3Interactions";
 import { FounderOpening } from "./FounderOpening";
+import { JourneySequence } from "./JourneySequence";
 import { FounderPortrait } from "./FounderSilhouette";
 import {
   CentralAxis,
   Heading,
   MediaFrame,
-  MetaStrip,
   RegistrationCross,
   RuledRow,
   SectionIndex,
@@ -20,8 +20,7 @@ import {
 import { ProofComparison } from "./ProofComparison";
 import styles from "./AboutV3Page.module.css";
 
-const { founders, arrival, analysis, programs, intake, orchestration, delivery, proof, cta } =
-  aboutV3;
+const { founders, orchestration, delivery, proof, cta } = aboutV3;
 
 /* -----------------------------------------------------------------------------
    02 — Founder profiles
@@ -110,215 +109,6 @@ function FoundersSection() {
           );
         })}
       </div>
-    </section>
-  );
-}
-
-/* -----------------------------------------------------------------------------
-   03 — Your idea is enough
-   -------------------------------------------------------------------------- */
-
-function ArrivalSection() {
-  return (
-    <section className={styles.section} aria-labelledby="about-v3-arrival-title">
-      <CentralAxis />
-      <RegistrationCross corners={["bl", "tr", "br"]} />
-
-      <div className={styles.arrival}>
-        <div className={styles.arrivalCopy}>
-          <SectionIndex index={arrival.index} label={arrival.label} />
-          <Heading id="about-v3-arrival-title" lines={arrival.heading} size="tall" />
-          <p className={styles.prose}>{arrival.body}</p>
-        </div>
-
-        <div className={styles.arrivalMedia}>
-          <MediaFrame ratio="16 / 9">
-            <picture>
-              <source media="(max-width: 900px)" srcSet={arrival.media.mobile} />
-              <img
-                src={arrival.media.src}
-                alt={arrival.media.alt}
-                width={1920}
-                height={1080}
-                loading="lazy"
-                decoding="async"
-              />
-            </picture>
-          </MediaFrame>
-
-          <div className={styles.arrivalFoot}>
-            <p className={styles.arrivalCaption}>{arrival.caption}</p>
-            <MetaStrip items={arrival.meta} />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* -----------------------------------------------------------------------------
-   04 — Analysis
-
-   Everything readable is HTML: the dossier terms, their answers, the status
-   line and the supporting field. The generated plate supplies only the
-   companion, the cradle and the light.
-   -------------------------------------------------------------------------- */
-
-function AnalysisSection() {
-  return (
-    <section className={styles.section} aria-labelledby="about-v3-analysis-title">
-      <CentralAxis />
-      <RegistrationCross corners={["tr", "bl", "br"]} />
-
-      <div className={styles.analysisTop}>
-        <div className={styles.analysisHead}>
-          <SectionIndex index={analysis.index} label={analysis.label} />
-          <Heading id="about-v3-analysis-title" lines={analysis.heading} size="tall" />
-        </div>
-        <p className={`${styles.prose} ${styles.analysisProse}`}>{analysis.body}</p>
-      </div>
-
-      <div className={styles.analysisBody}>
-        <div className={styles.analysisMedia}>
-          <MediaFrame ratio="16 / 9">
-            <picture>
-              <source media="(max-width: 900px)" srcSet={analysis.media.mobile} />
-              <img
-                src={analysis.media.src}
-                alt={analysis.media.alt}
-                width={1920}
-                height={1080}
-                loading="lazy"
-                decoding="async"
-              />
-            </picture>
-          </MediaFrame>
-          <MetaStrip items={analysis.meta} />
-        </div>
-
-        <DossierReveal>
-          <p className={styles.label}>
-            {analysis.profile.title} / {analysis.profile.number}
-          </p>
-
-          <div className={styles.dossierRows}>
-            {analysis.profile.rows.map((row) => (
-              <div
-                key={row.term}
-                className={`${styles.ruledRow} ${styles.dossierRow}`}
-                data-dossier-row
-              >
-                <span className={styles.ruledTerm}>
-                  <em>{row.term}</em>
-                  <span>— {row.question}</span>
-                </span>
-                <span className={styles.ruledValue}>{row.answer}</span>
-                <i data-dossier-rule aria-hidden="true" />
-              </div>
-            ))}
-          </div>
-
-          <p className={styles.dossierStatus}>{analysis.profile.status}</p>
-
-          {/* Browser-drawn supporting field — the four profile terms restated as
-              a ruled sheet. There is no generated asset for this panel and the
-              handoff forbids inventing one. */}
-          <div className={styles.profileSheet} aria-hidden="true">
-            {analysis.profile.rows.map((row) => (
-              <div key={row.term} className={styles.profileSheetCell}>
-                <span>{row.term}</span>
-                <i />
-                <i />
-                <i />
-              </div>
-            ))}
-          </div>
-        </DossierReveal>
-      </div>
-    </section>
-  );
-}
-
-/* -----------------------------------------------------------------------------
-   05 — Three ways forward
-
-   All three directions are shown at once and none is preselected: this is a
-   comparison, not a chooser. One real companion stays lit on the plinth; the
-   three cases behind it are projections of the same figure.
-   -------------------------------------------------------------------------- */
-
-function ProgramsSection() {
-  return (
-    <section className={styles.section} aria-labelledby="about-v3-programs-title">
-      <CentralAxis />
-      <RegistrationCross corners={["tr", "bl", "br"]} />
-
-      <div className={styles.programsTop}>
-        <div className={styles.programsHead}>
-          <SectionIndex index={programs.index} label={programs.label} />
-          <Heading id="about-v3-programs-title" lines={programs.heading} />
-        </div>
-        <p className={styles.prose}>{programs.body}</p>
-      </div>
-
-      <MediaFrame ratio="16 / 9" className={styles.programsStage}>
-        <Image
-          src={programs.media.src}
-          alt={programs.media.alt}
-          fill
-          sizes="(max-width: 900px) 100vw, 96vw"
-        />
-
-        <ul className={styles.programsOverlay}>
-          {programs.items.map((item) => (
-            <li key={item.key} className={styles.programCard}>
-              <p className={styles.programCardHead}>
-                <b>{item.index}</b> / {item.title}
-              </p>
-              <p>{item.body}</p>
-            </li>
-          ))}
-        </ul>
-      </MediaFrame>
-
-      {/* Mobile shows the same three directions stacked — no carousel, no tabs. */}
-      <ul className={styles.programsList}>
-        {programs.items.map((item) => (
-          <li key={item.key} className={styles.programCard}>
-            <p className={styles.programCardHead}>
-              <b>{item.index}</b> / {item.title}
-            </p>
-            <p>{item.body}</p>
-          </li>
-        ))}
-      </ul>
-
-      <div className={styles.programsFoot}>
-        <MetaStrip items={programs.meta} />
-      </div>
-    </section>
-  );
-}
-
-/* -----------------------------------------------------------------------------
-   06 — System intake
-   -------------------------------------------------------------------------- */
-
-function IntakeSection() {
-  return (
-    <section className={styles.section} aria-labelledby="about-v3-intake-title">
-      <CentralAxis />
-      <RegistrationCross corners={["tr", "bl", "br"]} />
-
-      <div className={styles.intakeTop}>
-        <div className={styles.intakeHead}>
-          <SectionIndex index={intake.index} label={intake.label} />
-          <Heading id="about-v3-intake-title" lines={intake.heading} />
-        </div>
-        <p className={styles.prose}>{intake.body}</p>
-      </div>
-
-      <IntakeStage meta={intake.meta} />
     </section>
   );
 }
@@ -671,10 +461,14 @@ export function AboutV3Page() {
       <HeaderZone theme="light">
         <FounderOpening />
         <FoundersSection />
-        <ArrivalSection />
-        <AnalysisSection />
-        <ProgramsSection />
-        <IntakeSection />
+      </HeaderZone>
+
+      {/* Sections 03–06 are one pinned cinematic sequence rather than four
+          ivory bands. It ends in darkness, and Section 07 opens dark, so the
+          seam between them is invisible — which is why both sit inside the
+          same dark header zone. */}
+      <HeaderZone theme="dark">
+        <JourneySequence />
       </HeaderZone>
 
       <OrchestrationSection />

@@ -75,6 +75,52 @@ export const aboutV3 = {
     ],
   },
 
+  /* 03–06 — The journey ---------------------------------------------------
+   *
+   * Sections 03 to 06 are presented as one pinned scroll sequence: three
+   * rooms, two orbital camera transitions, darkness as the cut. The copy for
+   * each beat still lives in its own section object below — only the media is
+   * described here, because the media is now three continuous takes rather
+   * than four separate plates.
+   *
+   * `video: null` means that take has not been delivered yet. The room falls
+   * back to its still, which is the same plate the section used before the
+   * merge, so the sequence is complete and shippable at every stage of media
+   * production rather than only at the end of it.
+   *
+   * Prompts, camera contract and encoding settings:
+   * `.olympus/about-v3/media/AV3-JOURNEY-FLOW-PRODUCTION-GUIDE.md`
+   */
+  journey: {
+    label: "From your idea to the system that builds it",
+    rooms: {
+      consulting: {
+        video: null as string | null,
+        mobile: "/images/about-v3/arrival-mobile.webp" as string | null,
+        poster: "/images/about-v3/arrival.webp",
+        alt:
+          "A compact ivory-and-brass companion, its shell panels gently loosened, held in a seated person's lap in a quiet near-black consulting room lit by one warm lamp.",
+        meta: ["Room 01", "Consulting", "Section 03"],
+      },
+      lab: {
+        video: null as string | null,
+        mobile: "/images/about-v3/lab-mobile.webp" as string | null,
+        poster: "/images/about-v3/lab.webp",
+        alt:
+          "The same compact companion resting inside a lit acrylic observation cradle, with three thin glass measuring instruments standing behind it on a dark stone bench.",
+        meta: ["Room 02", "Analysis", "Sections 04–05"],
+      },
+      apollo: {
+        video: null as string | null,
+        mobile: null as string | null,
+        poster: "/images/about-v3/handoff-start.webp",
+        alt:
+          "Rustam holds out the compact companion and a thin plan tablet toward Apollo, a tall marble-and-brass figure whose hands are open and empty.",
+        meta: ["Room 03", "System intake", "Section 06"],
+      },
+    },
+  },
+
   /* 03 — Your idea is enough --------------------------------------------- */
   arrival: {
     index: "03",
