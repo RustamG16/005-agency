@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
   distDir:
     process.env.NEXT_BUILD_DIR ||
     (process.env.NODE_ENV === "development" ? ".next-dev" : ".next"),
+  async redirects() {
+    return [
+      // `/about-v3` was the gated redesign's working route; it replaced the
+      // Monolith `/about` outright rather than living alongside it, so any
+      // stale link or bookmark still needs to land somewhere real.
+      { source: "/about-v3", destination: "/about", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

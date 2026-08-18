@@ -1,12 +1,12 @@
 /**
- * capture-proof-pair.mjs — matched before/after captures for /about-v3 §09.
+ * capture-proof-pair.mjs — matched before/after captures for /about §08.
  *
  * Deterministic headless capture of two live sites at one identical viewport,
  * so the comparison slider shows real pixels on both halves. Same principle as
  * scripts/capture-preview.mjs: never a mockup, never a screen recording.
  *
  * Sources are the ones recorded in
- * `.olympus/about-v3/media/MEDIA-PLANNING-HANDOFF.md` §09. A project only ships
+ * `.olympus/about-v3/media/MEDIA-PLANNING-HANDOFF.md` §08. A project only ships
  * a slider when BOTH halves come out of this script.
  *
  *   node scripts/capture-proof-pair.mjs

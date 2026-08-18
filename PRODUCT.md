@@ -25,8 +25,8 @@ Visitors typically compare premium studios based on taste, clarity, proof, techn
 ## Capabilities and Constraints
 
 - Existing stack: Next.js, React, TypeScript, CSS Modules, GSAP/ScrollTrigger, Lenis, and Three.js.
-- Preserve the established route structure and the existing `/about` page.
-- The current gated About redesign lives at `/about-v3`; `/about` remains intact as the earlier route. `/about-v2` was retired.
+- Preserve the established route structure.
+- `/about` now serves the chapter-based studio redesign built and evidenced under `/about-v3`; the earlier Monolith-based `/about` was retired when it was promoted, and `/about-v3` redirects to `/about`. `/about-v2` was retired earlier.
 - Existing colors, fonts, navigation, footer, and interaction language remain authoritative.
 - New media may be generated, but it must have recorded provenance and cannot imply unverified client work.
 - WebGL must remain an enhancement with mobile, reduced-motion, loading, and unsupported-device fallbacks.
