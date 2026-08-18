@@ -26,7 +26,7 @@ Visitors typically compare premium studios based on taste, clarity, proof, techn
 
 - Existing stack: Next.js, React, TypeScript, CSS Modules, GSAP/ScrollTrigger, Lenis, and Three.js.
 - Preserve the established route structure and the existing `/about` page.
-- The current gated About redesign lives at `/about-v3`; `/about` and `/about-v2` remain intact as earlier routes.
+- The current gated About redesign lives at `/about-v3`; `/about` remains intact as the earlier route. `/about-v2` was retired.
 - Existing colors, fonts, navigation, footer, and interaction language remain authoritative.
 - New media may be generated, but it must have recorded provenance and cannot imply unverified client work.
 - WebGL must remain an enhancement with mobile, reduced-motion, loading, and unsupported-device fallbacks.
