@@ -30,9 +30,10 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          # next.config.ts sends `output: "export"` here instead of the
-          # default `out/`, since distDir is overridden for this project.
-          path: ./.next
+          # With output: "export" and the default distDir (".next"), Next
+          # keeps .next as internal build metadata and writes the actual
+          # static site to out/ — that's what Pages needs to serve.
+          path: ./out
 
   deploy:
     needs: build
