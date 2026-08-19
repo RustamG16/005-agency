@@ -1,3 +1,4 @@
+import { withBasePath } from "@/lib/basePath";
 /**
  * `/about` content — the studio page. Originally built and evidenced under
  * `/about-v3` against the confirmed UI lockups in
@@ -68,21 +69,21 @@ export const about = {
       right: { name: "Marija", discipline: "Communication + Direction" },
     },
     media: {
-      film: "/media/hero/about-hero.mp4",
-      filmMobile: "/media/hero/about-hero-m.mp4",
-      still: "/images/hero/about-hero-last.webp",
-      stillMobile: "/images/hero/about-hero-last-mobile.webp",
+      film: withBasePath("/media/hero/about-hero.mp4"),
+      filmMobile: withBasePath("/media/hero/about-hero-m.mp4"),
+      still: withBasePath("/images/hero/about-hero-last.webp"),
+      stillMobile: withBasePath("/images/hero/about-hero-last-mobile.webp"),
       alt:
         "Two figures standing apart in a dark room, each lit from behind by a tall red panel.",
     },
     frames: {
       a: {
-        base: "/images/hero/frame-a-base.webp",
-        fill: "/images/hero/frame-a-fill.webp" as string | null,
+        base: withBasePath("/images/hero/frame-a-base.webp"),
+        fill: withBasePath("/images/hero/frame-a-fill.webp") as string | null,
       },
       b: {
-        base: "/images/hero/frame-b-base.webp",
-        fill: "/images/hero/frame-b-fill.webp" as string | null,
+        base: withBasePath("/images/hero/frame-b-base.webp"),
+        fill: withBasePath("/images/hero/frame-b-fill.webp") as string | null,
       },
     },
   },
@@ -107,25 +108,25 @@ export const about = {
     label: "From your idea to the direction you choose",
     rooms: {
       consulting: {
-        video: "/media/journey/consulting.mp4" as string | null,
-        mobile: "/images/about-v3/consulting-mobile.webp" as string | null,
-        poster: "/images/about-v3/consulting.webp",
+        video: withBasePath("/media/journey/consulting.mp4") as string | null,
+        mobile: withBasePath("/images/about-v3/consulting-mobile.webp") as string | null,
+        poster: withBasePath("/images/about-v3/consulting.webp"),
         alt:
           "First-person view from a seated consultation chair in a dark room lit by vertical red light panels; a consultant sits opposite in a black swivel chair with an open notepad.",
         meta: ["Room 01", "Consulting", "Section 03"],
       },
       lab: {
-        video: "/media/journey/lab.mp4" as string | null,
-        mobile: "/images/about-v3/lab-mobile.webp" as string | null,
-        poster: "/images/about-v3/lab.webp",
+        video: withBasePath("/media/journey/lab.mp4") as string | null,
+        mobile: withBasePath("/images/about-v3/lab-mobile.webp") as string | null,
+        poster: withBasePath("/images/about-v3/lab.webp"),
         alt:
           "First-person view entering a dark strategy room where two consultants stand at a large illuminated wall board, studying a website analysis and talking to each other.",
         meta: ["Room 02", "Analysis", "Sections 04–05"],
       },
       directions: {
-        video: "/media/journey/directions.mp4" as string | null,
-        mobile: "/images/about-v3/directions-mobile.webp" as string | null,
-        poster: "/images/about-v3/directions.webp",
+        video: withBasePath("/media/journey/directions.mp4") as string | null,
+        mobile: withBasePath("/images/about-v3/directions-mobile.webp") as string | null,
+        poster: withBasePath("/images/about-v3/directions.webp"),
         alt:
           "First-person view looking down at a dark table where three framed website design directions lie side by side, equally lit.",
         meta: ["Room 03", "Directions", "Section 06"],
@@ -143,8 +144,8 @@ export const about = {
     caption: "Nothing arrives too early.",
     meta: ["Arrival plate", "Still", "Section 03"],
     media: {
-      src: "/images/about-v3/arrival.webp",
-      mobile: "/images/about-v3/arrival-mobile.webp",
+      src: withBasePath("/images/about-v3/arrival.webp"),
+      mobile: withBasePath("/images/about-v3/arrival-mobile.webp"),
       alt:
         "A compact ivory-and-burgundy companion, its shell panels gently loosened, resting intact on a low acrylic intake tray in a quiet ivory and near-black room.",
     },
@@ -159,8 +160,8 @@ export const about = {
       "What you already have goes up on one board — the pages, the words, the way people move through them. We read it in the open and tell you what we see, including the parts that are working.",
     meta: ["Lab plate", "Still", "Section 04"],
     media: {
-      src: "/images/about-v3/lab.webp",
-      mobile: "/images/about-v3/lab-mobile.webp",
+      src: withBasePath("/images/about-v3/lab.webp"),
+      mobile: withBasePath("/images/about-v3/lab-mobile.webp"),
       alt:
         "The same compact companion resting inside a lit acrylic observation cradle, with three thin glass measuring instruments standing behind it on a dark stone bench.",
     },
@@ -186,7 +187,7 @@ export const about = {
       "One reading of the work becomes three directions. They are genuinely different from one another, they are put in front of you side by side, and none of them is the one we are quietly recommending.",
     meta: ["Program study", "Three directions", "None preselected"],
     media: {
-      src: "/images/about-v3/programs-shared.webp",
+      src: withBasePath("/images/about-v3/programs-shared.webp"),
       alt:
         "The same compact companion lit on a central plinth, with three transparent projection cases standing behind it, each holding a different version of the same figure.",
     },
@@ -196,21 +197,21 @@ export const about = {
         index: "01",
         title: "Restore",
         body: "Keep the character the work already has, settle what has drifted out of line, and return it to something calm and consistent.",
-        image: "/images/about-v3/program-restore.webp",
+        image: withBasePath("/images/about-v3/program-restore.webp"),
       },
       {
         key: "adapt",
         index: "02",
         title: "Adapt",
         body: "Keep the core and rebuild the structure around it — clearer routes through the pages, a layout that flexes, room to add.",
-        image: "/images/about-v3/program-adapt.webp",
+        image: withBasePath("/images/about-v3/program-adapt.webp"),
       },
       {
         key: "evolve",
         index: "03",
         title: "Evolve",
         body: "A different posture altogether — a bolder voice, a wider range, a presence that reads as new rather than revised.",
-        image: "/images/about-v3/program-evolve.webp",
+        image: withBasePath("/images/about-v3/program-evolve.webp"),
       },
     ],
   },
@@ -231,12 +232,12 @@ export const about = {
     action: { start: "Choose a direction", reset: "Return to all three" },
     media: {
       start: {
-        src: "/images/about-v3/directions.webp",
+        src: withBasePath("/images/about-v3/directions.webp"),
         alt:
           "Three framed website design directions lying side by side on a dark table, equally lit, none of them singled out.",
       },
       end: {
-        src: "/images/about-v3/directions.webp",
+        src: withBasePath("/images/about-v3/directions.webp"),
         alt:
           "The same three framed directions on the dark table, with the chosen one lifted clear of the other two.",
       },
@@ -255,7 +256,7 @@ export const about = {
       steps: ["Route", "Assign", "Create", "Review", "Integrate"],
     },
     overview: {
-      src: "/images/about-v3/orchestration-overview.webp",
+      src: withBasePath("/images/about-v3/orchestration-overview.webp"),
       alt:
         "Apollo standing behind five upright glass panels arranged in an arc, each showing a different kind of working material, with the compact companion on the central plinth.",
     },
@@ -281,7 +282,7 @@ export const about = {
         skill: "Asset generation",
         short: "Visual",
         summary: "Identity, imagery, art direction.",
-        image: "/images/about-v3/specialist-visual.webp",
+        image: withBasePath("/images/about-v3/specialist-visual.webp"),
         alt: "A specialist reviewing colour and layout studies on a lit glass panel beside the companion.",
       },
       {
@@ -291,7 +292,7 @@ export const about = {
         skill: "Messaging",
         short: "Content",
         summary: "Message, structure, expression.",
-        image: "/images/about-v3/specialist-content.webp",
+        image: withBasePath("/images/about-v3/specialist-content.webp"),
         alt: "A specialist arranging message and structure cards on a lit glass panel beside the companion.",
       },
       {
@@ -301,7 +302,7 @@ export const about = {
         skill: "Interface systems",
         short: "Experience",
         summary: "Interface, responsive system, interaction.",
-        image: "/images/about-v3/specialist-engineering.webp",
+        image: withBasePath("/images/about-v3/specialist-engineering.webp"),
         alt: "A specialist mapping interface components across a lit glass panel beside the companion.",
       },
       {
@@ -311,7 +312,7 @@ export const about = {
         skill: "GSAP",
         short: "Motion",
         summary: "Purposeful movement and timing.",
-        image: "/images/about-v3/specialist-motion.webp",
+        image: withBasePath("/images/about-v3/specialist-motion.webp"),
         alt: "A specialist drawing a timing curve on a lit glass panel beside the companion.",
       },
       {
@@ -321,7 +322,7 @@ export const about = {
         skill: "Accessibility + QA",
         short: "Quality",
         summary: "Accessibility, consistency, performance.",
-        image: "/images/about-v3/specialist-quality.webp",
+        image: withBasePath("/images/about-v3/specialist-quality.webp"),
         alt: "A specialist checking a list of quality criteria on a lit glass panel beside the companion.",
       },
     ],
@@ -338,7 +339,7 @@ export const about = {
         "Every specialist works on one dimension of the same idea. Apollo checks the pieces fit before Rustam signs off on the whole.",
       claim: ["One system /", "Many specialists /", "One human sign-off."],
       media: {
-        src: "/images/about-v3/recovery-end.webp",
+        src: withBasePath("/images/about-v3/recovery-end.webp"),
         alt:
           "Apollo standing over the reassembled compact companion on a lit circular plinth, the surrounding apparatus withdrawn.",
       },
@@ -387,7 +388,7 @@ export const about = {
         // Deterministic capture of the live proposal, produced by
         // scripts/capture-preview.mjs. Never a mockup — see PROJECT-PREVIEW-GUIDE.md.
         source: {
-          proposed: "/works/sonnwerk/cover.jpg",
+          proposed: withBasePath("/works/sonnwerk/cover.jpg"),
           existing: null,
           viewport: "1920 × 1080",
         } as ComparisonSource,
@@ -403,7 +404,7 @@ export const about = {
         newHref: "https://rustamg16.github.io/003-meridian-mvp/",
         oldHref: null,
         source: {
-          proposed: "/works/meridian/cover.jpg",
+          proposed: withBasePath("/works/meridian/cover.jpg"),
           existing: null,
           viewport: "1920 × 1080",
         } as ComparisonSource,

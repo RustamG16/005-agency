@@ -1,3 +1,4 @@
+import { withBasePath } from "@/lib/basePath";
 /**
  * Selected Works — four real, shipped projects.
  *
@@ -48,10 +49,10 @@ export const projects: Project[] = [
     // than an outcome claim we cannot substantiate.
     outcome: "From the field to the bottle, in one scroll.",
     url: "https://rustamg16.github.io/002-sonnwerk/",
-    cover: "/works/sonnwerk/cover.jpg",
-    coverPortrait: "/works/sonnwerk/cover-portrait.jpg",
-    loop: "/works/sonnwerk/loop.mp4",
-    loopPortrait: "/works/sonnwerk/loop-portrait.mp4",
+    cover: withBasePath("/works/sonnwerk/cover.jpg"),
+    coverPortrait: withBasePath("/works/sonnwerk/cover-portrait.jpg"),
+    loop: withBasePath("/works/sonnwerk/loop.mp4"),
+    loopPortrait: withBasePath("/works/sonnwerk/loop-portrait.mp4"),
     objectPosition: "50% 50%",
   },
   {
@@ -64,10 +65,10 @@ export const projects: Project[] = [
     year: "2026",
     outcome: "An arrival you scroll through before you book.",
     url: "https://rustamg16.github.io/003-meridian-mvp/",
-    cover: "/works/meridian/cover.jpg",
-    coverPortrait: "/works/meridian/cover-portrait.jpg",
-    loop: "/works/meridian/loop.mp4",
-    loopPortrait: "/works/meridian/loop-portrait.mp4",
+    cover: withBasePath("/works/meridian/cover.jpg"),
+    coverPortrait: withBasePath("/works/meridian/cover-portrait.jpg"),
+    loop: withBasePath("/works/meridian/loop.mp4"),
+    loopPortrait: withBasePath("/works/meridian/loop-portrait.mp4"),
     objectPosition: "50% 50%",
   },
   {
@@ -78,10 +79,10 @@ export const projects: Project[] = [
     year: "2026",
     outcome: "Clinical precision, at the pace of a conversation.",
     url: "https://sr-urologie.netlify.app/",
-    cover: "/works/sr-urologie/cover.jpg",
-    coverPortrait: "/works/sr-urologie/cover-portrait.jpg",
-    loop: "/works/sr-urologie/loop.mp4",
-    loopPortrait: "/works/sr-urologie/loop-portrait.mp4",
+    cover: withBasePath("/works/sr-urologie/cover.jpg"),
+    coverPortrait: withBasePath("/works/sr-urologie/cover-portrait.jpg"),
+    loop: withBasePath("/works/sr-urologie/loop.mp4"),
+    loopPortrait: withBasePath("/works/sr-urologie/loop-portrait.mp4"),
     // Type-led hero: the headline sits left of centre, so a portrait crop that centres
     // lands in the gutter between the type and the photograph.
     objectPosition: "28% 50%",
@@ -94,8 +95,8 @@ export const projects: Project[] = [
     year: "2026",
     outcome: "Study abroad, explained in your own language.",
     url: "https://rustamg16.github.io/education-hub-connect/",
-    cover: "/works/education4students/cover.jpg",
-    coverPortrait: "/works/education4students/cover-portrait.jpg",
+    cover: withBasePath("/works/education4students/cover.jpg"),
+    coverPortrait: withBasePath("/works/education4students/cover-portrait.jpg"),
     // TODO: no loop yet. The live URL serves an unbuilt Vite index (it requests
     // /src/main.tsx and renders blank), so there is nothing to capture. Once the GitHub
     // Pages deploy is fixed:

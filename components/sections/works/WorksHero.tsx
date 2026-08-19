@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { HeaderZone } from "@/components/chrome/HeaderZone";
+import { withBasePath } from "@/lib/basePath";
 import styles from "./WorksHero.module.css";
 
 export function WorksHero() {
@@ -51,10 +52,10 @@ export function WorksHero() {
               playsInline
               loop
               preload="metadata"
-              poster="/images/poster-works-hero.jpg"
+              poster={withBasePath("/images/poster-works-hero.jpg")}
               aria-hidden="true"
             >
-              <source src="/media/works-hero.mp4" type="video/mp4" />
+              <source src={withBasePath("/media/works-hero.mp4")} type="video/mp4" />
             </video>
           </div>
         </div>

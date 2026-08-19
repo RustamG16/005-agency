@@ -47,6 +47,7 @@ import { HeaderZone } from "@/components/chrome/HeaderZone";
 import { processBeats } from "@/content/process";
 import { ProcessPlate, type ProcessPlateHandle } from "./ProcessPlate";
 import manifest from "@/public/media/process/manifest.json";
+import { withBasePath } from "@/lib/basePath";
 import styles from "./ProcessFilm.module.css";
 
 const TOTAL_VH = processBeats.reduce((sum, b) => sum + b.lengthVh, 0);
@@ -137,7 +138,7 @@ export function ProcessFilm() {
         {manifest.poster && (
           <div className={styles.mobilePoster} aria-hidden="true">
             {/* eslint-disable-next-line @next/next/no-img-element -- must match the encoded frame pixel for pixel */}
-            <img className={styles.mobilePosterImg} src={`/images/process/${manifest.poster}`} alt="" />
+            <img className={styles.mobilePosterImg} src={withBasePath(`/images/process/${manifest.poster}`)} alt="" />
           </div>
         )}
 

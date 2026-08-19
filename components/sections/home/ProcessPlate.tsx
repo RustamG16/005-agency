@@ -42,10 +42,11 @@
 import { useCallback, useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
 import { MQ } from "@/components/motion/motion";
 import manifest from "@/public/media/process/manifest.json";
+import { withBasePath } from "@/lib/basePath";
 import styles from "./ProcessPlate.module.css";
 
-const BASE = "/media/process/";
-const IMG_BASE = "/images/process/";
+const BASE = withBasePath("/media/process/");
+const IMG_BASE = withBasePath("/images/process/");
 
 const STILL_STEPS = (manifest.stills ?? []).map((file) => {
   // "still-0.20.jpg" -> progress threshold 0.20

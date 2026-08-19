@@ -35,12 +35,13 @@ import {
   type GuideRobot,
 } from "./guide-robot";
 import styles from "./GuideScene.module.css";
+import { withBasePath } from "@/lib/basePath";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP);
 }
 
-const MODEL_URL = "/models/repo_robot.glb";
+const MODEL_URL = withBasePath("/models/repo_robot.glb");
 
 /** Frames per second while asleep — he still breathes, just slowly. */
 const SLEEP_FPS = 8;

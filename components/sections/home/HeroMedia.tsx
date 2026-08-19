@@ -63,6 +63,7 @@
 
 import { useCallback, useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
 import { MQ } from "@/components/motion/motion";
+import { withBasePath } from "@/lib/basePath";
 import styles from "./HeroMedia.module.css";
 
 /* The tight-GOP hero re-encode: the 15.04s Convenium ident, 1280×720 at 24fps,
@@ -70,11 +71,11 @@ import styles from "./HeroMedia.module.css";
  * seek, so this number is a budget, not a detail). Setting this to "" disables
  * the film entirely and leaves the cotton ground and its horizon rule, which is
  * a valid state — nothing below throws when the encodes are absent. */
-const SCRUB_SRC: string = "/media/hero_scrub.mp4";
+const SCRUB_SRC: string = withBasePath("/media/hero_scrub.mp4");
 /** 540p encode for phones, chosen by screen short side — never by UA. 2.08 MB. */
-const SCRUB_SRC_MOBILE = "/media/hero_scrub-m.mp4";
+const SCRUB_SRC_MOBILE = withBasePath("/media/hero_scrub-m.mp4");
 /** The ENCODED clip's extracted first frame. A re-rendered still pops on handover. */
-const POSTER_SRC = "/images/poster-hero-scrub.jpg";
+const POSTER_SRC = withBasePath("/images/poster-hero-scrub.jpg");
 
 /* One poster, deliberately, and it is frame 0 for BOTH paths. The scrub path
  * needs frame 0 or the handover pops. The no-scrub path — mobile, reduced
